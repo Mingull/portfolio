@@ -1,0 +1,36 @@
+{
+	"nav": {
+		"posts": {
+			"title": "Berichten",
+			"recent": "Recente Berichten",
+			"back": "Terug naar berichten",
+			"view-all": "Bekijk alle berichten"
+		},
+		"projects": {
+			"title": "Projecten",
+			"recent": "Recente Projecten",
+			"back": "Terug naar projecten",
+			"view-all": "Bekijk alle projecten"
+		},
+		"skills": {
+			"title": "Vaardigheden",
+			"version": "<strong>Versie:</strong> {version}",
+			"experience": "<strong>Ervaring:</strong> {years, plural, =1 {# Jaar} other {# Jaren}} {months, plural, =0 {0 Maanden} =1 {# Maand} other {# Maanden}}"
+		},
+		"about": {
+			"title": "Over Mij",
+			"summary": "Ik ben een gepassioneerde developer die niet alleen code schrijft, maar oplossingen bouwt. Met een liefde voor detail, design en gebruikservaring help ik ideeën tot leven brengen.",
+			"quote": "Altijd nieuwsgierig, altijd in ontwikkeling."
+		}
+	},
+	"hero": {
+		"title": "Hey, ik ben",
+		"summary": "Ik ben een gepassioneerde developer die niet alleen code schrijft, maar oplossingen bouwt. Met een liefde voor detail, design én gebruikservaring help ik ideeën tot leven brengen.",
+		"quote": "Altijd nieuwsgierig, altijd in ontwikkeling.",
+		"cta": "Bekijk mijn projecten",
+		"student": "🎓 Student Software Development aan Avans Hogeschool te Breda"
+	},
+	"footer": {
+		"builtBy": "Gebouwd door"
+	}
+}

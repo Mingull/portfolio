@@ -1,0 +1,36 @@
+{
+	"nav": {
+		"posts": {
+			"title": "Posts",
+			"recent": "Recent Posts",
+			"back": "Back to posts",
+			"view-all": "View all posts"
+		},
+		"projects": {
+			"title": "Projects",
+			"recent": "Recent Projects",
+			"back": "Back to projects",
+			"view-all": "View all projects"
+		},
+		"skills": {
+			"title": "Skills",
+			"version": "<strong>Version:</strong> {version}",
+			"experience": "<strong>Experience:</strong> {years, plural, =1 {# Year} other {# Years}} {months, plural, =0 {0 Months} =1 {# Month} other {# Months}}"
+		},
+		"about": {
+			"title": "About Me",
+			"summary": "I am a passionate developer who not only writes code, but builds solutions. With a love for detail, design and user experience, I help bring ideas to life.",
+			"quote": "Always curious, always in development."
+		}
+	},
+	"hero": {
+		"title": "Hey, I am",
+		"summary": "I am a passionate developer who not only writes code, but builds solutions. With a love for detail, design and user experience, I help bring ideas to life.",
+		"quote": "Always curious, always in development.",
+		"cta": "View my projects",
+		"student": "🎓 Student Software Development at Avans Hogeschool in Breda"
+	},
+	"footer": {
+		"builtBy": "Built by"
+	}
+}

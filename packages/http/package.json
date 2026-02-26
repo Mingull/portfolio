@@ -1,0 +1,14 @@
+{
+	"name": "@mingull/http",
+	"version": "0.0.0",
+	"private": true,
+	"devDependencies": {
+		"@mingull/eslint-config": "workspace:*",
+		"@mingull/typescript-config": "workspace:*",
+		"next": "16.1.6"
+	},
+	"exports": {
+		".": "./src/index.ts",
+		"./next": "./src/next/index.ts"
+	}
+}

@@ -1,0 +1,39 @@
+{
+	"name": "portfolio-api",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"dev": "next dev --port 3001",
+		"build": "next build",
+		"start": "next start",
+		"format": "prettier --write \"**/*.{ts,tsx,md}\"",
+		"lint": "eslint"
+	},
+	"dependencies": {
+		"@next/env": "^16.1.6",
+		"@t3-oss/env-nextjs": "^0.13.10",
+		"@tanstack/react-form": "^1.28.3",
+		"better-auth": "^1.4.18",
+		"dotenv": "^17.3.1",
+		"drizzle-orm": "1.0.0-beta.12-a5629fb",
+		"lucide-react": "^0.574.0",
+		"gray-matter": "^4.0.3",
+		"mysql2": "^3.17.2",
+		"next": "16.1.6",
+		"react": "19.2.4",
+		"react-dom": "19.2.4",
+		"zod": "^4.3.6"
+	},
+	"devDependencies": {
+		"@mingull/eslint-config": "workspace:*",
+		"@mingull/typescript-config": "workspace:*",
+		"@types/node": "^25.2.3",
+		"@types/react": "^19.2.14",
+		"@types/react-dom": "^19.2.3",
+		"drizzle-kit": "1.0.0-beta.12-a5629fb",
+		"eslint": "^10.0.0",
+		"eslint-config-next": "16.1.6",
+		"tailwindcss": "^4.2.0",
+		"typescript": "^5.9.3"
+	}
+}
