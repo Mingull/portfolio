@@ -4,6 +4,7 @@ import { z } from "zod";
 export const env = createEnv({
 	client: {},
 	server: {
+		API_URL: z.url(),
 		DATABASE_URL: z.url(),
 		BETTER_AUTH_SECRET: z.string(),
 		DISCORD_CLIENT_ID: z.string(),
@@ -15,11 +16,9 @@ export const env = createEnv({
 	},
 	shared: {
 		BETTER_AUTH_URL: z.url(),
-		API_URL: z.url(),
 	},
 	experimental__runtimeEnv: {
 		BETTER_AUTH_URL: process.env.NEXT_PUBLIC_BETTER_AUTH_URL,
-		API_URL: process.env.NEXT_PUBLIC_API_URL,
 	},
 	emptyStringAsUndefined: true,
 });

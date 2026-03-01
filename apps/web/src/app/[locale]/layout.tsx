@@ -9,7 +9,7 @@ import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { Leckerli_One, Merriweather, Poppins, Roboto_Mono } from "next/font/google";
 import { notFound } from "next/navigation";
-import React from "react";
+import React, { Suspense } from "react";
 // import "@/app/globals.css";
 
 const poppins = Poppins({
@@ -77,7 +77,9 @@ export default async function RootLayout({ children, params }: Readonly<{ childr
 								</div> */}
 							{children}
 						</main>
-						<Footer />
+						<Suspense>
+							<Footer />
+						</Suspense>
 					</Providers>
 					{/* </DefaultsProvider> */}
 				</NextIntlClientProvider>
