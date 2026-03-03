@@ -25,7 +25,7 @@ export const failureResponse =
 	/**
 	 * Builds a failure ApiResponse with a message and optional errors.
 	 */
-	<T extends JsonApi, const E extends KnownErrorType>(payload: ApiError<T, E>): ApiResponse<S, T, E> =>
+	<T extends JsonApi, const E extends KnownErrorType = KnownErrorType>(payload: ApiError<T, E>): ApiResponse<S, T, E> =>
 		({
 			status: statusOf(statusCode),
 			statusCode: phraseOf(statusCode),

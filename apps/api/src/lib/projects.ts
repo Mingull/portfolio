@@ -140,7 +140,7 @@ export async function getProjectMetadata(filepath: string): Promise<ProjectMetad
 	const parsed = projectMetadataSchema.safeParse({ ...data, slug });
 
 	if (!parsed.success) {
-		console.error(`Invalid metadata in: ${filepath}`, parsed.error.format());
+		console.error(`Invalid metadata in: ${filepath}`, z.treeifyError(parsed.error));
 		throw new Error("Invalid frontmatter");
 	}
 

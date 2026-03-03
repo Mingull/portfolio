@@ -1,0 +1,24 @@
+{
+	"name": "@mingull/error",
+	"version": "0.0.0",
+	"type": "module",
+	"private": true,
+	"scripts": {
+		"lint": "eslint . --max-warnings 0",
+		"build": "tsdown",
+		"start": "node dist/index.js"
+	},
+	"dependencies": {
+		"@mingull/lib": "workspace:*"
+	},
+	"devDependencies": {
+		"@mingull/eslint-config": "workspace:*",
+		"@mingull/typescript-config": "workspace:*",
+		"@types/node": "^25.2.3",
+		"eslint": "^10.0.0",
+		"tsdown": "^0.20.3"
+	},
+	"exports": {
+		"import": "./src/index.ts"
+	}
+}

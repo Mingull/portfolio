@@ -10,6 +10,8 @@
 		"lint": "eslint"
 	},
 	"dependencies": {
+		"@mingull/http": "workspace:*",
+		"@mingull/lib": "workspace:*",
 		"@next/env": "^16.1.6",
 		"@t3-oss/env-nextjs": "^0.13.10",
 		"@tanstack/react-form": "^1.28.3",

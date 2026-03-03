@@ -1,4 +1,5 @@
 "use client";
+
 import { Link, usePathname } from "@/i18n/navigation";
 import { Button } from "@mingull/ui/components/button";
 import { useLocale } from "next-intl";
