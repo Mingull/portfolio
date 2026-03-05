@@ -4,19 +4,20 @@
 	"type": "module",
 	"private": true,
 	"scripts": {
-		"lint": "eslint . --max-warnings 0",
+		"lint": "eslint .",
 		"build": "tsdown"
 	},
 	"dependencies": {
-		"@paralleldrive/cuid2": "^2.2.2",
+		"@paralleldrive/cuid2": "^3.3.0",
 		"clsx": "^2.1.1",
-		"tailwind-merge": "^3.3.1"
+		"tailwind-merge": "^3.5.0"
 	},
 	"devDependencies": {
 		"@mingull/eslint-config": "workspace:*",
 		"@mingull/typescript-config": "workspace:*",
-		"@types/node": "^24.6.1",
-		"tsdown": "^0.15.6"
+		"@types/node": "^25.3.3",
+		"eslint": "^10.0.2",
+		"tsdown": "^0.20.3"
 	},
 	"exports": {
 		".": "./src/index.ts",

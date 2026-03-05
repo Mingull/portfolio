@@ -8,7 +8,7 @@ export default async function RecentProjects() {
 	const t = await getTranslations("nav.projects");
 	const projects = await getProjects(locale, 4);
 
-  const isEmpty = projects.length === 0;
+	const isEmpty = projects.length === 0;
 
 	return (
 		<section className="pb-24" id="projects">

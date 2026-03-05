@@ -1,5 +1,5 @@
 "client only";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
 /**
  * Calls a handler function when a click occurs outside the given ref.

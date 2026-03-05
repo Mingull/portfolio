@@ -1,0 +1,28 @@
+{
+	"name": "@mingull/database",
+	"version": "0.0.0",
+	"type": "module",
+	"private": true,
+	"scripts": {
+		"lint": "eslint .",
+		"drizzle": "drizzle-kit"
+	},
+	"dependencies": {
+		"drizzle-orm": "1.0.0-beta.15-859cf75",
+		"drizzle-seed": "1.0.0-beta.15-859cf75",
+		"mysql2": "^3.18.2",
+		"zod": "4.3.6"
+	},
+	"devDependencies": {
+		"@mingull/eslint-config": "workspace:*",
+		"@mingull/typescript-config": "workspace:*",
+		"@types/node": "^25.3.3",
+		"drizzle-kit": "1.0.0-beta.15-859cf75",
+		"dotenv": "^16.3.1",
+		"eslint": "^10.0.2",
+		"tsdown": "^0.20.3"
+	},
+	"exports": {
+		".": "./src/index.ts"
+	}
+}

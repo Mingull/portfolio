@@ -23,7 +23,7 @@
 		"**/*.ts",
 		"**/*.tsx",
 		".next/types/**/*.ts"
-	],
+, "../api/drizzle.config.ts"	],
 	"exclude": [
 		"node_modules"
 	]

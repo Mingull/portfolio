@@ -1,9 +1,9 @@
-import { getProjects, ProjectMetadata } from "@/lib/projects";
-import { internalServerError, ok, phraseOf, statusOf, badRequest } from "@mingull/http";
-import { json } from "@mingull/http/next";
-import { attempt } from "@mingull/lib";
 import { env } from "@/lib/env";
-import { NextRequest, NextResponse } from "next/server";
+import { getProjects, ProjectMetadata } from "@/lib/projects";
+import { attempt } from "@mingull/error";
+import { badRequest, internalServerError, ok } from "@mingull/http";
+import { json } from "@mingull/http/next";
+import { NextRequest } from "next/server";
 
 export const GET = async (req: NextRequest) => {
 	const locale = req.nextUrl.searchParams.get("locale");

@@ -42,10 +42,7 @@ const checkCuid =
 		const length = cuid.length;
 		const regex = /^[0-9a-z]+$/;
 
-		try {
-			if (typeof cuid === "string" && length >= minLength && length <= maxLength && regex.test(cuid)) return true;
-		} finally {
-		}
+		if (typeof cuid === "string" && length >= minLength && length <= maxLength && regex.test(cuid)) return true;
 
 		return false;
 	};

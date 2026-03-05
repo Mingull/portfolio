@@ -1,7 +1,7 @@
 "use client";
 
 import { CheckIcon, EyeIcon, EyeOffIcon, XIcon } from "lucide-react";
-import { useId, useMemo, useRef, useState } from "react";
+import { useId, useMemo, useState } from "react";
 import * as z from "zod/v4";
 
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from "@mingull/ui/c/input-group";
@@ -182,7 +182,7 @@ type Requirement = (
 	flags: RequirementFlags[] | undefined;
 };
 
-type KindFunc<K extends unknown> = <const V extends K, const T extends string>(value: V, text: T, flags?: RequirementFlags[]) => Requirement;
+type KindFunc<K> = <const V extends K, const T extends string>(value: V, text: T, flags?: RequirementFlags[]) => Requirement;
 
 type RequirementFunc = (opts: {
 	min: KindFunc<number>;
@@ -207,7 +207,7 @@ type RequirementFunc = (opts: {
  *		regex(/[0-9]/, "At least 1 number"),
  *	]);
  */
-export const defineRequirements = <T,>(func: RequirementFunc) => {
+export const defineRequirements = (func: RequirementFunc) => {
 	return func({
 		min: (value, text, flags) => ({ type: "min", value, text, flags }),
 		max: (value, text, flags) => ({ type: "max", value, text, flags }),
@@ -268,8 +268,8 @@ export const requirementsToSchema = (requirements: Requirement[]): z.ZodString =
 				schema = schema.refine(req.validate, { error: req.text });
 				break;
 			default: {
-				const _exhaustiveCheck: never = req;
-				throw new Error(`Unknown requirement type: ${(req as Requirement).type}`);
+				const _exhaustiveCheck: never = req; // Ensure all cases are handled
+				throw new Error(`Unknown requirement type: ${(_exhaustiveCheck as Requirement).type}`);
 			}
 		}
 	}

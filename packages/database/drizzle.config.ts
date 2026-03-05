@@ -1,9 +1,8 @@
-// drizzle.config.ts
 import { defineConfig } from "drizzle-kit";
 
 export default defineConfig({
 	dialect: "mysql",
-	schema: ["src/features/auth/schemas/*.ts", "src/features/*/table.ts"],
+	schema: ["src/schemas/index.ts"],
 	out: "./drizzle",
 	dbCredentials: {
 		url: process.env.DATABASE_URL!,

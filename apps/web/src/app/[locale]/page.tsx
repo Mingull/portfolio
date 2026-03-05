@@ -14,9 +14,9 @@ export default async function Home() {
 				<Hero />
 
 				{/* <Skills /> */}
-				<Suspense fallback={<ProjectsSkeleton />}>
-					<RecentProjects />
-				</Suspense>
+				{/* <Suspense fallback={<ProjectsSkeleton />}> */}
+					{/* <RecentProjects /> */}
+				{/* </Suspense> */}
 
 				{/* <RecentPosts /> */}
 

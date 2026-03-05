@@ -1,9 +1,29 @@
-import { isPromise } from "@mingull/lib";
-import { Result } from "./types";
+import type { Result } from "./types";
+import { isPromise } from "@mingull/lib/utils";
 
+/**
+ * Attempts to execute a function or resolve a promise, returning a Result object.
+ * @param fn - A function that returns a value or a promise, or a promise itself.
+ * @return A Result object containing either the resolved data or an error.
+ */
 export function attempt<T, E = unknown>(fn: () => Promise<T>): Promise<Result<T, E>>;
+/**
+ * Attempts to execute a function or resolve a promise, returning a Result object.
+ * @param fn - A function that returns a value or a promise, or a promise itself.
+ * @return A Result object containing either the resolved data or an error.
+ */
 export function attempt<T, E = unknown>(fn: () => T): Result<T, E>;
+/**
+ * Attempts to execute a function or resolve a promise, returning a Result object.
+ * @param promise - A promise to resolve.
+ * @return A Result object containing either the resolved data or an error.
+ */
 export function attempt<T, E = unknown>(promise: Promise<T>): Promise<Result<T, E>>;
+/**
+ * Attempts to execute a function or resolve a promise, returning a Result object.
+ * @param input - A function that returns a value or a promise, or a promise itself.
+ * @returns A Result object containing either the resolved data or an error.
+ */
 export function attempt<T, E = unknown>(input: Promise<T> | (() => T) | (() => Promise<T>)): Result<T, E> | Promise<Result<T, E>> {
 	if (typeof input === "function") {
 		try {
