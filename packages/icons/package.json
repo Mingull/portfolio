@@ -19,12 +19,12 @@
 		"@mingull/registry": "workspace:*",
 		"@mingull/typescript-config": "workspace:*",
 		"@tailwindcss/postcss": "^4.2.1",
-		"@turbo/gen": "^2.8.13",
-		"@types/node": "^25.3.3",
+		"@turbo/gen": "^2.8.16",
+		"@types/node": "^25.4.0",
 		"@types/react": "^19.2.14",
 		"@types/react-dom": "^19.2.3",
-		"eslint": "^10.0.2",
-		"tsdown": "^0.20.3"
+		"eslint": "^10.0.3",
+		"tsdown": "^0.21.2"
 	},
 	"exports": {
 		".": "./src/index.ts"

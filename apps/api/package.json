@@ -10,13 +10,14 @@
 		"lint": "eslint"
 	},
 	"dependencies": {
+		"@mingull/database": "workspace:*",
 		"@mingull/error": "workspace:*",
 		"@mingull/http": "workspace:*",
 		"@mingull/lib": "workspace:*",
 		"@next/env": "^16.1.6",
 		"@t3-oss/env-nextjs": "^0.13.10",
 		"@tanstack/react-form": "^1.28.4",
-		"better-auth": "^1.5.3",
+		"better-auth": "^1.5.5",
 		"dotenv": "^17.3.1",
 		"gray-matter": "^4.0.3",
 		"lucide-react": "^0.577.0",
@@ -28,10 +29,10 @@
 	"devDependencies": {
 		"@mingull/eslint-config": "workspace:*",
 		"@mingull/typescript-config": "workspace:*",
-		"@types/node": "^25.3.3",
+		"@types/node": "^25.4.0",
 		"@types/react": "^19.2.14",
 		"@types/react-dom": "^19.2.3",
-		"eslint": "^10.0.2",
+		"eslint": "^10.0.3",
 		"eslint-config-next": "16.1.6",
 		"tailwindcss": "^4.2.1",
 		"typescript": "^5.9.3"

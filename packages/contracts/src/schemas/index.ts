@@ -1,4 +1,2 @@
 export * from "./content";
-export * from "./content-translations";
 export * from "./tags";
-

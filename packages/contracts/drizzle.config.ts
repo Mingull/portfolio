@@ -2,10 +2,9 @@ import { defineConfig } from "drizzle-kit";
 
 export default defineConfig({
 	dialect: "mysql",
-	schema: "src/schemas/index.ts",
-	out: "./migrations",
+	schema: ["src/schemas/index.ts"],
+	out: "./drizzle",
 	dbCredentials: {
-		url: "mysql://root@localhost:3306/portfolio",
+		url: process.env.DATABASE_URL!,
 	},
-	verbose: true,
 });
