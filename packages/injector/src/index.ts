@@ -127,36 +127,57 @@ export function createInjector(): FluentInjector<AnyRecord> {
 		 * - If already created: return from cache.
 		 * - Else: find factory, create instance, cache, return.
 		 */
+		const resolving = new Set<string>();
+		const resolvingStack: string[] = [];
+
 		function get<K extends Extract<keyof TServices, string>>(name: K): TServices[K] {
-			// Map.get() returns undefined for missing keys, but service values might also be undefined,
-			// so we must also check `.has()`.
-			const cached = instances.get(name);
-			if (cached !== undefined || instances.has(name)) return cached as TServices[K];
+			// Detect circular dependencies between services, e.g. A -> B -> A.
+			if (resolving.has(name)) {
+				const idx = resolvingStack.indexOf(name);
+				const cyclePath =
+					idx >= 0
+						? resolvingStack.slice(idx).concat(name)
+						: resolvingStack.concat(name);
+				throw new Error(`Circular dependency detected: ${cyclePath.join(" -> ")}`);
+			}
 
-			const factory = factories.get(name) as Factory<TServices, TServices[K]> | undefined;
-			if (!factory) throw new Error(`Service "${name}" not registered`);
+			resolving.add(name);
+			resolvingStack.push(name);
 
-			/**
-			 * Dependency proxy passed into factories.
-			 *
-			 * This allows factories to do `deps.logger` / `deps.db` property access without eagerly
-			 * creating everything.
-			 *
-			 * Any property read triggers `get()` which lazily builds dependencies.
-			 */
-			const depsProxy = new Proxy<object>(
-				{},
-				{
-					get(_t, prop: PropertyKey) {
-						if (typeof prop !== "string") return undefined;
-						return get(prop as Extract<keyof TServices, string>);
+			try {
+				// Map.get() returns undefined for missing keys, but service values might also be undefined,
+				// so we must also check `.has()`.
+				const cached = instances.get(name);
+				if (cached !== undefined || instances.has(name)) return cached as TServices[K];
+
+				const factory = factories.get(name) as Factory<TServices, TServices[K]> | undefined;
+				if (!factory) throw new Error(`Service "${name}" not registered`);
+
+				/**
+				 * Dependency proxy passed into factories.
+				 *
+				 * This allows factories to do `deps.logger` / `deps.db` property access without eagerly
+				 * creating everything.
+				 *
+				 * Any property read triggers `get()` which lazily builds dependencies.
+				 */
+				const depsProxy = new Proxy<object>(
+					{},
+					{
+						get(_t, prop: PropertyKey) {
+							if (typeof prop !== "string") return undefined;
+							return get(prop as Extract<keyof TServices, string>);
+						},
 					},
-				},
-			) as TServices;
+				) as TServices;
 
-			const instance = factory(depsProxy);
-			instances.set(name, instance as unknown);
-			return instance;
+				const instance = factory(depsProxy);
+				instances.set(name, instance as unknown);
+				return instance;
+			} finally {
+				resolving.delete(name);
+				resolvingStack.pop();
+			}
 		}
 
 		/**
