@@ -18,7 +18,7 @@ export default async function RecentProjects() {
 				<p className="text-center text-red-500">Error loading projects</p>
 			:	<Projects projects={projects} />} */}
 			{isEmpty ?
-				<p className="text-center text-red-500">Error loading projects</p>
+				<p className="text-muted-foreground text-center">No recent projects to display</p>
 			:	<Projects projects={projects} />}
 
 			<div className="mt-10 text-center">

@@ -7,7 +7,6 @@ import "@mingull/ui/globals.css";
 import { cn } from "@mingull/ui/lib/utils";
 import type { Metadata } from "next";
 import { hasLocale } from "next-intl";
-import { getMessages } from "next-intl/server";
 import { Leckerli_One, Merriweather, Poppins, Roboto_Mono } from "next/font/google";
 import { notFound } from "next/navigation";
 import React, { Suspense } from "react";

@@ -1,7 +1,5 @@
 import Hero from "@/components/hero-section";
-import RecentPosts from "@/components/recent-posts";
 import RecentProjects from "@/components/recent-projects";
-import Skills from "@/components/skills";
 import { ProjectsSkeleton } from "@/features/projects/components/skeleton";
 import { Suspense } from "react";
 
