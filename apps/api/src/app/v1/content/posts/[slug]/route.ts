@@ -1,7 +1,7 @@
 import { env } from "@/lib/env";
 import { getPostBySlug, Post } from "@/lib/posts";
 import { attempt } from "@mingull/error";
-import { badRequest, internalServerError, noContent, ok } from "@mingull/http";
+import { badRequest, internalServerError, ok, notFound } from "@mingull/http";
 import { json } from "@mingull/http/next";
 import { NextRequest } from "next/server";
 
@@ -38,8 +38,11 @@ export const GET = async (req: NextRequest, ctx: RouteContext<"/v1/content/posts
 
 	if (!data) {
 		return json(
-			noContent({
+			notFound({
 				message: "Post not found",
+				title: "Not Found",
+				type: "NotFound",
+				fields: { slug: "No post found with the given slug" },
 			}),
 		);
 	}
