@@ -15,6 +15,10 @@ export const createPostRepository = (db: DBLike) => ({
 				typeKey: { eq: CONTENT_TYPES.POST },
 				publishedAt: cursor ? { lt: new Date(cursor) } : undefined,
 			},
+			orderBy: {
+				publishedAt: "desc",
+			},
+			limit: limit + 1,
 		});
 
 		console.log({ rows, cursor, limit });

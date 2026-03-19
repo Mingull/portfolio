@@ -4,8 +4,8 @@ import * as schemas from "./schemas/index";
 export const relations = defineRelations({ ...schemas }, (r) => ({
 	tags: {
 		contentTags: r.many.contentTags({
-			from: r.contentTags.tagId,
-			to: r.contentTags.contentId,
+			from: r.tags.id,
+			to: r.contentTags.tagId,
 		}),
 	},
 	content: {
