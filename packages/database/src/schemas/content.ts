@@ -10,9 +10,9 @@ export const content = mysqlTable(
 		typeKey: char("type_key", { length: 50 })
 			.notNull()
 			.references(() => contentTypes.key),
-		statusId: char("status_id", { length: 36 })
+		statusKey: char("status_key", { length: 50 })
 			.notNull()
-			.references(() => contentStatuses.id),
+			.references(() => contentStatuses.key),
 		defaultLocale: varchar("default_locale", { length: 5 }).notNull(),
 		image: varchar("image", { length: 255 }),
 		readingTime: int("reading_time"),
@@ -27,5 +27,5 @@ export const content = mysqlTable(
 
 		createdAt: timestamp("created_at").notNull().defaultNow(),
 	},
-	(table) => [index("content_status_idx").on(table.statusId), index("content_type_idx").on(table.typeKey)],
+	(table) => [index("content_status_idx").on(table.statusKey), index("content_type_idx").on(table.typeKey)],
 );
