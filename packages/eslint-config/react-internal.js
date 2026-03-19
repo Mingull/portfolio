@@ -6,12 +6,13 @@ import globals from "globals";
 import tseslint from "typescript-eslint";
 
 import { config as baseConfig } from "./base.js";
+import { defineConfig } from "eslint/config";
 
 /**
  * A custom ESLint configuration for libraries that use React.
  *
  * @type {import("eslint").Linter.Config} */
-export const config = [
+export const config = defineConfig([
 	...baseConfig,
 	js.configs.recommended,
 	eslintConfigPrettier,
@@ -30,7 +31,7 @@ export const config = [
 		plugins: {
 			"react-hooks": pluginReactHooks,
 		},
-		settings: { react: { version: "detect" } },
+		// settings: { react: { version: "detect" } },
 		rules: {
 			...pluginReactHooks.configs.recommended.rules,
 			// React scope no longer necessary with new JSX transform.
@@ -38,4 +39,5 @@ export const config = [
 			"react/prop-types": "off",
 		},
 	},
-];
+	{ settings: { react: { version: "19" } } },
+]);

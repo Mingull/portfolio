@@ -9,9 +9,7 @@ import { z } from "zod";
 type ProjectMetadata = z.infer<typeof projectMetadataSchema>;
 
 export const getProjects = async (locale: Locale, limit?: number): Promise<ProjectMetadata[]> => {
-	const result = await fetch(`${env.API_URL}/portfolio/content/projects?limit=${limit ?? 10}&locale=${locale}`).then(
-		(res) => res.json() as Promise<ApiResult<ProjectMetadata[]>>,
-	);
+	const result = await fetch(`${env.API_URL}/content/projects?limit=${limit ?? 10}&locale=${locale}`).then((res) => res.json() as Promise<ApiResult<ProjectMetadata[]>>);
 	if (result?.status !== statusOf("Ok") || result?.statusCode !== phraseOf("Ok")) {
 		console.log("Error fetching projects:", result?.message);
 		return [];

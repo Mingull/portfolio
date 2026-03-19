@@ -1,53 +1,62 @@
-import { getPostBySlug } from "@/lib/posts";
-import { createErrorResponse, createSuccessResponse, getHttpCode, getStatus } from "@mingull/api";
-import { NextRequest, NextResponse } from "next/server";
+import { env } from "@/lib/env";
+import { getPostBySlug, Post } from "@/lib/posts";
+import { attempt } from "@mingull/error";
+import { badRequest, internalServerError, ok, notFound } from "@mingull/http";
+import { json } from "@mingull/http/next";
+import { NextRequest } from "next/server";
 
 export const GET = async (req: NextRequest, ctx: RouteContext<"/v1/content/posts/[slug]">) => {
-	// withRateLimit<{ params: { slug: string }; searchParams: { locale?: string } }>(async (req, ctx) => {
 	const locale = req.nextUrl.searchParams.get("locale");
 	if (!locale) {
-		return NextResponse.json(
-			createErrorResponse({
-				code: "BadRequest",
+		return json(
+			badRequest({
 				message: "Locale query parameter is required",
-				details: {},
+				title: "Bad Request",
+				type: "BadRequest",
+				fields: {
+					locale: "This field is required",
+				},
 			}),
 		);
 	}
 	const { slug } = await ctx.params;
 
-	const { data, error } = await attempt(() => getPostBySlug({ locale, slug }));
+	const { data, error } = await attempt<Post | null, Error>(getPostBySlug({ locale, slug }));
 
 	if (error) {
-		return NextResponse.json(
-			createErrorResponse({
-				code: "InternalServerError",
+		return json(
+			internalServerError({
 				message: "Failed to fetch posts",
-				details: { error },
+				title: "Internal Server Error",
+				type: "InternalServerError",
+				fields: {
+					error: error.message,
+				},
 			}),
-			{
-				status: getHttpCode("InternalServerError"),
-				statusText: getStatus("InternalServerError"),
-			},
 		);
 	}
 
-	return NextResponse.json(
-		createSuccessResponse({
-			code: "Ok",
+	if (!data) {
+		return json(
+			notFound({
+				message: "Post not found",
+				title: "Not Found",
+				type: "NotFound",
+				fields: { slug: "No post found with the given slug" },
+			}),
+		);
+	}
+
+	return json(
+		ok({
 			message: "Posts fetched successfully",
 			data: {
 				...data,
 				metadata: {
 					...data?.metadata,
-					image: data?.metadata?.image ? `${process.env.BASE_API}${data.metadata.image}` : null,
+					image: data?.metadata?.image ? `${env.BASE_API_URL}${data.metadata.image}` : null,
 				},
 			},
 		}),
-		{
-			status: getHttpCode("Ok"),
-			statusText: getStatus("Ok"),
-		},
 	);
 };
-//);

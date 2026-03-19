@@ -40,7 +40,9 @@ export default function Header() {
 				</div>
 
 				<div className="hidden items-center gap-2 sm:flex sm:gap-3">
-					<LanguageSelector />
+					<Suspense>
+						<LanguageSelector />
+					</Suspense>
 					<Button variant="ghost" size="sm" asChild aria-label="View GitHub profile">
 						<NextLink href="https://github.com/mingull" target="_blank" rel="noopener noreferrer">
 							<GitHubIcon className="text-foreground size-4" />

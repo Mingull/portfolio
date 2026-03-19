@@ -4,6 +4,7 @@ import { type ApiResult } from "./core/types";
 
 export const ok = successResponse("Ok");
 export const created = successResponse("Created");
+export const noContent = successResponse("NoContent");
 export const badRequest = failureResponse("BadRequest");
 export const unauthorized = failureResponse("Unauthorized");
 export const forbidden = failureResponse("Forbidden");

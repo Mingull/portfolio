@@ -1,15 +1,15 @@
 import Footer from "@/components/footer";
 import Header from "@/components/header";
+import { IntlProvider } from "@/components/intl-provider";
 import Providers from "@/components/providers";
 import { routing } from "@/i18n/routing";
-import { cn } from "@mingull/ui/lib/utils";
 import "@mingull/ui/globals.css";
+import { cn } from "@mingull/ui/lib/utils";
 import type { Metadata } from "next";
-import { hasLocale, NextIntlClientProvider } from "next-intl";
-import { getMessages } from "next-intl/server";
+import { hasLocale } from "next-intl";
 import { Leckerli_One, Merriweather, Poppins, Roboto_Mono } from "next/font/google";
 import { notFound } from "next/navigation";
-import React from "react";
+import React, { Suspense } from "react";
 // import "@/app/globals.css";
 
 const poppins = Poppins({
@@ -38,8 +38,6 @@ export default async function RootLayout({ children, params }: Readonly<{ childr
 		notFound();
 	}
 
-	const messages = await getMessages();
-
 	return (
 		<html lang={locale} suppressHydrationWarning>
 			<head>
@@ -54,33 +52,16 @@ export default async function RootLayout({ children, params }: Readonly<{ childr
 					leckerliOne.variable,
 				)}
 			>
-				<NextIntlClientProvider locale={locale} messages={messages}>
-					{/* <DefaultsProvider defaults={defaults}> */}
-					<Providers>
-						<Header />
-						<main className="grow">
-							{/* <div className="flex items-center justify-center pt-24">
-								<div className="max-w-2xl">
-								<Alert variant="warning">
-								<TriangleAlert />
-								<AlertTitle>Work in Progress</AlertTitle>
-								<AlertDescription>
-								This site is currently under construction. Some features may be unavailable
-								or behave unexpectedly.
-								<br />
-								We&apos;re actively working on improvements — please check back soon.
-								<br />
-								Thanks for your patience and support!
-								</AlertDescription>
-								</Alert>
-								</div>
-								</div> */}
-							{children}
-						</main>
-						<Footer />
-					</Providers>
-					{/* </DefaultsProvider> */}
-				</NextIntlClientProvider>
+				<Suspense>
+					<IntlProvider locale={locale}>
+						<Providers>
+							<Header />
+							<main className="grow">{children}</main>
+							<Footer />
+						</Providers>
+						{/* </DefaultsProvider> */}
+					</IntlProvider>
+				</Suspense>
 			</body>
 		</html>
 	);

@@ -1,4 +1,5 @@
-import { AutoComplete, Prettify, TypeError } from "@/lib/utils";
+import type { TypeError } from "@/lib/utils";
+import type { AutoComplete,Prettify } from "@mingull/lib/types";
 import { httpCodePhrases, httpCodes } from "./http-codes";
 import { PREFIX } from "./utils";
 

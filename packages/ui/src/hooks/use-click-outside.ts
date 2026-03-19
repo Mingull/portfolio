@@ -1,5 +1,6 @@
-"client only";
-import { useEffect, useRef } from "react";
+"use client";
+import { useEffect } from "react";
+import type { RefObject } from "react";
 
 /**
  * Calls a handler function when a click occurs outside the given ref.
@@ -8,7 +9,7 @@ import { useEffect, useRef } from "react";
  * @param handler Function to call when an outside click occurs.
  */
 export const useClickOutside = <T extends HTMLElement | null>(
-	ref: React.RefObject<T>,
+	ref: RefObject<T>,
 	handler: (event: MouseEvent | TouchEvent) => void,
 ) => {
 	useEffect(() => {

@@ -1,0 +1,28 @@
+{
+	"name": "@mingull/lib",
+	"version": "0.0.0",
+	"type": "module",
+	"private": true,
+	"scripts": {
+		"lint": "eslint .",
+		"build": "tsdown"
+	},
+	"dependencies": {
+		"@paralleldrive/cuid2": "^3.3.0",
+		"clsx": "^2.1.1",
+		"tailwind-merge": "^3.5.0"
+	},
+	"devDependencies": {
+		"@mingull/eslint-config": "workspace:*",
+		"@mingull/typescript-config": "workspace:*",
+		"@types/node": "^25.5.0",
+		"eslint": "^10.0.3",
+		"tsdown": "^0.21.2"
+	},
+	"exports": {
+		".": "./src/index.ts",
+		"./utils": "./src/utils.ts",
+		"./server": "./src/utils.server.ts",
+		"./types": "./src/types.ts"
+	}
+}
