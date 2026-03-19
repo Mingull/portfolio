@@ -192,7 +192,7 @@ export function createInjector(): FluentInjector<AnyRecord> {
 			function scopedScope<TScope extends AnyRecord>(scopeDeps: TScope): Injector<TAll & TScope> {
 				// Create a new overlay map on top of the current one (so scopes can be merged/chained).
 				const next = new Map<string, unknown>(visible);
-				for (const k in Object.keys(scopeDeps)) next.set(k, scopeDeps[k]);
+				for (const [k, v] of Object.entries(scopeDeps)) next.set(k, v);
 				return makeScopedInjector<TAll & TScope>(next);
 			}
 
@@ -214,7 +214,7 @@ export function createInjector(): FluentInjector<AnyRecord> {
 		 */
 		function scope<TScope extends AnyRecord>(scopeDeps: TScope): Injector<TServices & TScope> {
 			const scoped = new Map<string, unknown>(instances);
-			for (const k in Object.keys(scopeDeps)) scoped.set(k, scopeDeps[k]);
+			for (const [k, v] of Object.entries(scopeDeps)) scoped.set(k, v);
 			return makeScopedInjector<TServices & TScope>(scoped);
 		}
 
