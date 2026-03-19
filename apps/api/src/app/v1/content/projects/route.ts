@@ -8,7 +8,7 @@ import { NextRequest } from "next/server";
 export const GET = async (req: NextRequest) => {
 	const locale = req.nextUrl.searchParams.get("locale");
 	const limit = req.nextUrl.searchParams.get("limit");
-	if (!locale) {
+	if (!locale || (limit && isNaN(parseInt(limit)))) {
 		return json(
 			badRequest({
 				message: "Locale query parameter is required",
