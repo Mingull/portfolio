@@ -23,6 +23,9 @@ export const createPostContract = z.object({
 			updatedAt: true,
 			readingTime: true,
 		})
+		.overwrite((i) => ({
+			...i,
+		}))
 		.extend({
 			typeKey: z.literal(CONTENT_TYPES.POST),
 		}),
@@ -38,7 +41,6 @@ export const createPostContract = z.object({
 export const updatePostContract = z.object({
 	content: updateContentSchema
 		.omit({
-			readingTime: true,
 			createdAt: true,
 			updatedAt: true,
 		})

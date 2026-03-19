@@ -19,8 +19,8 @@
     "next.config.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
-, "../../packages/database/src/client.ts", "../../packages/database/src/relations.ts", "../../packages/database/drizzle.config.ts"  ],
+    ".next/types/**/*.ts",
+  ],
   "exclude": [
     "node_modules"
   ]
