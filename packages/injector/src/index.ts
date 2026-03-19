@@ -134,10 +134,7 @@ export function createInjector(): FluentInjector<AnyRecord> {
 			// Detect circular dependencies between services, e.g. A -> B -> A.
 			if (resolving.has(name)) {
 				const idx = resolvingStack.indexOf(name);
-				const cyclePath =
-					idx >= 0
-						? resolvingStack.slice(idx).concat(name)
-						: resolvingStack.concat(name);
+				const cyclePath = idx >= 0 ? resolvingStack.slice(idx).concat(name) : resolvingStack.concat(name);
 				throw new Error(`Circular dependency detected: ${cyclePath.join(" -> ")}`);
 			}
 
@@ -188,13 +185,14 @@ export function createInjector(): FluentInjector<AnyRecord> {
 		 */
 		function makeScopedInjector<TAll extends AnyRecord>(visible: Map<string, unknown>): Injector<TAll> {
 			function scopedGet<K extends Extract<keyof TAll, string>>(name: K): TAll[K] {
+				if (!visible.has(name)) throw new Error(`Service "${name}" not registered in this scope injector`);
 				return visible.get(name) as TAll[K];
 			}
 
 			function scopedScope<TScope extends AnyRecord>(scopeDeps: TScope): Injector<TAll & TScope> {
 				// Create a new overlay map on top of the current one (so scopes can be merged/chained).
 				const next = new Map<string, unknown>(visible);
-				for (const k in scopeDeps) next.set(k, scopeDeps[k]);
+				for (const k in Object.keys(scopeDeps)) next.set(k, scopeDeps[k]);
 				return makeScopedInjector<TAll & TScope>(next);
 			}
 
@@ -216,7 +214,7 @@ export function createInjector(): FluentInjector<AnyRecord> {
 		 */
 		function scope<TScope extends AnyRecord>(scopeDeps: TScope): Injector<TServices & TScope> {
 			const scoped = new Map<string, unknown>(instances);
-			for (const k in scopeDeps) scoped.set(k, scopeDeps[k]);
+			for (const k in Object.keys(scopeDeps)) scoped.set(k, scopeDeps[k]);
 			return makeScopedInjector<TServices & TScope>(scoped);
 		}
 
