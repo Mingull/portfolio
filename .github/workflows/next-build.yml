@@ -1,0 +1,48 @@
+name: Build Next Apps
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  next-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      API_URL: https://example.com
+      BASE_API_URL: https://api.example.com
+      FULL_API_URL: https://api.example.com/v1
+      DATABASE_URL: mysql://user:password@localhost:3306/db
+      NEXT_PUBLIC_BETTER_AUTH_URL: https://example.com
+      BETTER_AUTH_SECRET: ci-secret
+      DISCORD_CLIENT_ID: ci-discord-client-id
+      DISCORD_CLIENT_SECRET: ci-discord-client-secret
+      GITHUB_CLIENT_ID: ci-github-client-id
+      GITHUB_CLIENT_SECRET: ci-github-client-secret
+      GOOGLE_CLIENT_ID: ci-google-client-id
+      GOOGLE_CLIENT_SECRET: ci-google-client-secret
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.32.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build all apps
+        run: pnpm turbo run build --filter="./apps/*"
