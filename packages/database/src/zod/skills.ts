@@ -16,7 +16,11 @@ export const insertSkillSchema = createInsertSchema(skills, {
 			.regex(/^[0-9]+(\.[0-9]+)*$/, "Version must be in the Semantic format '1.0.0'"),
 	icon: (schema) => schema.trim().min(1, "Icon is required").max(100, "Icon must be at most 100 characters long"),
 	experienceValue: (schema) => schema.min(0),
-	experienceYears: (schema) => schema.min(0),
+	experienceYears: (schema) =>
+		schema.refine(
+			(val) => { const n = Number(val); return !isNaN(n) && n >= 0; },
+			"Experience years must be a non-negative number",
+		),
 });
 export const selectSkillSchema = createSelectSchema(skills);
 export const updateSkillSchema = createUpdateSchema(skills, {
@@ -34,5 +38,9 @@ export const updateSkillSchema = createUpdateSchema(skills, {
 			.regex(/^[0-9]+(\.[0-9]+)*$/, "Version must be in the Semantic format '1.0.0'"),
 	icon: (schema) => schema.trim().min(1, "Icon is required").max(100, "Icon must be at most 100 characters long"),
 	experienceValue: (schema) => schema.min(0),
-	experienceYears: (schema) => schema.min(0),
+	experienceYears: (schema) =>
+		schema.refine(
+			(val) => { const n = Number(val); return !isNaN(n) && n >= 0; },
+			"Experience years must be a non-negative number",
+		),
 });
