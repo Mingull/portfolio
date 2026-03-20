@@ -8,6 +8,7 @@ export const insertContentTranslationSchema = createInsertSchema(contentTranslat
 	summary: (schema) => schema.trim().min(1, "Summary is required"),
 	body: (schema) => schema.trim().min(1, "Body is required"),
 	seoTitle: (schema) => schema.trim().max(255, "SEO title must be at most 255 characters long"),
+	seoDescription: (schema) => schema.trim().max(1000, "SEO description must be at most 1000 characters long"),
 });
 export const selectContentTranslationSchema = createSelectSchema(contentTranslations);
 export const updateContentTranslationSchema = createUpdateSchema(contentTranslations, {
