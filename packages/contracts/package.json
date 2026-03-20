@@ -4,8 +4,7 @@
 	"type": "module",
 	"private": true,
 	"scripts": {
-		"lint": "eslint .",
-		"drizzle": "drizzle-kit"
+		"lint": "eslint ."
 	},
 	"dependencies": {
 		"@mingull/database": "workspace:*",
@@ -14,7 +13,8 @@
 	"devDependencies": {
 		"@mingull/eslint-config": "workspace:*",
 		"@mingull/typescript-config": "workspace:*",
-		"@types/node": "^25.5.0"
+		"@types/node": "^25.5.0",
+		"eslint": "^10.0.3"
 	},
 	"exports": {
 		"./posts": "./src/posts.ts",
