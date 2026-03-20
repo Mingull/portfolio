@@ -1,6 +1,6 @@
 import { createInsertSchema, createSelectSchema, createUpdateSchema } from "drizzle-orm/zod";
 import { skillTranslations } from "../schemas";
-import z from "zod";
+import { z } from "zod";
 
 export const insertSkillTranslationSchema = createInsertSchema(skillTranslations, {
 	locale: (schema) =>
