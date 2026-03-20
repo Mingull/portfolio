@@ -13,7 +13,7 @@ export const insertSkillSchema = createInsertSchema(skills, {
 			.trim()
 			.min(1, "Version is required")
 			.max(20, "Version must be at most 20 characters long")
-			.regex(/^[0-9]+(\.[0-9]+)*$/, "Version must be in the Semantic format '1.0.0'"),
+			.regex(/^[0-9]+\.[0-9]+\.[0-9]+$/, "Version must be in the Semantic format '1.0.0'"),
 	icon: (schema) => schema.trim().min(1, "Icon is required").max(100, "Icon must be at most 100 characters long"),
 	experienceValue: (schema) => schema.min(0),
 	experienceYears: (schema) =>
@@ -35,7 +35,7 @@ export const updateSkillSchema = createUpdateSchema(skills, {
 			.trim()
 			.min(1, "Version is required")
 			.max(20, "Version must be at most 20 characters long")
-			.regex(/^[0-9]+(\.[0-9]+)*$/, "Version must be in the Semantic format '1.0.0'"),
+			.regex(/^[0-9]+\.[0-9]+\.[0-9]+$/, "Version must be in the Semantic format '1.0.0'"),
 	icon: (schema) => schema.trim().min(1, "Icon is required").max(100, "Icon must be at most 100 characters long"),
 	experienceValue: (schema) => schema.min(0),
 	experienceYears: (schema) =>
