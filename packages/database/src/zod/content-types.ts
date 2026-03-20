@@ -2,9 +2,9 @@ import { createInsertSchema, createSelectSchema, createUpdateSchema } from "driz
 import { contentTypes } from "../schemas";
 
 export const insertContentTypeSchema = createInsertSchema(contentTypes, {
-	label: (schema) => schema.trim().min(1, "Label is required").max(100, "Label must be at most 100 characters long"),
+	label: (schema) => schema.trim().min(1, "Label is required").max(255, "Label must be at most 255 characters long"),
 });
-export const selectContentTypeSchema = createSelectSchema(contentTypes);
-export const updateContentTypeSchema = createUpdateSchema(contentTypes, {
-	label: (schema) => schema.trim().min(1, "Label is required").max(100, "Label must be at most 100 characters long"),
+export const selectContentTranslationSchema = createSelectSchema(contentTypes);
+export const updateContentTranslationSchema = createUpdateSchema(contentTypes, {
+	label: (schema) => schema.trim().min(1, "Label is required").max(255, "Label must be at most 255 characters long"),
 });
