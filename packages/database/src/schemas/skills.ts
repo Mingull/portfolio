@@ -7,8 +7,8 @@ export const skills = mysqlTable("skills", {
 	version: varchar("version", { length: 20 }).notNull(),
 	icon: varchar("icon", { length: 100 }).notNull(),
 
-	experienceValue: int("experience_value").notNull(),
-	experienceYears: decimal("experience_years", { precision: 4, scale: 1 }).notNull(),
+	experienceValue: int("experience_value").notNull().default(0),
+	experienceYears: decimal("experience_years", { precision: 4, scale: 1 }).notNull().default("0.0"),
 
 	createdAt: datetime("created_at").notNull(),
 	updatedAt: datetime("updated_at").notNull(),
