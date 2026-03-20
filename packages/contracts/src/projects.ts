@@ -60,7 +60,7 @@ export const projectResponseContract = z.object({
 // ----------------
 export const publicProjectContract = projectResponseContract.extend({
 	content: selectContentSchema.omit({
-		statusId: true,
+		statusKey: true,
 		createdAt: true,
 		updatedAt: true,
 	}),

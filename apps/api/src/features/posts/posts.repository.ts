@@ -1,5 +1,5 @@
 import { CONTENT_TYPES, DBLike } from "@mingull/database";
-import { postListContract } from "./posts.contract";
+import { postListContract } from "@mingull/contracts/posts";
 
 export const createPostRepository = (db: DBLike) => ({
 	async findMany(locale: string, cursor?: string, limit: number = 10) {
