@@ -8,7 +8,7 @@
 export type Factory<TDeps, TResult> = (deps: TDeps) => TResult;
 
 /**
- * Convenience alias for “some object with string keys”.
+ * Convenience alias for "some object with string keys".
  *
  * We use `unknown` (not `any`) so we never accidentally treat stored values as a specific type
  * without an explicit cast at the boundary.
@@ -20,7 +20,8 @@ type AnyRecord = Record<string, unknown>;
  *
  * - Services can be accessed either by property (`injector.logger`) or by name (`injector.get("logger")`).
  * - Services are singletons (created once per root injector, then cached).
- * - `scope()` overlays additional dependencies for a sub-tree (common for request-scoped values).
+ * - `scope()` creates a child injector that overlays explicit overrides on top of the root injector.
+ *   Any service not present in the scope's overrides is resolved lazily from the root injector.
  *
  * @typeParam TServices - The service registry type (string keys -> service values).
  */
@@ -36,10 +37,12 @@ export type Injector<TServices extends AnyRecord> = {
 	 * Create a child injector with additional "scoped" dependencies.
 	 *
 	 * Values provided here override existing services with the same key for this scoped injector only.
+	 * Key presence wins: an override of `undefined` is still considered present and will NOT fall back
+	 * to root resolution.
 	 * Scopes can be chained/merged: `injector.scope(a).scope(b)`.
 	 *
-	 * Note: scoped injectors are *overlays* of already-created root instances + explicit scope deps.
-	 * This implementation does not instantiate new services from factories in scopes.
+	 * Any service not overridden in the scope is resolved lazily from the root injector (factory +
+	 * singleton caching still apply).
 	 */
 	scope<TScope extends AnyRecord>(scopeDeps: TScope): Injector<TServices & TScope>;
 } & {
@@ -82,6 +85,15 @@ export type FluentInjector<TServices extends AnyRecord> = Injector<TServices> & 
 };
 
 /**
+ * String property keys that must never be resolved as service names in Proxy `get` traps.
+ *
+ * - `"then"` prevents accidental thenable-assimilation in Promise chains.
+ * - `"toString"`, `"valueOf"`, `"inspect"`, `"constructor"`, `"__proto__"` prevent surprising
+ *   resolution attempts for common meta/introspection properties.
+ */
+const RESERVED_PROPS = new Set(["then", "toString", "valueOf", "inspect", "constructor", "__proto__"]);
+
+/**
  * Create a fluent injector/container.
  *
  * Typical usage (Koin-like):
@@ -115,10 +127,20 @@ export function createInjector(): FluentInjector<AnyRecord> {
 	const instances = new Map<string, unknown>();
 
 	/**
+	 * Shared circular-dependency tracking for ALL fluent views produced by this root injector.
+	 *
+	 * Hoisted outside `makeFluent()` so that every view's `get()` operates on the same state,
+	 * preventing cycles from slipping through when multiple fluent views exist.
+	 */
+	const resolving = new Set<string>();
+	const resolvingStack: string[] = [];
+
+	/**
 	 * Create a fluent injector "view" with a particular compile-time registry type.
 	 *
-	 * Implementation detail: at runtime, all fluent views share the same underlying `factories`
-	 * and `instances` maps. Each `register()` call returns a new view with a widened type.
+	 * Implementation detail: at runtime, all fluent views share the same underlying `factories`,
+	 * `instances`, `resolving`, and `resolvingStack`. Each `register()` call returns a new view
+	 * with a widened type.
 	 */
 	function makeFluent<TServices extends AnyRecord>(): FluentInjector<TServices> {
 		/**
@@ -127,9 +149,6 @@ export function createInjector(): FluentInjector<AnyRecord> {
 		 * - If already created: return from cache.
 		 * - Else: find factory, create instance, cache, return.
 		 */
-		const resolving = new Set<string>();
-		const resolvingStack: string[] = [];
-
 		function get<K extends Extract<keyof TServices, string>>(name: K): TServices[K] {
 			// Detect circular dependencies between services, e.g. A -> B -> A.
 			if (resolving.has(name)) {
@@ -178,20 +197,26 @@ export function createInjector(): FluentInjector<AnyRecord> {
 		}
 
 		/**
-		 * Build a scoped injector over a particular "visible instances" map.
+		 * Build a scoped injector that overlays explicit `overrides` on top of root resolution.
 		 *
-		 * Scoped injectors are overlays: they read from a map that starts with root instances,
-		 * plus explicitly provided scoped values.
+		 * Resolution order for any key `k`:
+		 *   1. If `k` is present in `overrides` (even as `undefined`) → return that value directly.
+		 *   2. Otherwise → delegate to the root `get(k)` (lazy factory + singleton caching).
+		 *
+		 * Chained scopes (`injector.scope(a).scope(b)`) are supported: each `.scope()` call merges
+		 * new overrides on top of the accumulated override map from the parent scope.
 		 */
-		function makeScopedInjector<TAll extends AnyRecord>(visible: Map<string, unknown>): Injector<TAll> {
+		function makeScopedInjector<TAll extends AnyRecord>(overrides: Map<string, unknown>): Injector<TAll> {
 			function scopedGet<K extends Extract<keyof TAll, string>>(name: K): TAll[K] {
-				if (!visible.has(name)) throw new Error(`Service "${name}" not registered in this scope injector`);
-				return visible.get(name) as TAll[K];
+				// Key-presence wins: an override of `undefined` is still considered present.
+				if (overrides.has(name)) return overrides.get(name) as TAll[K];
+				// Fall back to root lazy resolution for services not overridden in this scope.
+				return get(name as Extract<keyof TServices, string>) as unknown as TAll[K];
 			}
 
 			function scopedScope<TScope extends AnyRecord>(scopeDeps: TScope): Injector<TAll & TScope> {
-				// Create a new overlay map on top of the current one (so scopes can be merged/chained).
-				const next = new Map<string, unknown>(visible);
+				// Merge new overrides on top of the current scope's overrides (chained scopes).
+				const next = new Map<string, unknown>(overrides);
 				for (const [k, v] of Object.entries(scopeDeps)) next.set(k, v);
 				return makeScopedInjector<TAll & TScope>(next);
 			}
@@ -202,20 +227,22 @@ export function createInjector(): FluentInjector<AnyRecord> {
 					get(_t, prop: PropertyKey) {
 						if (prop === "get") return scopedGet;
 						if (prop === "scope") return scopedScope;
-						if (typeof prop !== "string") return undefined;
-						return visible.get(prop);
+						if (typeof prop !== "string" || RESERVED_PROPS.has(prop)) return undefined;
+						return scopedGet(prop as Extract<keyof TAll, string>);
 					},
 				},
 			) as Injector<TAll>;
 		}
 
 		/**
-		 * Create a scoped injector by overlaying `scopeDeps` on top of the currently-created root instances.
+		 * Create a scoped child injector by recording `scopeDeps` as overrides.
+		 *
+		 * The scoped injector resolves overridden keys directly from `scopeDeps` and falls back
+		 * to root lazy resolution for everything else. Scopes do NOT snapshot root instances.
 		 */
 		function scope<TScope extends AnyRecord>(scopeDeps: TScope): Injector<TServices & TScope> {
-			const scoped = new Map<string, unknown>(instances);
-			for (const [k, v] of Object.entries(scopeDeps)) scoped.set(k, v);
-			return makeScopedInjector<TServices & TScope>(scoped);
+			const overrides = new Map<string, unknown>(Object.entries(scopeDeps));
+			return makeScopedInjector<TServices & TScope>(overrides);
 		}
 
 		/**
@@ -245,7 +272,7 @@ export function createInjector(): FluentInjector<AnyRecord> {
 					if (prop === "scope") return scope;
 					if (prop === "register" || prop === "singleton") return register;
 
-					if (typeof prop !== "string") return undefined;
+					if (typeof prop !== "string" || RESERVED_PROPS.has(prop)) return undefined;
 					return get(prop as Extract<keyof TServices, string>);
 				},
 			},
