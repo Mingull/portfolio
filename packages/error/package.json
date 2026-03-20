@@ -16,7 +16,7 @@
 		"@mingull/typescript-config": "workspace:*",
 		"@types/node": "^25.5.0",
 		"eslint": "^10.0.3",
-		"tsdown": "^0.21.2"
+		"tsdown": "^0.21.4"
 	},
 	"exports": {
 		".": "./src/index.ts",
