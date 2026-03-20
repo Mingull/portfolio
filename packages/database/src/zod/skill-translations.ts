@@ -10,7 +10,7 @@ export const insertSkillTranslationSchema = createInsertSchema(skillTranslations
 			.max(5, "Locale must be at most 5 characters long")
 			.regex(/^[a-z]{2}(-[A-Z]{2})?$/, "Locale must be in the format 'en' or 'en-US'"),
 	content: (schema) => schema.trim().min(1, "Content is required"),
-	// ctaList is a URL so we need to map the current z.string to z.url but keep the current settings
+	// ctaLink is a URL so we need to map the current z.string to z.url but keep the current settings
 	ctaLink: (schema) => schema.pipe(z.url("CTA link must be a valid URL").trim().max(255, "CTA link must be at most 255 characters long")),
 	ctaText: (schema) => schema.trim().min(1, "CTA text is required").max(255, "CTA text must be at most 255 characters long"),
 	name: (schema) => schema.trim().min(1, "Name is required").max(100, "Name must be at most 100 characters long"),
