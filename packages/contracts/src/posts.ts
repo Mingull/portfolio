@@ -23,9 +23,6 @@ export const createPostContract = z.object({
 			updatedAt: true,
 			readingTime: true,
 		})
-		.overwrite((i) => ({
-			...i,
-		}))
 		.extend({
 			typeKey: z.literal(CONTENT_TYPES.POST),
 		}),
@@ -73,9 +70,9 @@ export const publicPostContract = postResponseContract.extend({
 });
 
 // ----------------
-// Post List Item & List Contracts
+// Post & List Contracts
 // ----------------
-export const postListItemContract = z.object({
+export const postContract = z.object({
 	content: selectContentSchema.pick({
 		id: true,
 		readingTime: true,
@@ -92,6 +89,6 @@ export const postListItemContract = z.object({
 });
 
 export const postListContract = z.object({
-	posts: postListItemContract.array(),
+	posts: postContract.array(),
 	nextCursor: z.string().nullable(),
 });
