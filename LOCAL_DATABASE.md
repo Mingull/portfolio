@@ -1,56 +1,41 @@
 # Local Database Setup
 
-This project uses MySQL 8.4.8 (LTS) and phpMyAdmin for local database administration. The database is managed via Docker Compose, ensuring a consistent environment across development machines.
+MySQL 8.4.8 (LTS) + phpMyAdmin running via Docker Compose.
 
-## Services
-
-- MySQL: `localhost:3306`
-- phpMyAdmin: `http://localhost:8080`
-
-## Credentials
-
-- Username: `root`
-- Password: "" (empty)
-- Database: `portfolio`
-
-## Start and Stop
-
-From the repository root:
+## Quick Start
 
 ```bash
-pnpm db:up
+pnpm db:up      # Start MySQL + phpMyAdmin
+pnpm db:down    # Stop all services
+pnpm db:logs    # Stream logs
+pnpm db:studio  # Open Drizzle Studio
 ```
 
-Stop containers:
+## Connection Details
 
-```bash
-pnpm db:down
-```
+| Property | Value |
+|----------|-------|
+| **MySQL** | `localhost:3306` |
+| **phpMyAdmin** | `http://localhost:8080` |
+| **Username** | `root` |
+| **Password** | (empty) |
+| **Database** | `portfolio` |
 
-Stream logs:
+## Environment
 
-```bash
-pnpm db:logs
-```
-
-## Drizzle
-
-Run Drizzle Studio:
-
-```bash
-pnpm db:studio
-```
-
-`drizzle.config.ts` now reads `DATABASE_URL` from environment variables. Ensure your local env includes:
+Add to `.env`:
 
 ```bash
 DATABASE_URL=mysql://root@localhost:3306/portfolio
 ```
 
-For this monorepo, keep `DATABASE_URL` in the workspace root `.env` (or `apps/api/.env.local`) instead of `packages/database/.env.local`.
+## Compose Files
+
+- `docker-compose.yml` — Development (passwordless root, includes phpMyAdmin)
+- `docker-compose.ci.yml` — CI pipeline (password-protected root, MySQL only)
 
 ## Notes
 
-- Host-run apps should connect to `localhost`.
-- If you run app code inside Docker in the future, use the service hostname `mysql` instead of `localhost`.
-- phpMyAdmin works with MySQL 8 and can still be used for tasks not currently exposed in Drizzle Studio.
+- Apps in Docker should use hostname `mysql` instead of `localhost`
+- CI uses separate compose with password authentication
+- If switching between dev/CI locally, reset volumes: `docker compose down -v` + `docker compose -f docker-compose.ci.yml down -v`

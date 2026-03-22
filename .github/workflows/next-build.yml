@@ -10,6 +10,7 @@ on:
             - "packages/**"
             - "pnpm-lock.yaml"
             - "docker-compose.yml"
+            - "docker-compose.ci.yml"
 
 permissions:
     contents: read
@@ -22,7 +23,7 @@ jobs:
             API_URL: https://example.com
             BASE_API_URL: https://api.example.com
             FULL_API_URL: https://api.example.com/v1
-            DATABASE_URL: mysql://root@127.0.0.1:3306/portfolio
+            DATABASE_URL: mysql://root:root@127.0.0.1:3306/portfolio
             NEXT_PUBLIC_BETTER_AUTH_URL: https://example.com
             BETTER_AUTH_SECRET: ${{ secrets.BETTER_AUTH_SECRET }}
             DISCORD_CLIENT_ID: ${{ secrets.DISCORD_CLIENT_ID }}
@@ -48,7 +49,7 @@ jobs:
               run: pnpm install --frozen-lockfile
 
             - name: Start MySQL with Docker Compose
-              run: docker compose -f docker-compose.yml up -d --wait mysql
+              run: docker compose -f docker-compose.ci.yml up -d --wait mysql
 
             - name: Run Drizzle migrations
               run: pnpm --filter @mingull/database drizzle migrate
@@ -58,8 +59,8 @@ jobs:
 
             - name: Show database logs on failure
               if: failure()
-              run: docker compose -f docker-compose.yml logs mysql
+              run: docker compose -f docker-compose.ci.yml logs mysql
 
             - name: Stop Docker Compose services
               if: always()
-              run: docker compose -f docker-compose.yml down
+              run: docker compose -f docker-compose.ci.yml down
