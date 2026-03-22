@@ -1,992 +1,949 @@
 {
-  "version": "6",
-  "dialect": "mysql",
-  "id": "2cf5be88-04a1-4e43-bcd9-a6c9846bd410",
-  "prevIds": [
-    "00000000-0000-0000-0000-000000000000"
-  ],
-  "ddl": [
-    {
-      "name": "content",
-      "entityType": "tables"
-    },
-    {
-      "name": "content_statuses",
-      "entityType": "tables"
-    },
-    {
-      "name": "content_tags",
-      "entityType": "tables"
-    },
-    {
-      "name": "content_translations",
-      "entityType": "tables"
-    },
-    {
-      "name": "content_types",
-      "entityType": "tables"
-    },
-    {
-      "name": "skills",
-      "entityType": "tables"
-    },
-    {
-      "name": "skill_translations",
-      "entityType": "tables"
-    },
-    {
-      "name": "tags",
-      "entityType": "tables"
-    },
-    {
-      "type": "varchar(36)",
-      "notNull": true,
-      "autoIncrement": false,
-      "default": null,
-      "onUpdateNow": false,
-      "onUpdateNowFsp": null,
-      "charSet": null,
-      "collation": null,
-      "generated": null,
-      "name": "id",
-      "entityType": "columns",
-      "table": "content"
-    },
-    {
-      "type": "char(50)",
-      "notNull": true,
-      "autoIncrement": false,
-      "default": null,
-      "onUpdateNow": false,
-      "onUpdateNowFsp": null,
-      "charSet": null,
-      "collation": null,
-      "generated": null,
-      "name": "type_key",
-      "entityType": "columns",
-      "table": "content"
-    },
-    {
-      "type": "char(50)",
-      "notNull": true,
-      "autoIncrement": false,
-      "default": null,
-      "onUpdateNow": false,
-      "onUpdateNowFsp": null,
-      "charSet": null,
-      "collation": null,
-      "generated": null,
-      "name": "status_key",
-      "entityType": "columns",
-      "table": "content"
-    },
-    {
-      "type": "varchar(5)",
-      "notNull": true,
-      "autoIncrement": false,
-      "default": null,
-      "onUpdateNow": false,
-      "onUpdateNowFsp": null,
-      "charSet": null,
-      "collation": null,
-      "generated": null,
-      "name": "default_locale",
-      "entityType": "columns",
-      "table": "content"
-    },
-    {
-      "type": "varchar(255)",
-      "notNull": false,
-      "autoIncrement": false,
-      "default": null,
-      "onUpdateNow": false,
-      "onUpdateNowFsp": null,
-      "charSet": null,
-      "collation": null,
-      "generated": null,
-      "name": "image",
-      "entityType": "columns",
-      "table": "content"
-    },
-    {
-      "type": "int",
-      "notNull": false,
-      "autoIncrement": false,
-      "default": null,
-      "onUpdateNow": false,
-      "onUpdateNowFsp": null,
-      "charSet": null,
-      "collation": null,
-      "generated": null,
-      "name": "reading_time",
-      "entityType": "columns",
-      "table": "content"
-    },
-    {
-      "type": "boolean",
-      "notNull": true,
-      "autoIncrement": false,
-      "default": "false",
-      "onUpdateNow": false,
-      "onUpdateNowFsp": null,
-      "charSet": null,
-      "collation": null,
-      "generated": null,
-      "name": "featured",
-      "entityType": "columns",
-      "table": "content"
-    },
-    {
-      "type": "varchar(255)",
-      "notNull": false,
-      "autoIncrement": false,
-      "default": null,
-      "onUpdateNow": false,
-      "onUpdateNowFsp": null,
-      "charSet": null,
-      "collation": null,
-      "generated": null,
-      "name": "repo_url",
-      "entityType": "columns",
-      "table": "content"
-    },
-    {
-      "type": "varchar(255)",
-      "notNull": false,
-      "autoIncrement": false,
-      "default": null,
-      "onUpdateNow": false,
-      "onUpdateNowFsp": null,
-      "charSet": null,
-      "collation": null,
-      "generated": null,
-      "name": "live_url",
-      "entityType": "columns",
-      "table": "content"
-    },
-    {
-      "type": "int",
-      "notNull": false,
-      "autoIncrement": false,
-      "default": null,
-      "onUpdateNow": false,
-      "onUpdateNowFsp": null,
-      "charSet": null,
-      "collation": null,
-      "generated": null,
-      "name": "year",
-      "entityType": "columns",
-      "table": "content"
-    },
-    {
-      "type": "timestamp",
-      "notNull": false,
-      "autoIncrement": false,
-      "default": null,
-      "onUpdateNow": false,
-      "onUpdateNowFsp": null,
-      "charSet": null,
-      "collation": null,
-      "generated": null,
-      "name": "published_at",
-      "entityType": "columns",
-      "table": "content"
-    },
-    {
-      "type": "timestamp",
-      "notNull": true,
-      "autoIncrement": false,
-      "default": "(now())",
-      "onUpdateNow": true,
-      "onUpdateNowFsp": null,
-      "charSet": null,
-      "collation": null,
-      "generated": null,
-      "name": "updated_at",
-      "entityType": "columns",
-      "table": "content"
-    },
-    {
-      "type": "timestamp",
-      "notNull": true,
-      "autoIncrement": false,
-      "default": "(now())",
-      "onUpdateNow": false,
-      "onUpdateNowFsp": null,
-      "charSet": null,
-      "collation": null,
-      "generated": null,
-      "name": "created_at",
-      "entityType": "columns",
-      "table": "content"
-    },
-    {
-      "type": "varchar(50)",
-      "notNull": true,
-      "autoIncrement": false,
-      "default": null,
-      "onUpdateNow": false,
-      "onUpdateNowFsp": null,
-      "charSet": null,
-      "collation": null,
-      "generated": null,
-      "name": "key",
-      "entityType": "columns",
-      "table": "content_statuses"
-    },
-    {
-      "type": "varchar(100)",
-      "notNull": true,
-      "autoIncrement": false,
-      "default": null,
-      "onUpdateNow": false,
-      "onUpdateNowFsp": null,
-      "charSet": null,
-      "collation": null,
-      "generated": null,
-      "name": "label",
-      "entityType": "columns",
-      "table": "content_statuses"
-    },
-    {
-      "type": "char(36)",
-      "notNull": true,
-      "autoIncrement": false,
-      "default": null,
-      "onUpdateNow": false,
-      "onUpdateNowFsp": null,
-      "charSet": null,
-      "collation": null,
-      "generated": null,
-      "name": "content_id",
-      "entityType": "columns",
-      "table": "content_tags"
-    },
-    {
-      "type": "varchar(36)",
-      "notNull": true,
-      "autoIncrement": false,
-      "default": null,
-      "onUpdateNow": false,
-      "onUpdateNowFsp": null,
-      "charSet": null,
-      "collation": null,
-      "generated": null,
-      "name": "tag_id",
-      "entityType": "columns",
-      "table": "content_tags"
-    },
-    {
-      "type": "varchar(36)",
-      "notNull": true,
-      "autoIncrement": false,
-      "default": null,
-      "onUpdateNow": false,
-      "onUpdateNowFsp": null,
-      "charSet": null,
-      "collation": null,
-      "generated": null,
-      "name": "id",
-      "entityType": "columns",
-      "table": "content_translations"
-    },
-    {
-      "type": "varchar(36)",
-      "notNull": true,
-      "autoIncrement": false,
-      "default": null,
-      "onUpdateNow": false,
-      "onUpdateNowFsp": null,
-      "charSet": null,
-      "collation": null,
-      "generated": null,
-      "name": "content_id",
-      "entityType": "columns",
-      "table": "content_translations"
-    },
-    {
-      "type": "varchar(5)",
-      "notNull": true,
-      "autoIncrement": false,
-      "default": null,
-      "onUpdateNow": false,
-      "onUpdateNowFsp": null,
-      "charSet": null,
-      "collation": null,
-      "generated": null,
-      "name": "locale",
-      "entityType": "columns",
-      "table": "content_translations"
-    },
-    {
-      "type": "varchar(191)",
-      "notNull": true,
-      "autoIncrement": false,
-      "default": null,
-      "onUpdateNow": false,
-      "onUpdateNowFsp": null,
-      "charSet": null,
-      "collation": null,
-      "generated": null,
-      "name": "slug",
-      "entityType": "columns",
-      "table": "content_translations"
-    },
-    {
-      "type": "varchar(255)",
-      "notNull": true,
-      "autoIncrement": false,
-      "default": null,
-      "onUpdateNow": false,
-      "onUpdateNowFsp": null,
-      "charSet": null,
-      "collation": null,
-      "generated": null,
-      "name": "title",
-      "entityType": "columns",
-      "table": "content_translations"
-    },
-    {
-      "type": "text",
-      "notNull": true,
-      "autoIncrement": false,
-      "default": null,
-      "onUpdateNow": false,
-      "onUpdateNowFsp": null,
-      "charSet": null,
-      "collation": null,
-      "generated": null,
-      "name": "summary",
-      "entityType": "columns",
-      "table": "content_translations"
-    },
-    {
-      "type": "text",
-      "notNull": true,
-      "autoIncrement": false,
-      "default": null,
-      "onUpdateNow": false,
-      "onUpdateNowFsp": null,
-      "charSet": null,
-      "collation": null,
-      "generated": null,
-      "name": "body",
-      "entityType": "columns",
-      "table": "content_translations"
-    },
-    {
-      "type": "varchar(255)",
-      "notNull": false,
-      "autoIncrement": false,
-      "default": null,
-      "onUpdateNow": false,
-      "onUpdateNowFsp": null,
-      "charSet": null,
-      "collation": null,
-      "generated": null,
-      "name": "seo_title",
-      "entityType": "columns",
-      "table": "content_translations"
-    },
-    {
-      "type": "text",
-      "notNull": false,
-      "autoIncrement": false,
-      "default": null,
-      "onUpdateNow": false,
-      "onUpdateNowFsp": null,
-      "charSet": null,
-      "collation": null,
-      "generated": null,
-      "name": "seo_description",
-      "entityType": "columns",
-      "table": "content_translations"
-    },
-    {
-      "type": "varchar(50)",
-      "notNull": true,
-      "autoIncrement": false,
-      "default": null,
-      "onUpdateNow": false,
-      "onUpdateNowFsp": null,
-      "charSet": null,
-      "collation": null,
-      "generated": null,
-      "name": "key",
-      "entityType": "columns",
-      "table": "content_types"
-    },
-    {
-      "type": "varchar(255)",
-      "notNull": true,
-      "autoIncrement": false,
-      "default": null,
-      "onUpdateNow": false,
-      "onUpdateNowFsp": null,
-      "charSet": null,
-      "collation": null,
-      "generated": null,
-      "name": "label",
-      "entityType": "columns",
-      "table": "content_types"
-    },
-    {
-      "type": "varchar(36)",
-      "notNull": true,
-      "autoIncrement": false,
-      "default": null,
-      "onUpdateNow": false,
-      "onUpdateNowFsp": null,
-      "charSet": null,
-      "collation": null,
-      "generated": null,
-      "name": "id",
-      "entityType": "columns",
-      "table": "skills"
-    },
-    {
-      "type": "varchar(5)",
-      "notNull": true,
-      "autoIncrement": false,
-      "default": null,
-      "onUpdateNow": false,
-      "onUpdateNowFsp": null,
-      "charSet": null,
-      "collation": null,
-      "generated": null,
-      "name": "default_locale",
-      "entityType": "columns",
-      "table": "skills"
-    },
-    {
-      "type": "varchar(20)",
-      "notNull": true,
-      "autoIncrement": false,
-      "default": null,
-      "onUpdateNow": false,
-      "onUpdateNowFsp": null,
-      "charSet": null,
-      "collation": null,
-      "generated": null,
-      "name": "version",
-      "entityType": "columns",
-      "table": "skills"
-    },
-    {
-      "type": "varchar(100)",
-      "notNull": true,
-      "autoIncrement": false,
-      "default": null,
-      "onUpdateNow": false,
-      "onUpdateNowFsp": null,
-      "charSet": null,
-      "collation": null,
-      "generated": null,
-      "name": "icon",
-      "entityType": "columns",
-      "table": "skills"
-    },
-    {
-      "type": "int",
-      "notNull": true,
-      "autoIncrement": false,
-      "default": null,
-      "onUpdateNow": false,
-      "onUpdateNowFsp": null,
-      "charSet": null,
-      "collation": null,
-      "generated": null,
-      "name": "experience_value",
-      "entityType": "columns",
-      "table": "skills"
-    },
-    {
-      "type": "decimal(4,1)",
-      "notNull": true,
-      "autoIncrement": false,
-      "default": null,
-      "onUpdateNow": false,
-      "onUpdateNowFsp": null,
-      "charSet": null,
-      "collation": null,
-      "generated": null,
-      "name": "experience_years",
-      "entityType": "columns",
-      "table": "skills"
-    },
-    {
-      "type": "datetime",
-      "notNull": true,
-      "autoIncrement": false,
-      "default": null,
-      "onUpdateNow": false,
-      "onUpdateNowFsp": null,
-      "charSet": null,
-      "collation": null,
-      "generated": null,
-      "name": "created_at",
-      "entityType": "columns",
-      "table": "skills"
-    },
-    {
-      "type": "datetime",
-      "notNull": true,
-      "autoIncrement": false,
-      "default": null,
-      "onUpdateNow": false,
-      "onUpdateNowFsp": null,
-      "charSet": null,
-      "collation": null,
-      "generated": null,
-      "name": "updated_at",
-      "entityType": "columns",
-      "table": "skills"
-    },
-    {
-      "type": "varchar(36)",
-      "notNull": true,
-      "autoIncrement": false,
-      "default": null,
-      "onUpdateNow": false,
-      "onUpdateNowFsp": null,
-      "charSet": null,
-      "collation": null,
-      "generated": null,
-      "name": "id",
-      "entityType": "columns",
-      "table": "skill_translations"
-    },
-    {
-      "type": "varchar(36)",
-      "notNull": true,
-      "autoIncrement": false,
-      "default": null,
-      "onUpdateNow": false,
-      "onUpdateNowFsp": null,
-      "charSet": null,
-      "collation": null,
-      "generated": null,
-      "name": "skill_id",
-      "entityType": "columns",
-      "table": "skill_translations"
-    },
-    {
-      "type": "varchar(5)",
-      "notNull": true,
-      "autoIncrement": false,
-      "default": null,
-      "onUpdateNow": false,
-      "onUpdateNowFsp": null,
-      "charSet": null,
-      "collation": null,
-      "generated": null,
-      "name": "locale",
-      "entityType": "columns",
-      "table": "skill_translations"
-    },
-    {
-      "type": "varchar(100)",
-      "notNull": true,
-      "autoIncrement": false,
-      "default": null,
-      "onUpdateNow": false,
-      "onUpdateNowFsp": null,
-      "charSet": null,
-      "collation": null,
-      "generated": null,
-      "name": "name",
-      "entityType": "columns",
-      "table": "skill_translations"
-    },
-    {
-      "type": "text",
-      "notNull": true,
-      "autoIncrement": false,
-      "default": null,
-      "onUpdateNow": false,
-      "onUpdateNowFsp": null,
-      "charSet": null,
-      "collation": null,
-      "generated": null,
-      "name": "summary",
-      "entityType": "columns",
-      "table": "skill_translations"
-    },
-    {
-      "type": "text",
-      "notNull": true,
-      "autoIncrement": false,
-      "default": null,
-      "onUpdateNow": false,
-      "onUpdateNowFsp": null,
-      "charSet": null,
-      "collation": null,
-      "generated": null,
-      "name": "content",
-      "entityType": "columns",
-      "table": "skill_translations"
-    },
-    {
-      "type": "varchar(255)",
-      "notNull": true,
-      "autoIncrement": false,
-      "default": null,
-      "onUpdateNow": false,
-      "onUpdateNowFsp": null,
-      "charSet": null,
-      "collation": null,
-      "generated": null,
-      "name": "cta_text",
-      "entityType": "columns",
-      "table": "skill_translations"
-    },
-    {
-      "type": "varchar(255)",
-      "notNull": true,
-      "autoIncrement": false,
-      "default": null,
-      "onUpdateNow": false,
-      "onUpdateNowFsp": null,
-      "charSet": null,
-      "collation": null,
-      "generated": null,
-      "name": "cta_link",
-      "entityType": "columns",
-      "table": "skill_translations"
-    },
-    {
-      "type": "varchar(36)",
-      "notNull": true,
-      "autoIncrement": false,
-      "default": null,
-      "onUpdateNow": false,
-      "onUpdateNowFsp": null,
-      "charSet": null,
-      "collation": null,
-      "generated": null,
-      "name": "id",
-      "entityType": "columns",
-      "table": "tags"
-    },
-    {
-      "type": "varchar(100)",
-      "notNull": true,
-      "autoIncrement": false,
-      "default": null,
-      "onUpdateNow": false,
-      "onUpdateNowFsp": null,
-      "charSet": null,
-      "collation": null,
-      "generated": null,
-      "name": "name",
-      "entityType": "columns",
-      "table": "tags"
-    },
-    {
-      "type": "varchar(100)",
-      "notNull": true,
-      "autoIncrement": false,
-      "default": null,
-      "onUpdateNow": false,
-      "onUpdateNowFsp": null,
-      "charSet": null,
-      "collation": null,
-      "generated": null,
-      "name": "slug",
-      "entityType": "columns",
-      "table": "tags"
-    },
-    {
-      "columns": [
-        "content_id",
-        "tag_id"
-      ],
-      "name": "PRIMARY",
-      "table": "content_tags",
-      "entityType": "pks"
-    },
-    {
-      "columns": [
-        "id"
-      ],
-      "name": "PRIMARY",
-      "table": "content",
-      "entityType": "pks"
-    },
-    {
-      "columns": [
-        "key"
-      ],
-      "name": "PRIMARY",
-      "table": "content_statuses",
-      "entityType": "pks"
-    },
-    {
-      "columns": [
-        "id"
-      ],
-      "name": "PRIMARY",
-      "table": "content_translations",
-      "entityType": "pks"
-    },
-    {
-      "columns": [
-        "key"
-      ],
-      "name": "PRIMARY",
-      "table": "content_types",
-      "entityType": "pks"
-    },
-    {
-      "columns": [
-        "id"
-      ],
-      "name": "PRIMARY",
-      "table": "skills",
-      "entityType": "pks"
-    },
-    {
-      "columns": [
-        "id"
-      ],
-      "name": "PRIMARY",
-      "table": "skill_translations",
-      "entityType": "pks"
-    },
-    {
-      "columns": [
-        "id"
-      ],
-      "name": "PRIMARY",
-      "table": "tags",
-      "entityType": "pks"
-    },
-    {
-      "columns": [
-        {
-          "value": "status_key",
-          "isExpression": false
-        }
-      ],
-      "isUnique": false,
-      "using": null,
-      "algorithm": null,
-      "lock": null,
-      "nameExplicit": true,
-      "name": "content_status_idx",
-      "entityType": "indexes",
-      "table": "content"
-    },
-    {
-      "columns": [
-        {
-          "value": "type_key",
-          "isExpression": false
-        }
-      ],
-      "isUnique": false,
-      "using": null,
-      "algorithm": null,
-      "lock": null,
-      "nameExplicit": true,
-      "name": "content_type_idx",
-      "entityType": "indexes",
-      "table": "content"
-    },
-    {
-      "columns": [
-        {
-          "value": "key",
-          "isExpression": false
-        }
-      ],
-      "isUnique": true,
-      "using": null,
-      "algorithm": null,
-      "lock": null,
-      "nameExplicit": true,
-      "name": "content_status_key_idx",
-      "entityType": "indexes",
-      "table": "content_statuses"
-    },
-    {
-      "columns": [
-        {
-          "value": "content_id",
-          "isExpression": false
-        },
-        {
-          "value": "locale",
-          "isExpression": false
-        }
-      ],
-      "isUnique": true,
-      "using": null,
-      "algorithm": null,
-      "lock": null,
-      "nameExplicit": true,
-      "name": "content_locale_unique",
-      "entityType": "indexes",
-      "table": "content_translations"
-    },
-    {
-      "columns": [
-        {
-          "value": "slug",
-          "isExpression": false
-        },
-        {
-          "value": "locale",
-          "isExpression": false
-        }
-      ],
-      "isUnique": true,
-      "using": null,
-      "algorithm": null,
-      "lock": null,
-      "nameExplicit": true,
-      "name": "slug_locale_unique",
-      "entityType": "indexes",
-      "table": "content_translations"
-    },
-    {
-      "columns": [
-        {
-          "value": "content_id",
-          "isExpression": false
-        }
-      ],
-      "isUnique": false,
-      "using": null,
-      "algorithm": null,
-      "lock": null,
-      "nameExplicit": true,
-      "name": "content_translation_content_idx",
-      "entityType": "indexes",
-      "table": "content_translations"
-    },
-    {
-      "columns": [
-        {
-          "value": "key",
-          "isExpression": false
-        }
-      ],
-      "isUnique": true,
-      "using": null,
-      "algorithm": null,
-      "lock": null,
-      "nameExplicit": true,
-      "name": "content_type_key_idx",
-      "entityType": "indexes",
-      "table": "content_types"
-    },
-    {
-      "columns": [
-        {
-          "value": "slug",
-          "isExpression": false
-        }
-      ],
-      "isUnique": true,
-      "using": null,
-      "algorithm": null,
-      "lock": null,
-      "nameExplicit": true,
-      "name": "tag_slug_idx",
-      "entityType": "indexes",
-      "table": "tags"
-    },
-    {
-      "columns": [
-        "type_key"
-      ],
-      "tableTo": "content_types",
-      "columnsTo": [
-        "key"
-      ],
-      "onUpdate": "NO ACTION",
-      "onDelete": "NO ACTION",
-      "nameExplicit": false,
-      "name": "content_type_key_content_types_key_fkey",
-      "entityType": "fks",
-      "table": "content"
-    },
-    {
-      "columns": [
-        "status_key"
-      ],
-      "tableTo": "content_statuses",
-      "columnsTo": [
-        "key"
-      ],
-      "onUpdate": "NO ACTION",
-      "onDelete": "NO ACTION",
-      "nameExplicit": false,
-      "name": "content_status_key_content_statuses_key_fkey",
-      "entityType": "fks",
-      "table": "content"
-    },
-    {
-      "columns": [
-        "content_id"
-      ],
-      "tableTo": "content",
-      "columnsTo": [
-        "id"
-      ],
-      "onUpdate": "NO ACTION",
-      "onDelete": "NO ACTION",
-      "nameExplicit": false,
-      "name": "content_tags_content_id_content_id_fkey",
-      "entityType": "fks",
-      "table": "content_tags"
-    },
-    {
-      "columns": [
-        "tag_id"
-      ],
-      "tableTo": "tags",
-      "columnsTo": [
-        "id"
-      ],
-      "onUpdate": "NO ACTION",
-      "onDelete": "NO ACTION",
-      "nameExplicit": false,
-      "name": "content_tags_tag_id_tags_id_fkey",
-      "entityType": "fks",
-      "table": "content_tags"
-    },
-    {
-      "columns": [
-        "content_id"
-      ],
-      "tableTo": "content",
-      "columnsTo": [
-        "id"
-      ],
-      "onUpdate": "NO ACTION",
-      "onDelete": "CASCADE",
-      "nameExplicit": false,
-      "name": "content_translations_content_id_content_id_fkey",
-      "entityType": "fks",
-      "table": "content_translations"
-    },
-    {
-      "columns": [
-        "skill_id"
-      ],
-      "tableTo": "skills",
-      "columnsTo": [
-        "id"
-      ],
-      "onUpdate": "NO ACTION",
-      "onDelete": "NO ACTION",
-      "nameExplicit": false,
-      "name": "skill_translations_skill_id_skills_id_fkey",
-      "entityType": "fks",
-      "table": "skill_translations"
-    }
-  ],
-  "renames": []
+	"version": "6",
+	"dialect": "mysql",
+	"id": "2cf5be88-04a1-4e43-bcd9-a6c9846bd410",
+	"prevIds": ["00000000-0000-0000-0000-000000000000"],
+	"ddl": [
+		{
+			"name": "content",
+			"entityType": "tables"
+		},
+		{
+			"name": "content_statuses",
+			"entityType": "tables"
+		},
+		{
+			"name": "content_tags",
+			"entityType": "tables"
+		},
+		{
+			"name": "content_translations",
+			"entityType": "tables"
+		},
+		{
+			"name": "content_types",
+			"entityType": "tables"
+		},
+		{
+			"name": "skills",
+			"entityType": "tables"
+		},
+		{
+			"name": "skill_translations",
+			"entityType": "tables"
+		},
+		{
+			"name": "tags",
+			"entityType": "tables"
+		},
+		{
+			"type": "varchar(36)",
+			"notNull": true,
+			"autoIncrement": false,
+			"default": null,
+			"onUpdateNow": false,
+			"onUpdateNowFsp": null,
+			"charSet": null,
+			"collation": null,
+			"generated": null,
+			"name": "id",
+			"entityType": "columns",
+			"table": "content"
+		},
+		{
+			"type": "char(50)",
+			"notNull": true,
+			"autoIncrement": false,
+			"default": null,
+			"onUpdateNow": false,
+			"onUpdateNowFsp": null,
+			"charSet": null,
+			"collation": null,
+			"generated": null,
+			"name": "type_key",
+			"entityType": "columns",
+			"table": "content"
+		},
+		{
+			"type": "char(50)",
+			"notNull": true,
+			"autoIncrement": false,
+			"default": null,
+			"onUpdateNow": false,
+			"onUpdateNowFsp": null,
+			"charSet": null,
+			"collation": null,
+			"generated": null,
+			"name": "status_key",
+			"entityType": "columns",
+			"table": "content"
+		},
+		{
+			"type": "varchar(5)",
+			"notNull": true,
+			"autoIncrement": false,
+			"default": null,
+			"onUpdateNow": false,
+			"onUpdateNowFsp": null,
+			"charSet": null,
+			"collation": null,
+			"generated": null,
+			"name": "default_locale",
+			"entityType": "columns",
+			"table": "content"
+		},
+		{
+			"type": "varchar(255)",
+			"notNull": false,
+			"autoIncrement": false,
+			"default": null,
+			"onUpdateNow": false,
+			"onUpdateNowFsp": null,
+			"charSet": null,
+			"collation": null,
+			"generated": null,
+			"name": "image",
+			"entityType": "columns",
+			"table": "content"
+		},
+		{
+			"type": "int",
+			"notNull": false,
+			"autoIncrement": false,
+			"default": null,
+			"onUpdateNow": false,
+			"onUpdateNowFsp": null,
+			"charSet": null,
+			"collation": null,
+			"generated": null,
+			"name": "reading_time",
+			"entityType": "columns",
+			"table": "content"
+		},
+		{
+			"type": "boolean",
+			"notNull": true,
+			"autoIncrement": false,
+			"default": "false",
+			"onUpdateNow": false,
+			"onUpdateNowFsp": null,
+			"charSet": null,
+			"collation": null,
+			"generated": null,
+			"name": "featured",
+			"entityType": "columns",
+			"table": "content"
+		},
+		{
+			"type": "varchar(255)",
+			"notNull": false,
+			"autoIncrement": false,
+			"default": null,
+			"onUpdateNow": false,
+			"onUpdateNowFsp": null,
+			"charSet": null,
+			"collation": null,
+			"generated": null,
+			"name": "repo_url",
+			"entityType": "columns",
+			"table": "content"
+		},
+		{
+			"type": "varchar(255)",
+			"notNull": false,
+			"autoIncrement": false,
+			"default": null,
+			"onUpdateNow": false,
+			"onUpdateNowFsp": null,
+			"charSet": null,
+			"collation": null,
+			"generated": null,
+			"name": "live_url",
+			"entityType": "columns",
+			"table": "content"
+		},
+		{
+			"type": "int",
+			"notNull": false,
+			"autoIncrement": false,
+			"default": null,
+			"onUpdateNow": false,
+			"onUpdateNowFsp": null,
+			"charSet": null,
+			"collation": null,
+			"generated": null,
+			"name": "year",
+			"entityType": "columns",
+			"table": "content"
+		},
+		{
+			"type": "timestamp",
+			"notNull": false,
+			"autoIncrement": false,
+			"default": null,
+			"onUpdateNow": false,
+			"onUpdateNowFsp": null,
+			"charSet": null,
+			"collation": null,
+			"generated": null,
+			"name": "published_at",
+			"entityType": "columns",
+			"table": "content"
+		},
+		{
+			"type": "timestamp",
+			"notNull": true,
+			"autoIncrement": false,
+			"default": "(now())",
+			"onUpdateNow": true,
+			"onUpdateNowFsp": null,
+			"charSet": null,
+			"collation": null,
+			"generated": null,
+			"name": "updated_at",
+			"entityType": "columns",
+			"table": "content"
+		},
+		{
+			"type": "timestamp",
+			"notNull": true,
+			"autoIncrement": false,
+			"default": "(now())",
+			"onUpdateNow": false,
+			"onUpdateNowFsp": null,
+			"charSet": null,
+			"collation": null,
+			"generated": null,
+			"name": "created_at",
+			"entityType": "columns",
+			"table": "content"
+		},
+		{
+			"type": "varchar(50)",
+			"notNull": true,
+			"autoIncrement": false,
+			"default": null,
+			"onUpdateNow": false,
+			"onUpdateNowFsp": null,
+			"charSet": null,
+			"collation": null,
+			"generated": null,
+			"name": "key",
+			"entityType": "columns",
+			"table": "content_statuses"
+		},
+		{
+			"type": "varchar(100)",
+			"notNull": true,
+			"autoIncrement": false,
+			"default": null,
+			"onUpdateNow": false,
+			"onUpdateNowFsp": null,
+			"charSet": null,
+			"collation": null,
+			"generated": null,
+			"name": "label",
+			"entityType": "columns",
+			"table": "content_statuses"
+		},
+		{
+			"type": "char(36)",
+			"notNull": true,
+			"autoIncrement": false,
+			"default": null,
+			"onUpdateNow": false,
+			"onUpdateNowFsp": null,
+			"charSet": null,
+			"collation": null,
+			"generated": null,
+			"name": "content_id",
+			"entityType": "columns",
+			"table": "content_tags"
+		},
+		{
+			"type": "varchar(36)",
+			"notNull": true,
+			"autoIncrement": false,
+			"default": null,
+			"onUpdateNow": false,
+			"onUpdateNowFsp": null,
+			"charSet": null,
+			"collation": null,
+			"generated": null,
+			"name": "tag_id",
+			"entityType": "columns",
+			"table": "content_tags"
+		},
+		{
+			"type": "varchar(36)",
+			"notNull": true,
+			"autoIncrement": false,
+			"default": null,
+			"onUpdateNow": false,
+			"onUpdateNowFsp": null,
+			"charSet": null,
+			"collation": null,
+			"generated": null,
+			"name": "id",
+			"entityType": "columns",
+			"table": "content_translations"
+		},
+		{
+			"type": "varchar(36)",
+			"notNull": true,
+			"autoIncrement": false,
+			"default": null,
+			"onUpdateNow": false,
+			"onUpdateNowFsp": null,
+			"charSet": null,
+			"collation": null,
+			"generated": null,
+			"name": "content_id",
+			"entityType": "columns",
+			"table": "content_translations"
+		},
+		{
+			"type": "varchar(5)",
+			"notNull": true,
+			"autoIncrement": false,
+			"default": null,
+			"onUpdateNow": false,
+			"onUpdateNowFsp": null,
+			"charSet": null,
+			"collation": null,
+			"generated": null,
+			"name": "locale",
+			"entityType": "columns",
+			"table": "content_translations"
+		},
+		{
+			"type": "varchar(191)",
+			"notNull": true,
+			"autoIncrement": false,
+			"default": null,
+			"onUpdateNow": false,
+			"onUpdateNowFsp": null,
+			"charSet": null,
+			"collation": null,
+			"generated": null,
+			"name": "slug",
+			"entityType": "columns",
+			"table": "content_translations"
+		},
+		{
+			"type": "varchar(255)",
+			"notNull": true,
+			"autoIncrement": false,
+			"default": null,
+			"onUpdateNow": false,
+			"onUpdateNowFsp": null,
+			"charSet": null,
+			"collation": null,
+			"generated": null,
+			"name": "title",
+			"entityType": "columns",
+			"table": "content_translations"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoIncrement": false,
+			"default": null,
+			"onUpdateNow": false,
+			"onUpdateNowFsp": null,
+			"charSet": null,
+			"collation": null,
+			"generated": null,
+			"name": "summary",
+			"entityType": "columns",
+			"table": "content_translations"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoIncrement": false,
+			"default": null,
+			"onUpdateNow": false,
+			"onUpdateNowFsp": null,
+			"charSet": null,
+			"collation": null,
+			"generated": null,
+			"name": "body",
+			"entityType": "columns",
+			"table": "content_translations"
+		},
+		{
+			"type": "varchar(255)",
+			"notNull": false,
+			"autoIncrement": false,
+			"default": null,
+			"onUpdateNow": false,
+			"onUpdateNowFsp": null,
+			"charSet": null,
+			"collation": null,
+			"generated": null,
+			"name": "seo_title",
+			"entityType": "columns",
+			"table": "content_translations"
+		},
+		{
+			"type": "text",
+			"notNull": false,
+			"autoIncrement": false,
+			"default": null,
+			"onUpdateNow": false,
+			"onUpdateNowFsp": null,
+			"charSet": null,
+			"collation": null,
+			"generated": null,
+			"name": "seo_description",
+			"entityType": "columns",
+			"table": "content_translations"
+		},
+		{
+			"type": "varchar(50)",
+			"notNull": true,
+			"autoIncrement": false,
+			"default": null,
+			"onUpdateNow": false,
+			"onUpdateNowFsp": null,
+			"charSet": null,
+			"collation": null,
+			"generated": null,
+			"name": "key",
+			"entityType": "columns",
+			"table": "content_types"
+		},
+		{
+			"type": "varchar(255)",
+			"notNull": true,
+			"autoIncrement": false,
+			"default": null,
+			"onUpdateNow": false,
+			"onUpdateNowFsp": null,
+			"charSet": null,
+			"collation": null,
+			"generated": null,
+			"name": "label",
+			"entityType": "columns",
+			"table": "content_types"
+		},
+		{
+			"type": "varchar(36)",
+			"notNull": true,
+			"autoIncrement": false,
+			"default": null,
+			"onUpdateNow": false,
+			"onUpdateNowFsp": null,
+			"charSet": null,
+			"collation": null,
+			"generated": null,
+			"name": "id",
+			"entityType": "columns",
+			"table": "skills"
+		},
+		{
+			"type": "varchar(5)",
+			"notNull": true,
+			"autoIncrement": false,
+			"default": null,
+			"onUpdateNow": false,
+			"onUpdateNowFsp": null,
+			"charSet": null,
+			"collation": null,
+			"generated": null,
+			"name": "default_locale",
+			"entityType": "columns",
+			"table": "skills"
+		},
+		{
+			"type": "varchar(20)",
+			"notNull": true,
+			"autoIncrement": false,
+			"default": null,
+			"onUpdateNow": false,
+			"onUpdateNowFsp": null,
+			"charSet": null,
+			"collation": null,
+			"generated": null,
+			"name": "version",
+			"entityType": "columns",
+			"table": "skills"
+		},
+		{
+			"type": "varchar(100)",
+			"notNull": true,
+			"autoIncrement": false,
+			"default": null,
+			"onUpdateNow": false,
+			"onUpdateNowFsp": null,
+			"charSet": null,
+			"collation": null,
+			"generated": null,
+			"name": "icon",
+			"entityType": "columns",
+			"table": "skills"
+		},
+		{
+			"type": "int",
+			"notNull": true,
+			"autoIncrement": false,
+			"default": "0",
+			"onUpdateNow": false,
+			"onUpdateNowFsp": null,
+			"charSet": null,
+			"collation": null,
+			"generated": null,
+			"name": "experience_value",
+			"entityType": "columns",
+			"table": "skills"
+		},
+		{
+			"type": "decimal(4,1)",
+			"notNull": true,
+			"autoIncrement": false,
+			"default": "(0.0)",
+			"onUpdateNow": false,
+			"onUpdateNowFsp": null,
+			"charSet": null,
+			"collation": null,
+			"generated": null,
+			"name": "experience_years",
+			"entityType": "columns",
+			"table": "skills"
+		},
+		{
+			"type": "datetime",
+			"notNull": true,
+			"autoIncrement": false,
+			"default": null,
+			"onUpdateNow": false,
+			"onUpdateNowFsp": null,
+			"charSet": null,
+			"collation": null,
+			"generated": null,
+			"name": "created_at",
+			"entityType": "columns",
+			"table": "skills"
+		},
+		{
+			"type": "datetime",
+			"notNull": true,
+			"autoIncrement": false,
+			"default": null,
+			"onUpdateNow": false,
+			"onUpdateNowFsp": null,
+			"charSet": null,
+			"collation": null,
+			"generated": null,
+			"name": "updated_at",
+			"entityType": "columns",
+			"table": "skills"
+		},
+		{
+			"type": "varchar(36)",
+			"notNull": true,
+			"autoIncrement": false,
+			"default": null,
+			"onUpdateNow": false,
+			"onUpdateNowFsp": null,
+			"charSet": null,
+			"collation": null,
+			"generated": null,
+			"name": "id",
+			"entityType": "columns",
+			"table": "skill_translations"
+		},
+		{
+			"type": "varchar(36)",
+			"notNull": true,
+			"autoIncrement": false,
+			"default": null,
+			"onUpdateNow": false,
+			"onUpdateNowFsp": null,
+			"charSet": null,
+			"collation": null,
+			"generated": null,
+			"name": "skill_id",
+			"entityType": "columns",
+			"table": "skill_translations"
+		},
+		{
+			"type": "varchar(5)",
+			"notNull": true,
+			"autoIncrement": false,
+			"default": null,
+			"onUpdateNow": false,
+			"onUpdateNowFsp": null,
+			"charSet": null,
+			"collation": null,
+			"generated": null,
+			"name": "locale",
+			"entityType": "columns",
+			"table": "skill_translations"
+		},
+		{
+			"type": "varchar(100)",
+			"notNull": true,
+			"autoIncrement": false,
+			"default": null,
+			"onUpdateNow": false,
+			"onUpdateNowFsp": null,
+			"charSet": null,
+			"collation": null,
+			"generated": null,
+			"name": "name",
+			"entityType": "columns",
+			"table": "skill_translations"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoIncrement": false,
+			"default": null,
+			"onUpdateNow": false,
+			"onUpdateNowFsp": null,
+			"charSet": null,
+			"collation": null,
+			"generated": null,
+			"name": "summary",
+			"entityType": "columns",
+			"table": "skill_translations"
+		},
+		{
+			"type": "text",
+			"notNull": true,
+			"autoIncrement": false,
+			"default": null,
+			"onUpdateNow": false,
+			"onUpdateNowFsp": null,
+			"charSet": null,
+			"collation": null,
+			"generated": null,
+			"name": "content",
+			"entityType": "columns",
+			"table": "skill_translations"
+		},
+		{
+			"type": "varchar(255)",
+			"notNull": true,
+			"autoIncrement": false,
+			"default": null,
+			"onUpdateNow": false,
+			"onUpdateNowFsp": null,
+			"charSet": null,
+			"collation": null,
+			"generated": null,
+			"name": "cta_text",
+			"entityType": "columns",
+			"table": "skill_translations"
+		},
+		{
+			"type": "varchar(255)",
+			"notNull": true,
+			"autoIncrement": false,
+			"default": null,
+			"onUpdateNow": false,
+			"onUpdateNowFsp": null,
+			"charSet": null,
+			"collation": null,
+			"generated": null,
+			"name": "cta_link",
+			"entityType": "columns",
+			"table": "skill_translations"
+		},
+		{
+			"type": "varchar(36)",
+			"notNull": true,
+			"autoIncrement": false,
+			"default": null,
+			"onUpdateNow": false,
+			"onUpdateNowFsp": null,
+			"charSet": null,
+			"collation": null,
+			"generated": null,
+			"name": "id",
+			"entityType": "columns",
+			"table": "tags"
+		},
+		{
+			"type": "varchar(100)",
+			"notNull": true,
+			"autoIncrement": false,
+			"default": null,
+			"onUpdateNow": false,
+			"onUpdateNowFsp": null,
+			"charSet": null,
+			"collation": null,
+			"generated": null,
+			"name": "name",
+			"entityType": "columns",
+			"table": "tags"
+		},
+		{
+			"type": "varchar(100)",
+			"notNull": true,
+			"autoIncrement": false,
+			"default": null,
+			"onUpdateNow": false,
+			"onUpdateNowFsp": null,
+			"charSet": null,
+			"collation": null,
+			"generated": null,
+			"name": "slug",
+			"entityType": "columns",
+			"table": "tags"
+		},
+		{
+			"columns": ["content_id", "tag_id"],
+			"name": "PRIMARY",
+			"table": "content_tags",
+			"entityType": "pks"
+		},
+		{
+			"columns": ["id"],
+			"name": "PRIMARY",
+			"table": "content",
+			"entityType": "pks"
+		},
+		{
+			"columns": ["key"],
+			"name": "PRIMARY",
+			"table": "content_statuses",
+			"entityType": "pks"
+		},
+		{
+			"columns": ["id"],
+			"name": "PRIMARY",
+			"table": "content_translations",
+			"entityType": "pks"
+		},
+		{
+			"columns": ["key"],
+			"name": "PRIMARY",
+			"table": "content_types",
+			"entityType": "pks"
+		},
+		{
+			"columns": ["id"],
+			"name": "PRIMARY",
+			"table": "skills",
+			"entityType": "pks"
+		},
+		{
+			"columns": ["id"],
+			"name": "PRIMARY",
+			"table": "skill_translations",
+			"entityType": "pks"
+		},
+		{
+			"columns": ["id"],
+			"name": "PRIMARY",
+			"table": "tags",
+			"entityType": "pks"
+		},
+		{
+			"columns": [
+				{
+					"value": "status_key",
+					"isExpression": false
+				}
+			],
+			"isUnique": false,
+			"using": null,
+			"algorithm": null,
+			"lock": null,
+			"nameExplicit": true,
+			"name": "content_status_idx",
+			"entityType": "indexes",
+			"table": "content"
+		},
+		{
+			"columns": [
+				{
+					"value": "type_key",
+					"isExpression": false
+				}
+			],
+			"isUnique": false,
+			"using": null,
+			"algorithm": null,
+			"lock": null,
+			"nameExplicit": true,
+			"name": "content_type_idx",
+			"entityType": "indexes",
+			"table": "content"
+		},
+		{
+			"columns": [
+				{
+					"value": "key",
+					"isExpression": false
+				}
+			],
+			"isUnique": true,
+			"using": null,
+			"algorithm": null,
+			"lock": null,
+			"nameExplicit": true,
+			"name": "content_status_key_idx",
+			"entityType": "indexes",
+			"table": "content_statuses"
+		},
+		{
+			"columns": [
+				{
+					"value": "content_id",
+					"isExpression": false
+				},
+				{
+					"value": "locale",
+					"isExpression": false
+				}
+			],
+			"isUnique": true,
+			"using": null,
+			"algorithm": null,
+			"lock": null,
+			"nameExplicit": true,
+			"name": "content_locale_unique",
+			"entityType": "indexes",
+			"table": "content_translations"
+		},
+		{
+			"columns": [
+				{
+					"value": "slug",
+					"isExpression": false
+				},
+				{
+					"value": "locale",
+					"isExpression": false
+				}
+			],
+			"isUnique": true,
+			"using": null,
+			"algorithm": null,
+			"lock": null,
+			"nameExplicit": true,
+			"name": "slug_locale_unique",
+			"entityType": "indexes",
+			"table": "content_translations"
+		},
+		{
+			"columns": [
+				{
+					"value": "content_id",
+					"isExpression": false
+				}
+			],
+			"isUnique": false,
+			"using": null,
+			"algorithm": null,
+			"lock": null,
+			"nameExplicit": true,
+			"name": "content_translation_content_idx",
+			"entityType": "indexes",
+			"table": "content_translations"
+		},
+		{
+			"columns": [
+				{
+					"value": "key",
+					"isExpression": false
+				}
+			],
+			"isUnique": true,
+			"using": null,
+			"algorithm": null,
+			"lock": null,
+			"nameExplicit": true,
+			"name": "content_type_key_idx",
+			"entityType": "indexes",
+			"table": "content_types"
+		},
+		{
+			"columns": [
+				{
+					"value": "slug",
+					"isExpression": false
+				}
+			],
+			"isUnique": true,
+			"using": null,
+			"algorithm": null,
+			"lock": null,
+			"nameExplicit": true,
+			"name": "tag_slug_idx",
+			"entityType": "indexes",
+			"table": "tags"
+		},
+		{
+			"columns": ["type_key"],
+			"tableTo": "content_types",
+			"columnsTo": ["key"],
+			"onUpdate": "NO ACTION",
+			"onDelete": "NO ACTION",
+			"nameExplicit": false,
+			"name": "content_type_key_content_types_key_fkey",
+			"entityType": "fks",
+			"table": "content"
+		},
+		{
+			"columns": ["status_key"],
+			"tableTo": "content_statuses",
+			"columnsTo": ["key"],
+			"onUpdate": "NO ACTION",
+			"onDelete": "NO ACTION",
+			"nameExplicit": false,
+			"name": "content_status_key_content_statuses_key_fkey",
+			"entityType": "fks",
+			"table": "content"
+		},
+		{
+			"columns": ["content_id"],
+			"tableTo": "content",
+			"columnsTo": ["id"],
+			"onUpdate": "NO ACTION",
+			"onDelete": "NO ACTION",
+			"nameExplicit": false,
+			"name": "content_tags_content_id_content_id_fkey",
+			"entityType": "fks",
+			"table": "content_tags"
+		},
+		{
+			"columns": ["tag_id"],
+			"tableTo": "tags",
+			"columnsTo": ["id"],
+			"onUpdate": "NO ACTION",
+			"onDelete": "NO ACTION",
+			"nameExplicit": false,
+			"name": "content_tags_tag_id_tags_id_fkey",
+			"entityType": "fks",
+			"table": "content_tags"
+		},
+		{
+			"columns": ["content_id"],
+			"tableTo": "content",
+			"columnsTo": ["id"],
+			"onUpdate": "NO ACTION",
+			"onDelete": "CASCADE",
+			"nameExplicit": false,
+			"name": "content_translations_content_id_content_id_fkey",
+			"entityType": "fks",
+			"table": "content_translations"
+		},
+		{
+			"columns": ["skill_id"],
+			"tableTo": "skills",
+			"columnsTo": ["id"],
+			"onUpdate": "NO ACTION",
+			"onDelete": "NO ACTION",
+			"nameExplicit": false,
+			"name": "skill_translations_skill_id_skills_id_fkey",
+			"entityType": "fks",
+			"table": "skill_translations"
+		}
+	],
+	"renames": []
 }

@@ -51,8 +51,8 @@ CREATE TABLE `skills` (
 	`default_locale` varchar(5) NOT NULL,
 	`version` varchar(20) NOT NULL,
 	`icon` varchar(100) NOT NULL,
-	`experience_value` int NOT NULL,
-	`experience_years` decimal(4,1) NOT NULL,
+	`experience_value` int NOT NULL DEFAULT 0,
+	`experience_years` decimal(4,1) NOT NULL DEFAULT (0.0),
 	`created_at` datetime NOT NULL,
 	`updated_at` datetime NOT NULL
 );
