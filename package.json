@@ -10,7 +10,7 @@
     "db:up": "docker compose up -d",
     "db:down": "docker compose down",
     "db:logs": "docker compose logs -f mysql phpmyadmin",
-    "db:studio": "pnpm --filter @mingull/database studio"
+    "db:studio": "pnpm --filter @mingull/database drizzle studio"
   },
   "devDependencies": {
     "dotenv-cli": "^11.0.0",
