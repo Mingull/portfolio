@@ -1,52 +1,68 @@
 name: Build Next Apps
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    paths:
-      - 'apps/**'
-      - 'packages/**'
-      - 'pnpm-lock.yaml'
+    push:
+        branches:
+            - main
+    pull_request:
+        paths:
+            - "apps/**"
+            - "packages/**"
+            - "pnpm-lock.yaml"
 
 permissions:
-  contents: read
+    contents: read
 
 jobs:
-  next-build:
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    env:
-      API_URL: https://example.com
-      BASE_API_URL: https://api.example.com
-      FULL_API_URL: https://api.example.com/v1
-      DATABASE_URL: ${{ secrets.DATABASE_URL }}
-      NEXT_PUBLIC_BETTER_AUTH_URL: https://example.com
-      BETTER_AUTH_SECRET: ${{ secrets.BETTER_AUTH_SECRET }}
-      DISCORD_CLIENT_ID: ${{ secrets.DISCORD_CLIENT_ID }}
-      DISCORD_CLIENT_SECRET: ${{ secrets.DISCORD_CLIENT_SECRET }}
-      GITHUB_CLIENT_ID: ${{ secrets.GITHUB_CLIENT_ID }}
-      GITHUB_CLIENT_SECRET: ${{ secrets.GITHUB_CLIENT_SECRET }}
-      GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
-      GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+    next-build:
+        runs-on: ubuntu-latest
+        timeout-minutes: 30
+        env:
+            API_URL: https://example.com
+            BASE_API_URL: https://api.example.com
+            FULL_API_URL: https://api.example.com/v1
+            DATABASE_URL: mysql://root@127.0.0.1:3306/portfolio
+            NEXT_PUBLIC_BETTER_AUTH_URL: https://example.com
+            BETTER_AUTH_SECRET: ${{ secrets.BETTER_AUTH_SECRET }}
+            DISCORD_CLIENT_ID: ${{ secrets.DISCORD_CLIENT_ID }}
+            DISCORD_CLIENT_SECRET: ${{ secrets.DISCORD_CLIENT_SECRET }}
+            GITHUB_CLIENT_ID: ${{ secrets.GITHUB_CLIENT_ID }}
+            GITHUB_CLIENT_SECRET: ${{ secrets.GITHUB_CLIENT_SECRET }}
+            GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+            GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v6.0.2
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10.32.1
+            - name: Setup pnpm
+              uses: pnpm/action-setup@v5
+              with:
+                  version: latest
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 24
-          cache: pnpm
+            - name: Setup Node.js
+              uses: actions/setup-node@v6.3.0
+              with:
+                  node-version: 24
+                  cache: pnpm
 
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+            - name: Install dependencies
+              run: pnpm install --frozen-lockfile
 
-      - name: Build all apps
-        run: pnpm turbo run build --filter="./apps/*"
+            - name: Start MySQL with Docker Compose
+              run: docker compose -f docker-compose.yml up -d --wait mysql
+
+            - name: Run Drizzle migrations
+              env:
+                  DATABASE_URL: mysql://root@127.0.0.1:3306/portfolio
+              run: pnpm --filter @mingull/database drizzle migrate
+
+            - name: Build all apps
+              run: pnpm turbo run build --filter="./apps/*"
+
+            - name: Show database logs on failure
+              if: failure()
+              run: docker compose -f docker-compose.yml logs mysql
+
+            - name: Stop Docker Compose services
+              if: always()
+              run: docker compose -f docker-compose.yml down
