@@ -9,6 +9,7 @@ on:
             - "apps/**"
             - "packages/**"
             - "pnpm-lock.yaml"
+            - "docker-compose.yml"
 
 permissions:
     contents: read
@@ -36,13 +37,11 @@ jobs:
 
             - name: Setup pnpm
               uses: pnpm/action-setup@v5
-              with:
-                  version: latest
 
             - name: Setup Node.js
               uses: actions/setup-node@v6.3.0
               with:
-                  node-version: 24
+                  node-version-file: "package.json"
                   cache: pnpm
 
             - name: Install dependencies
@@ -52,8 +51,6 @@ jobs:
               run: docker compose -f docker-compose.yml up -d --wait mysql
 
             - name: Run Drizzle migrations
-              env:
-                  DATABASE_URL: mysql://root@127.0.0.1:3306/portfolio
               run: pnpm --filter @mingull/database drizzle migrate
 
             - name: Build all apps

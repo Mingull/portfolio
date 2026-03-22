@@ -1,6 +1,6 @@
 # Local Database Setup
 
-This project uses MySQL 8.4 (Docker) and phpMyAdmin for local database administration.
+This project uses MySQL 8.4.8 (LTS) and phpMyAdmin for local database administration. The database is managed via Docker Compose, ensuring a consistent environment across development machines.
 
 ## Services
 
@@ -10,7 +10,7 @@ This project uses MySQL 8.4 (Docker) and phpMyAdmin for local database administr
 ## Credentials
 
 - Username: `root`
-- Password: `root`
+- Password: "" (empty)
 - Database: `portfolio`
 
 ## Start and Stop
@@ -44,8 +44,10 @@ pnpm db:studio
 `drizzle.config.ts` now reads `DATABASE_URL` from environment variables. Ensure your local env includes:
 
 ```bash
-DATABASE_URL=mysql://root:root@localhost:3306/portfolio
+DATABASE_URL=mysql://root@localhost:3306/portfolio
 ```
+
+For this monorepo, keep `DATABASE_URL` in the workspace root `.env` (or `apps/api/.env.local`) instead of `packages/database/.env.local`.
 
 ## Notes
 
