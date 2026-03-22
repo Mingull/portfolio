@@ -15,6 +15,7 @@
 		"@mingull/http": "workspace:*",
 		"@mingull/injector": "workspace:*",
 		"@mingull/lib": "workspace:*",
+		"@mingull/contracts": "workspace:*",
 		"@next/env": "^16.2.0",
 		"@t3-oss/env-nextjs": "^0.13.10",
 		"@tanstack/react-form": "^1.28.5",
