@@ -1,0 +1,23 @@
+services:
+    mysql:
+        image: mysql:8.4.8
+        container_name: mysql-server-ci
+        restart: unless-stopped
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: portfolio
+            MYSQL_ROOT_HOST: "%"
+        ports:
+            - "127.0.0.1:3306:3306"
+        volumes:
+            - mysql-data-ci:/var/lib/mysql
+        healthcheck:
+            test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -p$$MYSQL_ROOT_PASSWORD --silent"]
+            interval: 10s
+            timeout: 5s
+            retries: 10
+            start_period: 20s
+
+volumes:
+    mysql-data-ci:
+        driver: local
