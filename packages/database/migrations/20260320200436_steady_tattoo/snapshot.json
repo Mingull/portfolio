@@ -51,7 +51,7 @@
 			"table": "content"
 		},
 		{
-			"type": "char(50)",
+			"type": "varchar(50)",
 			"notNull": true,
 			"autoIncrement": false,
 			"default": null,
@@ -65,7 +65,7 @@
 			"table": "content"
 		},
 		{
-			"type": "char(50)",
+			"type": "varchar(50)",
 			"notNull": true,
 			"autoIncrement": false,
 			"default": null,
@@ -247,7 +247,7 @@
 			"table": "content_statuses"
 		},
 		{
-			"type": "char(36)",
+			"type": "varchar(36)",
 			"notNull": true,
 			"autoIncrement": false,
 			"default": null,
@@ -777,22 +777,6 @@
 		{
 			"columns": [
 				{
-					"value": "key",
-					"isExpression": false
-				}
-			],
-			"isUnique": true,
-			"using": null,
-			"algorithm": null,
-			"lock": null,
-			"nameExplicit": true,
-			"name": "content_status_key_idx",
-			"entityType": "indexes",
-			"table": "content_statuses"
-		},
-		{
-			"columns": [
-				{
 					"value": "content_id",
 					"isExpression": false
 				},
@@ -845,22 +829,6 @@
 			"name": "content_translation_content_idx",
 			"entityType": "indexes",
 			"table": "content_translations"
-		},
-		{
-			"columns": [
-				{
-					"value": "key",
-					"isExpression": false
-				}
-			],
-			"isUnique": true,
-			"using": null,
-			"algorithm": null,
-			"lock": null,
-			"nameExplicit": true,
-			"name": "content_type_key_idx",
-			"entityType": "indexes",
-			"table": "content_types"
 		},
 		{
 			"columns": [

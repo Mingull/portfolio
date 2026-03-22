@@ -1,7 +1,7 @@
 CREATE TABLE `content` (
 	`id` varchar(36) PRIMARY KEY,
-	`type_key` char(50) NOT NULL,
-	`status_key` char(50) NOT NULL,
+	`type_key` varchar(50) NOT NULL,
+	`status_key` varchar(50) NOT NULL,
 	`default_locale` varchar(5) NOT NULL,
 	`image` varchar(255),
 	`reading_time` int,
@@ -16,12 +16,11 @@ CREATE TABLE `content` (
 --> statement-breakpoint
 CREATE TABLE `content_statuses` (
 	`key` varchar(50) PRIMARY KEY,
-	`label` varchar(100) NOT NULL,
-	CONSTRAINT `content_status_key_idx` UNIQUE INDEX(`key`)
+	`label` varchar(100) NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE `content_tags` (
-	`content_id` char(36) NOT NULL,
+	`content_id` varchar(36) NOT NULL,
 	`tag_id` varchar(36) NOT NULL,
 	CONSTRAINT PRIMARY KEY(`content_id`,`tag_id`)
 );
@@ -42,8 +41,7 @@ CREATE TABLE `content_translations` (
 --> statement-breakpoint
 CREATE TABLE `content_types` (
 	`key` varchar(50) PRIMARY KEY,
-	`label` varchar(255) NOT NULL,
-	CONSTRAINT `content_type_key_idx` UNIQUE INDEX(`key`)
+	`label` varchar(255) NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE `skills` (

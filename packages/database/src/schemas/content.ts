@@ -1,16 +1,16 @@
-import { boolean, char, int, mysqlTable, timestamp, varchar, index } from "drizzle-orm/mysql-core";
-import { contentTypes } from "./content-types";
+import { boolean, index, int, mysqlTable, timestamp, varchar } from "drizzle-orm/mysql-core";
 import { contentStatuses } from "./content-statuses";
+import { contentTypes } from "./content-types";
 
 export const content = mysqlTable(
 	"content",
 	{
 		id: varchar("id", { length: 36 }).primaryKey(),
 
-		typeKey: char("type_key", { length: 50 })
+		typeKey: varchar("type_key", { length: 50 })
 			.notNull()
 			.references(() => contentTypes.key),
-		statusKey: char("status_key", { length: 50 })
+		statusKey: varchar("status_key", { length: 50 })
 			.notNull()
 			.references(() => contentStatuses.key),
 		defaultLocale: varchar("default_locale", { length: 5 }).notNull(),
