@@ -7,7 +7,6 @@
 		"generate": "tsx scripts/generate.ts",
 		"lint": "eslint .",
 		"check-types": "tsc --noEmit",
-		"build": "tsdown",
 		"start": "node dist/index.js"
 	},
 	"dependencies": {
