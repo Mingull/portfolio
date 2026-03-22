@@ -5,7 +5,8 @@
 	"private": true,
 	"scripts": {
 		"lint": "eslint .",
-		"drizzle": "drizzle-kit"
+		"drizzle": "drizzle-kit",
+		"studio": "drizzle-kit studio"
 	},
 	"dependencies": {
 		"drizzle-orm": "1.0.0-beta.17-67b1795",
