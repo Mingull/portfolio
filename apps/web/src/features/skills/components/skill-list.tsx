@@ -27,9 +27,16 @@ export function SkillList({ skills }: { skills: z.infer<typeof skillContract>[] 
 		const onKeyDown = (e: KeyboardEvent) => e.key === "Escape" && setActive(false);
 		window.addEventListener("keydown", onKeyDown);
 
-		document.body.style.overflow = isActiveSkill ? "hidden" : "auto";
+		const previousOverflow = document.body.style.overflow;
 
-		return () => window.removeEventListener("keydown", onKeyDown);
+		if (isActiveSkill) {
+			document.body.style.overflow = "hidden";
+		}
+
+		return () => {
+			window.removeEventListener("keydown", onKeyDown);
+			document.body.style.overflow = previousOverflow;
+		};
 	}, [isActiveSkill]);
 
 	return (
