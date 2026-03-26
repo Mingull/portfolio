@@ -23,8 +23,7 @@
 			"outputs": [".next/**", "!.next/cache/**", "dist/**", "!.turbo/**", "!.next/server/app/**"]
 		},
 		"portfolio#build": {
-			"dependsOn": ["^build"],
-			"env": ["API_URL"]
+			"dependsOn": ["^build"]
 		},
 		"portfolio-api#build": {
 			"dependsOn": ["^build"]
