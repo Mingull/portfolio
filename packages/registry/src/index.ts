@@ -63,7 +63,7 @@ export function createLibraryRegistry<const TNodes extends Record<string, Regist
 	const cache = new Map<TName, CachedNode<TNode>>();
 	const ttl = options?.ttl ?? 0;
 	const normalizedNameMap = new Map<string, TName>();
-	const resolvedNodes = {} as Record<TName, NodeLoader<TNode>>;
+	const resolvedNodes = Object.create(null) as Record<TName, NodeLoader<TNode>>;
 	const expandedNodes = {} as RegistryNodesWithAliases<TNodes>;
 
 	const registerName = (lookupName: string, targetName: TName) => {
@@ -101,7 +101,7 @@ export function createLibraryRegistry<const TNodes extends Record<string, Regist
 
 	const resolveName = (name: TLookupName | (string & {})): TName | null => {
 		const rawName = String(name);
-		if (rawName in resolvedNodes) {
+		if (Object.hasOwn(resolvedNodes, rawName)) {
 			return rawName as TName;
 		}
 
