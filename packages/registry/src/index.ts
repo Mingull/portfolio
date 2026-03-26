@@ -63,11 +63,11 @@ export function createLibraryRegistry<const TNodes extends Record<string, Regist
 	const cache = new Map<TName, CachedNode<TNode>>();
 	const ttl = options?.ttl ?? 0;
 	const normalizedNameMap = new Map<string, TName>();
-	const resolvedNodes = {} as Record<TName, NodeLoader<TNode>>;
+	const resolvedNodes = Object.create(null) as Record<TName, NodeLoader<TNode>>;
 	const expandedNodes = {} as RegistryNodesWithAliases<TNodes>;
 
 	const registerName = (lookupName: string, targetName: TName) => {
-		const normalizedLookupName = lookupName.toLocaleLowerCase();
+		const normalizedLookupName = lookupName.toLowerCase();
 		const existingTarget = normalizedNameMap.get(normalizedLookupName);
 		if (existingTarget && existingTarget !== targetName) {
 			throw new Error(`Alias conflict: "${lookupName}" maps to both "${existingTarget}" and "${targetName}".`);
@@ -101,11 +101,11 @@ export function createLibraryRegistry<const TNodes extends Record<string, Regist
 
 	const resolveName = (name: TLookupName | (string & {})): TName | null => {
 		const rawName = String(name);
-		if (rawName in resolvedNodes) {
+		if (Object.hasOwn(resolvedNodes, rawName)) {
 			return rawName as TName;
 		}
 
-		return normalizedNameMap.get(rawName.toLocaleLowerCase()) ?? null;
+		return normalizedNameMap.get(rawName.toLowerCase()) ?? null;
 	};
 
 	const loadNode = async (name: TName): Promise<TNode> => {
@@ -137,7 +137,7 @@ export function createLibraryRegistry<const TNodes extends Record<string, Regist
 	const get = (name: TLookupName | (string & {})): Promise<TNode> => {
 		const resolvedName = resolveName(name);
 		if (!resolvedName) {
-			const normalizedName = String(name).toLocaleLowerCase();
+			const normalizedName = String(name).toLowerCase();
 			const error = new Error(`Node "${normalizedName}" is not a valid name.`);
 			options?.onError?.(normalizedName as TLookupName | (string & {}), error);
 			return Promise.reject(error);
