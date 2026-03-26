@@ -69,7 +69,7 @@ export const publicProjectContract = projectResponseContract.extend({
 // ----------------
 // Project List Item & List Contracts
 // ----------------
-export const projectListItemContract = z.object({
+export const projectContract = z.object({
 	content: selectContentSchema.pick({
 		id: true,
 		image: true,
@@ -88,6 +88,6 @@ export const projectListItemContract = z.object({
 });
 
 export const projectListContract = z.object({
-	projects: projectListItemContract.array(),
+	projects: projectContract.array(),
 	nextCursor: z.string().nullable(),
 });
