@@ -274,12 +274,11 @@ async function seedSkillTranslations(db: DBLike, skillTranslations: typeof schem
 }
 
 // Run the seeding script
-await main()
-	.catch((error) => {
-		console.error("Error occurred while seeding the database:", error);
-	})
-	.finally(() => {
-		logStep("Database seeding completed.");
-		// gracefully stop the process after seeding
-		process.exit(0);
-	});
+try {
+	await main();
+	logStep("Database seeding completed.");
+} catch (error) {
+	console.error("Error occurred while seeding the database:", error);
+	// Indicate failure without forcing an immediate hard exit
+	process.exitCode = 1;
+}
