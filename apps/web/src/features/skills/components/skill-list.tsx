@@ -48,7 +48,7 @@ export function SkillList({ skills }: { skills: z.infer<typeof skillContract>[] 
 				{isActiveSkill && <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm" />}
 			</AnimatePresence>
 			<AnimatePresence>
-				{isActiveSkill && active.skill.icon && ActiveIcon ?
+				{isActiveSkill ?
 					<div className="fixed inset-0 z-100 grid place-items-center">
 						<m.button
 							key={`button-${active.translation.name}-${id}`}
