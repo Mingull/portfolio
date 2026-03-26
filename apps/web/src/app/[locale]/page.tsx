@@ -1,7 +1,9 @@
-import Hero from "@/components/hero-section";
-import RecentProjects from "@/components/recent-projects";
-import { ProjectsSkeleton } from "@/features/projects/components/skeleton";
+import { Hero } from "@/components/hero-section";
+import { Skills } from "@/features/skills/components/skills";
+import { RecentPosts } from "@/features/posts/components/recent-posts";
+import { PostsSkeleton } from "@/features/posts/components/skeleton";
 import { Suspense } from "react";
+import { SkillsSkeleton } from "@/features/skills/components/skeleton";
 
 export default async function Home() {
 	return (
@@ -11,12 +13,15 @@ export default async function Home() {
 				{/* <Intro /> */}
 				<Hero />
 
-				{/* <Skills /> */}
-				<Suspense fallback={<ProjectsSkeleton />}>
-					<RecentProjects />
+				<Suspense fallback={<SkillsSkeleton />}>
+					<Skills />
 				</Suspense>
-
-				{/* <RecentPosts /> */}
+				{/* <Suspense fallback={<ProjectsSkeleton />}>
+					<RecentProjects />
+				</Suspense> */}
+				<Suspense fallback={<PostsSkeleton />}>
+					<RecentPosts />
+				</Suspense>
 
 				{/* <GlowingEffectDemoSecond /> */}
 

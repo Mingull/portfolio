@@ -1,4 +1,4 @@
-import { createIcon } from "../icon.tsx";
+import { createIcon } from "../icon";
 
 export const DiscordIcon = createIcon(
 	"discord",
