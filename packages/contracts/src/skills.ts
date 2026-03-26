@@ -57,7 +57,7 @@ export const publicSkillContract = skillResponseContract.extend({
 // ----------------
 // Skill List Item
 // ----------------
-export const skillListItemContract = z.object({
+export const skillContract = z.object({
 	skill: selectSkillSchema.pick({
 		id: true,
 		icon: true,
@@ -65,10 +65,9 @@ export const skillListItemContract = z.object({
 		experienceValue: true,
 		experienceYears: true,
 	}),
-	translation: selectSkillTranslationSchema.pick({
-		locale: true,
-		name: true,
-		summary: true,
+	translation: selectSkillTranslationSchema.omit({
+		id: true,
+		skillId: true,
 	}),
 });
 
@@ -76,5 +75,5 @@ export const skillListItemContract = z.object({
 // Skill List Contract
 // ----------------
 export const skillListContract = z.object({
-	skills: skillListItemContract.array(),
+	skills: skillContract.array(),
 });
