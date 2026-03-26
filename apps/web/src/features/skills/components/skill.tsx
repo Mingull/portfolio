@@ -19,36 +19,47 @@ export const Skill = ({
 	setActive: (value: SetStateAction<boolean | z.infer<typeof skillContract> | null>) => void;
 }) => {
 	const { IconComponent } = useAsyncIcon(skill.skill.icon);
+	const baseId = `skill-${skill.skill.id}-${id}`;
+	const titleId = `${baseId}-title`;
+	const descriptionId = `${baseId}-description`;
 
 	return (
 		<m.li
 			variants={itemVariants}
 			animate="show"
-			layoutId={`card-${skill.translation.name}-${id}`}
+			layoutId={`card-${baseId}`}
 			onClick={() => setActive(skill)}
 			className="item bg-card text-card-foreground dark:hover:bg-primary/5 dark:hover:text-primary-foreground hover:bg-primary/5 hover:border-primary focus-within:border-primary focus-within:bg-primary/5 flex cursor-pointer flex-col gap-6 rounded-xl border p-4 py-6 shadow-sm transition-shadow duration-300 hover:shadow-md"
 			aria-label="Click to view skill details"
-			aria-labelledby={`title-${skill.translation.name}-${id}`}
-			aria-describedby={`description-${skill.translation.summary}-${id}`}
+			aria-labelledby={titleId}
+			aria-describedby={descriptionId}
 		>
-			<a href={`#${skill.translation.name}`} className="sr-only">
+			<a href={`#${titleId}`} className="sr-only">
 				{skill.translation.name} - {skill.translation.summary}
 			</a>
 			<div className="flex w-full flex-col gap-4">
 				{IconComponent && (
-					<m.div layoutId={`image-${skill.translation.name}-${id}`}>
+					<m.div layoutId={`image-${baseId}`}>
 						<IconComponent className="h-36 w-full rounded-lg object-cover object-top" />
 					</m.div>
 				)}
 				<div className="flex flex-col items-center justify-center">
-					<m.h3 layoutId={`title-${skill.translation.name}-${id}`} className="text-foreground text-center text-base font-medium">
+					<m.h3
+						layoutId={`title-${baseId}`}
+						id={titleId}
+						className="text-foreground text-center text-base font-medium"
+					>
 						{skill.translation.name}
 					</m.h3>
-					<m.p layoutId={`description-${skill.translation.summary}-${id}`} className="text-muted-foreground text-center text-base">
+					<m.p
+						layoutId={`description-${baseId}`}
+						id={descriptionId}
+						className="text-muted-foreground text-center text-base"
+					>
 						{skill.translation.summary}
 					</m.p>
 					<m.a
-						layoutId={`cta-${skill.translation.ctaText}-${id}`}
+						layoutId={`cta-${baseId}`}
 						href={skill.translation.ctaLink}
 						target="_blank"
 						className={cn(buttonVariants({ size: "sm", className: "hidden" }))}
