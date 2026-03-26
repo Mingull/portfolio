@@ -1,8 +1,7 @@
 "use client";
-import { GitHubIcon, MingullIcon } from "@mingull/icons";
+import { GitHubIcon, LinkedInIcon, MingullIcon } from "@mingull/icons";
 import { useTranslations } from "next-intl";
 import { Navigation } from "./type";
-import { LinkedinIcon } from "lucide-react";
 
 export const useNavigation = (): Navigation => {
 	const t = useTranslations();
@@ -53,7 +52,7 @@ export const useNavigation = (): Navigation => {
 						label: "LinkedIn",
 						href: "https://linkedin.com/in/niels-plug",
 						description: "Connect with me on LinkedIn",
-						icon: LinkedinIcon,
+						icon: LinkedInIcon,
 						external: true,
 						iconOnly: true,
 					},

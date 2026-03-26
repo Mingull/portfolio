@@ -6,26 +6,38 @@
 		"BASE_API_URL",
 		"FULL_API_URL",
 		"DATABASE_URL",
-		"NEXT_PUBLIC_BETTER_AUTH_URL",
 		"BETTER_AUTH_SECRET",
 		"DISCORD_CLIENT_ID",
 		"DISCORD_CLIENT_SECRET",
 		"GITHUB_CLIENT_ID",
 		"GITHUB_CLIENT_SECRET",
 		"GOOGLE_CLIENT_ID",
-		"GOOGLE_CLIENT_SECRET"
+		"GOOGLE_CLIENT_SECRET",
+		"NEXT_PUBLIC_BETTER_AUTH_URL"
 	],
+	"globalDependencies": [".env"],
 	"tasks": {
 		"build": {
 			"dependsOn": ["^build"],
 			"inputs": ["$TURBO_DEFAULT$", ".env*"],
 			"outputs": [".next/**", "!.next/cache/**", "dist/**", "!.turbo/**", "!.next/server/app/**"]
 		},
+		"portfolio#build": {
+			"dependsOn": ["^build"],
+			"env": ["API_URL"]
+		},
+		"portfolio-api#build": {
+			"dependsOn": ["^build"]
+		},
 		"lint": {
 			"dependsOn": ["^lint"]
 		},
 		"check-types": {
 			"dependsOn": ["^check-types"]
+		},
+		"test": {
+			"dependsOn": ["^test"],
+			"inputs": ["$TURBO_DEFAULT$", ".env*"]
 		},
 		"dev": {
 			"persistent": true,

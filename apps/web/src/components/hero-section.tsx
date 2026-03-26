@@ -7,7 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Balancer from "react-wrap-balancer";
 
-export default function Hero() {
+export function Hero() {
 	const t = useTranslations("hero");
 	const typedText = useTypewriter(["Niels", "Mingull"], 100, 2500);
 	const container = {
