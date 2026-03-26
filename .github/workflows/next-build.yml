@@ -31,6 +31,7 @@ jobs:
 
     database-migrations:
         runs-on: ubuntu-latest
+        needs: test
         timeout-minutes: 20
         env:
             DATABASE_URL: mysql://root:root@127.0.0.1:3306/portfolio
