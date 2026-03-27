@@ -1,5 +1,5 @@
-import { Icon } from "./icon.tsx";
-import { registry } from "./registry.ts";
+import { Icon } from "./icon";
+import { registry } from "./registry";
 
 /**
  * Get an Promise based icon by name.

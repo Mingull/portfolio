@@ -5,8 +5,7 @@
 	"private": true,
 	"scripts": {
 		"lint": "eslint .",
-		"drizzle": "drizzle-kit",
-		"studio": "drizzle-kit studio"
+		"drizzle": "drizzle-kit"
 	},
 	"dependencies": {
 		"drizzle-orm": "1.0.0-beta.17-67b1795",
@@ -20,10 +19,11 @@
 		"@types/node": "^25.5.0",
 		"dotenv": "^17.3.1",
 		"drizzle-kit": "1.0.0-beta.17-67b1795",
-		"eslint": "^10.0.3",
-		"tsdown": "^0.21.4"
+		"eslint": "^10.1.0",
+		"tsdown": "^0.21.5"
 	},
 	"exports": {
-		".": "./src/index.ts"
+		".": "./src/index.ts",
+		"./client": "./src/client.ts"
 	}
 }
