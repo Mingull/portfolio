@@ -1,3 +1,5 @@
+"use client";
+
 import { Link } from "@/i18n/navigation";
 import { useFormatDate } from "@/lib/utils";
 import { postsListItemContract } from "@mingull/contracts/posts";
