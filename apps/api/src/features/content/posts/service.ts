@@ -15,12 +15,10 @@ export const createPostService = (postRepo: PostRepository) => ({
 				}
 
 				return {
-					content: {
-						...row,
-						tags: row.tags.map((tag) => tag.tag),
-						image: row.image ? `${env.BASE_API_URL}${row.image}` : null,
-					},
-					translation,
+					...row,
+					tags: row.tags.map((tag) => tag.tag),
+					image: row.image ? `${env.BASE_API_URL}${row.image}` : null,
+					...translation,
 				};
 			})
 			.filter((post) => post !== null);
@@ -40,12 +38,10 @@ export const createPostService = (postRepo: PostRepository) => ({
 		if (!translation) return null;
 
 		return postContract.parseAsync({
-			content: {
-				...row,
-				tags: row.tags.map((tag) => tag.tag),
-				image: row.image ? `${env.BASE_API_URL}${row.image}` : null,
-			},
-			translation,
+			...row,
+			tags: row.tags.map((tag) => tag.tag),
+			image: row.image ? `${env.BASE_API_URL}${row.image}` : null,
+			...translation,
 		});
 	},
 });

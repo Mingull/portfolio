@@ -23,14 +23,10 @@ export const GET = async (req: NextRequest, ctx: RouteContext<"/v1/content/posts
 	}
 	const { slug } = await ctx.params;
 
-	const { data, error } = await attempt<z.infer<typeof postContract> | null, Error | ZodError>(di.postService.getPostBySlug({ locale, slug }));
+	const { data, error } = await attempt<z.infer<typeof postContract> | null, ZodError>(di.postService.getPostBySlug({ locale, slug }));
 
 	if (error instanceof ZodError) {
-		return json(badRequest({ message: "Invalid post data", title: "Validation Error", type: "validation", fields: { error: JSON.parse(error.message) } }));
-	}
-
-	if (error instanceof Error) {
-		return json(internalServerError({ message: "Failed to fetch post", title: "Internal Server Error", type: "InternalServerError", fields: { error: error.message } }));
+		return json(badRequest({ message: "Invalid post data", title: "Validation Error", type: "validation", fields: { error: z.prettifyError(error) } }));
 	}
 
 	if (!data) {
@@ -42,10 +38,7 @@ export const GET = async (req: NextRequest, ctx: RouteContext<"/v1/content/posts
 			message: "Post fetched successfully",
 			data: {
 				...data,
-				content: {
-					...data.content,
-					image: data.content.image ? `${env.BASE_API_URL}${data.content.image}` : null,
-				},
+				image: data.image ? `${env.BASE_API_URL}${data.image}` : null,
 			},
 		}),
 	);

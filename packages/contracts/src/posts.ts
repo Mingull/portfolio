@@ -75,7 +75,7 @@ export const publicPostContract = postResponseContract.extend({
 // Post & List Contracts
 // ----------------
 export const postContract = z.object({
-	content: selectContentSchema
+	...selectContentSchema
 		.omit({
 			typeKey: true, // Remove typeKey from the content object
 		})
@@ -93,14 +93,17 @@ export const postContract = z.object({
 			}),
 			tags: selectTagsSchema.omit({ id: true }).array(),
 			status: selectContentStatusesSchema.pick({ key: true, label: true }),
-		}),
-	translation: selectContentTranslationSchema.omit({
-		id: true,
-		contentId: true,
-	}),
+		}).shape,
+	...selectContentTranslationSchema.omit({ id: true, contentId: true }).shape,
+});
+
+export const postsListItemContract = postContract.omit({
+	seoDescription: true,
+	seoTitle: true,
+	body: true,
 });
 
 export const postListContract = z.object({
-	posts: postContract.array(),
+	posts: postsListItemContract.array(),
 	nextCursor: z.string().nullable(),
 });

@@ -1,10 +1,10 @@
 import { di } from "@/lib/inject";
 import { postListContract } from "@mingull/contracts/posts";
 import { attempt } from "@mingull/error";
-import { badRequest, internalServerError, ok } from "@mingull/http";
+import { badRequest, internalServerError, noContent, ok } from "@mingull/http";
 import { json } from "@mingull/http/next";
 import { NextRequest } from "next/server";
-import { z } from "zod";
+import { z, ZodError } from "zod";
 
 export const GET = async (req: NextRequest) => {
 	const locale = req.nextUrl.searchParams.get("locale");
@@ -22,15 +22,16 @@ export const GET = async (req: NextRequest) => {
 			}),
 		);
 	}
-	const { data, error } = await attempt<z.infer<typeof postListContract>, Error>(di.postService.getPosts({ locale, cursor, limit: limit ? parseInt(limit) : undefined }));
+	const { data, error } = await attempt<z.infer<typeof postListContract>, ZodError>(di.postService.getPosts({ locale, cursor, limit: limit ? parseInt(limit) : undefined }));
 
-	if (error) {
+	if (error instanceof ZodError) {
+		return json(badRequest({ message: "Invalid post data", title: "Validation Error", type: "validation", fields: { error: z.treeifyError(error) } }));
+	}
+
+	if (!data) {
 		return json(
-			internalServerError({
+			noContent({
 				message: "Failed to fetch posts",
-				title: "Internal Server Error",
-				type: "InternalServerError",
-				fields: { error: error.message },
 			}),
 		);
 	}

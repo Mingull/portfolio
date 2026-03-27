@@ -28,17 +28,11 @@ export const getPosts = async (locale: Locale, limit?: number): Promise<PostsRes
 	const normalizedData = {
 		...result.data,
 		posts: result.data.posts.map((post) => {
-			const publishedAt = post.content.publishedAt;
+			const publishedAt = post.publishedAt;
 
 			return {
 				...post,
-				content: {
-					...post.content,
-					publishedAt:
-						typeof publishedAt === "string" || typeof publishedAt === "number"
-							? new Date(publishedAt)
-							: publishedAt,
-				},
+				publishedAt: typeof publishedAt === "string" || typeof publishedAt === "number" ? new Date(publishedAt) : publishedAt,
 			};
 		}),
 	};
