@@ -1,11 +1,9 @@
 "use client";
 import { SearchBar } from "@/components/search-bar";
-import { postContract } from "@mingull/contracts/posts";
 import { useQueryState } from "nuqs";
 import { useMemo, useState } from "react";
-import { z } from "zod";
-import { PostItem } from "./post";
 import { PostsResponse } from "../types";
+import { PostItem } from "./post";
 
 export function Posts({ posts }: { posts: PostsResponse["posts"] }) {
 	const [query, setQuery] = useQueryState("q", { defaultValue: "" });
