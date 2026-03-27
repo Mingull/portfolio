@@ -1,4 +1,4 @@
-import { Skeleton } from "@mingull/ui/components/skeleton";
+import { Skeleton } from "@mingull/ui/c/skeleton";
 
 export function PostsSkeleton() {
 	return (
