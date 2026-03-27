@@ -29,6 +29,17 @@ export const GET = async (req: NextRequest, ctx: RouteContext<"/v1/content/posts
 		return json(badRequest({ message: "Invalid post data", title: "Validation Error", type: "validation", fields: { error: z.prettifyError(error) } }));
 	}
 
+	if (error) {
+		return json(
+			internalServerError({
+				message: "Failed to fetch post",
+				title: "Internal Server Error",
+				type: "InternalServerError",
+				fields: { error: error.message },
+			}),
+		);
+	}
+
 	if (!data) {
 		return json(notFound({ message: "Post not found", title: "Not Found", type: "NotFound", fields: { slug: "No post found with the given slug" } }));
 	}

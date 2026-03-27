@@ -1,7 +1,7 @@
 import { di } from "@/lib/inject";
 import { postListContract } from "@mingull/contracts/posts";
 import { attempt } from "@mingull/error";
-import { badRequest, noContent, ok } from "@mingull/http";
+import { badRequest, internalServerError, noContent, ok } from "@mingull/http";
 import { json } from "@mingull/http/next";
 import { NextRequest } from "next/server";
 import { z, ZodError } from "zod";
@@ -40,10 +40,21 @@ export const GET = async (req: NextRequest) => {
 		return json(badRequest({ message: "Invalid post data", title: "Validation Error", type: "validation", fields: { error: z.treeifyError(error) } }));
 	}
 
+	if (error) {
+		return json(
+			internalServerError({
+				message: "Failed to fetch posts",
+				title: "Internal Server Error",
+				type: "InternalServerError",
+				fields: { error: error.message },
+			}),
+		);
+	}
+
 	if (!data) {
 		return json(
 			noContent({
-				message: "Failed to fetch posts",
+				message: "No posts found",
 			}),
 		);
 	}
