@@ -2,7 +2,6 @@ import { CONTENT_TYPES } from "@mingull/database";
 import type { DBLike } from "@mingull/database/client";
 import { CursorKey } from "../utils";
 
-
 export const createPostRepository = (db: DBLike) => ({
 	findMany: async ({ locale, cursor, limit = 10, order = "desc" }: { locale: string; cursor?: CursorKey; limit?: number; order?: "asc" | "desc" }) => {
 		const rows = await db.query.content.findMany({
@@ -15,7 +14,7 @@ export const createPostRepository = (db: DBLike) => ({
 				:	{
 						typeKey: { eq: CONTENT_TYPES.POST },
 					},
-			orderBy: { publishedAt: order, id: order },
+			orderBy: { publishedAt: order },
 			limit: limit + 1,
 			with: {
 				translations: {
@@ -71,7 +70,12 @@ export const createPostRepository = (db: DBLike) => ({
 				},
 			},
 			with: {
-				translations: { limit: 1 },
+				translations: {
+					where: {
+						locale: { eq: locale },
+					},
+					limit: 1,
+				},
 				type: true,
 				status: true,
 				tags: {
