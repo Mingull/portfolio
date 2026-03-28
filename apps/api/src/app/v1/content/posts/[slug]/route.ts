@@ -35,7 +35,7 @@ export const GET = async (req: NextRequest, ctx: RouteContext<"/v1/content/posts
 				message: "Failed to fetch post",
 				title: "Internal Server Error",
 				type: "InternalServerError",
-				fields: { error: error.message },
+				fields: { error: (error as unknown as Error).message },
 			}),
 		);
 	}
@@ -47,10 +47,7 @@ export const GET = async (req: NextRequest, ctx: RouteContext<"/v1/content/posts
 	return json(
 		ok({
 			message: "Post fetched successfully",
-			data: {
-				...data,
-				image: data.image ? `${env.BASE_API_URL}${data.image}` : null,
-			},
+			data,
 		}),
 	);
 };

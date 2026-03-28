@@ -46,7 +46,7 @@ export const GET = async (req: NextRequest) => {
 				message: "Failed to fetch posts",
 				title: "Internal Server Error",
 				type: "InternalServerError",
-				fields: { error: error.message },
+				fields: { error: (error as unknown as Error).message },
 			}),
 		);
 	}
