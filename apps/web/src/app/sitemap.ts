@@ -1,12 +1,12 @@
-import { getPosts } from "@/data/posts/get-posts";
-import { getProjects } from "@/data/projects/get-projects";
-import { env } from "@/env/server";
+import { getPosts } from "@/features/posts/actions/get-posts";
+import { getProjects } from "@/features/projects/actions/get-projects";
+import { env } from "@/lib/env";
 import { getPathname } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
 import { MetadataRoute } from "next";
 import { Locale } from "next-intl";
 
-const baseUrl = env.PORTFOLIO_BASE_URL;
+const baseUrl = env.BASE_URL;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 	const allPosts = (await Promise.all(routing.locales.map(getPosts))).flat();
@@ -43,22 +43,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 		.map(([slug, lastModified]) => getEntries({ pathname: "/projects/[slug]", params: { slug } }, { lastModified }))
 		.flat();
 
-	return [
-		...getEntries("/"),
-		...getEntries("/contact"),
-		...getEntries("/posts"),
-		...postsSlugsEntries,
-		...getEntries("/projects"),
-		...projectsSlugsEntries,
-	];
+	return [...getEntries("/"), ...getEntries("/contact"), ...getEntries("/posts"), ...postsSlugsEntries, ...getEntries("/projects"), ...projectsSlugsEntries];
 }
 
 type Href = Parameters<typeof getPathname>[0]["href"];
 
-function getEntries(
-	href: Href,
-	opts?: Omit<MetadataRoute.Sitemap[number], "url" | "alternates">,
-): MetadataRoute.Sitemap {
+function getEntries(href: Href, opts?: Omit<MetadataRoute.Sitemap[number], "url" | "alternates">): MetadataRoute.Sitemap {
 	return routing.locales.map((locale) => ({
 		url: getUrl(href, locale),
 		alternates: {

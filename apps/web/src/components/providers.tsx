@@ -1,6 +1,7 @@
 "use client";
 import { Toaster } from "@mingull/ui/c/sonner";
 import { ThemeProvider, useTheme } from "next-themes";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 export default function Providers({
 	children,
@@ -9,7 +10,7 @@ export default function Providers({
 }>) {
 	return (
 		<ThemeProvider enableSystem attribute="class" defaultTheme="system" disableTransitionOnChange>
-			{children}
+			<NuqsAdapter>{children}</NuqsAdapter>
 			<ToastProvider />
 		</ThemeProvider>
 	);

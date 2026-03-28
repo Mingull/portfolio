@@ -1,6 +1,6 @@
-import { createIcon } from "../icon.tsx";
+import { createIcon } from "../icon";
 
-export const LinkedinIcon = createIcon(
+export const LinkedInIcon = createIcon(
 	"linkedin",
 	[
 		[

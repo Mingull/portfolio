@@ -23,8 +23,10 @@ export function useTypewriter(words: string[], typingSpeed = 100, pause = 2000) 
 		if (!isDeleting && text === current) {
 			timeout = setTimeout(() => setIsDeleting(true), pause);
 		} else if (isDeleting && text === "") {
-			setIsDeleting(false); // Needs to: Avoid calling setState() directly within an effect
-			setIndex((prev) => (prev + 1) % words.length);
+			timeout = setTimeout(() => {
+				setIsDeleting(false);
+				setIndex((prev) => (prev + 1) % words.length);
+			}, 0);
 		}
 
 		return () => clearTimeout(timeout);

@@ -1,11 +1,15 @@
 import { defineRelations } from "drizzle-orm";
 import * as schemas from "./schemas/index";
 
-export const relations = defineRelations({ ...schemas }, (r) => ({
-	tags: {
-		contentTags: r.many.contentTags({
-			from: r.tags.id,
-			to: r.contentTags.tagId,
+export const relations = defineRelations(schemas, (r) => ({
+	contentTags: {
+		content: r.one.content({
+			from: r.contentTags.contentId,
+			to: r.content.id,
+		}),
+		tag: r.one.tags({
+			from: r.contentTags.tagId,
+			to: r.tags.id,
 		}),
 	},
 	content: {
