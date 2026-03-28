@@ -1,6 +1,6 @@
 "use client";
-import { Button } from "@mingull/ui/components/button";
-import { Input } from "@mingull/ui/components/input";
+import { Button } from "@mingull/ui/c/button";
+import { Input } from "@mingull/ui/c/input";
 import { XIcon } from "lucide-react";
 
 export function SearchBar({ query, placeholder, onQueryChange }: { query: string; placeholder?: string; onQueryChange: (query: string) => void }) {
