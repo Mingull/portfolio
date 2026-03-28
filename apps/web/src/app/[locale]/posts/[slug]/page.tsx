@@ -1,10 +1,11 @@
 import MDXContent from "@/components/mdx-content";
-import { getPostBySlug } from "@/data/posts/get-post-by-slug";
+import { getPostBySlug } from "@/features/posts/actions/get-post-by-slug";
 import { formatDate } from "@/lib/utils.server";
 import { Button } from "@mingull/ui/c/button";
 import { Separator } from "@mingull/ui/c/separator";
 import { Typography } from "@mingull/ui/c/typography";
 import { ArrowLeftIcon } from "lucide-react";
+import { Locale } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -22,7 +23,7 @@ import Balancer from "react-wrap-balancer";
 
 export default async function Post({ params }: PageProps<"/[locale]/posts/[slug]">) {
 	const { slug, locale } = await params;
-	const post = await getPostBySlug(locale, slug);
+	const post = await getPostBySlug(locale as Locale, slug);
 
 	if (!post) notFound();
 

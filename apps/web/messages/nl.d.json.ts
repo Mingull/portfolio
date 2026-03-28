@@ -7,7 +7,8 @@ declare const messages: {
 			"title": "Berichten",
 			"recent": "Recente Berichten",
 			"back": "Terug naar berichten",
-			"view-all": "Bekijk alle berichten"
+			"view-all": "Bekijk alle berichten",
+			"no-recent-posts": "Geen recente berichten om weer te geven"
 		},
 		"projects": {
 			"title": "Projecten",

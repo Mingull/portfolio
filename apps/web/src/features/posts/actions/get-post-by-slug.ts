@@ -1,21 +1,19 @@
 "use server";
 
+import { PostResponse } from "@/features/posts/types";
 import { env } from "@/lib/env";
-import { postSchema } from "@/schemas/posts";
+import { postContract } from "@mingull/contracts/posts";
 import { phraseOf, statusOf, type ApiResult } from "@mingull/http";
 import { Locale } from "next-intl";
-import { z } from "zod";
 
-type Post = z.infer<typeof postSchema>;
-
-export const getPostBySlug = async (locale: Locale, slug: string): Promise<Post | null> => {
-	const result = await fetch(`${env.API_URL}/portfolio/content/posts/${slug}?locale=${locale}`).then((res) => res.json() as Promise<ApiResult<Post>>);
+export const getPostBySlug = async (locale: Locale, slug: string): Promise<PostResponse | null> => {
+	const result = await fetch(`${env.API_URL}/portfolio/content/posts/${slug}?locale=${locale}`).then((res) => res.json() as Promise<ApiResult<PostResponse>>);
 
 	if (result?.status !== statusOf("Ok") || result?.statusCode !== phraseOf("Ok")) {
 		console.log("Error fetching posts:", result?.message);
 		return null;
 	}
-	const parsed = postSchema.safeParse(result?.data);
+	const parsed = postContract.safeParse(result?.data);
 
 	if (!parsed.success) {
 		console.error("Invalid post metadata received:", parsed.error);

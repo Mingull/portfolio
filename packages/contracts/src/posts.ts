@@ -3,7 +3,9 @@ import {
 	insertContentSchema,
 	insertContentTranslationSchema,
 	selectContentSchema,
+	selectContentStatusesSchema,
 	selectContentTranslationSchema,
+	selectTagsSchema,
 	updateContentSchema,
 	updateContentTranslationSchema,
 } from "@mingull/database";
@@ -73,22 +75,35 @@ export const publicPostContract = postResponseContract.extend({
 // Post & List Contracts
 // ----------------
 export const postContract = z.object({
-	content: selectContentSchema.pick({
-		id: true,
-		readingTime: true,
-		featured: true,
-		image: true,
-		publishedAt: true,
-	}),
-	translation: selectContentTranslationSchema.pick({
-		slug: true,
-		locale: true,
-		title: true,
-		summary: true,
-	}),
+	...selectContentSchema
+		.omit({
+			typeKey: true, // Remove typeKey from the content object
+		})
+		.pick({
+			id: true,
+			readingTime: true,
+			featured: true,
+			image: true,
+			publishedAt: true,
+		})
+		.extend({
+			type: z.object({
+				key: z.string(),
+				label: z.string(),
+			}),
+			tags: selectTagsSchema.omit({ id: true }).array(),
+			status: selectContentStatusesSchema.pick({ key: true, label: true }),
+		}).shape,
+	...selectContentTranslationSchema.omit({ id: true, contentId: true }).shape,
+});
+
+export const postsListItemContract = postContract.omit({
+	seoDescription: true,
+	seoTitle: true,
+	body: true,
 });
 
 export const postListContract = z.object({
-	posts: postContract.array(),
+	posts: postsListItemContract.array(),
 	nextCursor: z.string().nullable(),
 });

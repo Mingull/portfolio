@@ -7,7 +7,8 @@ declare const messages: {
 			"title": "Posts",
 			"recent": "Recent Posts",
 			"back": "Back to posts",
-			"view-all": "View all posts"
+			"view-all": "View all posts",
+			"no-recent-posts": "No recent posts to display"
 		},
 		"projects": {
 			"title": "Projects",
