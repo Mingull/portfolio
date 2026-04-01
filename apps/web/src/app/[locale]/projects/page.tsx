@@ -1,10 +1,10 @@
-import { Projects } from "@/components/projects";
+import { Projects } from "@/features/projects/components/projects";
 import { getProjects } from "@/features/projects/actions/get-projects";
 import { getLocale } from "next-intl/server";
 
 export default async function ProjectsPage() {
 	const locale = await getLocale();
-	const projects = await getProjects(locale);
+	const { projects } = await getProjects(locale);
 
 	const isEmpty = projects.length === 0;
 

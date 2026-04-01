@@ -22,10 +22,9 @@ export default async function Project({ params }: { params: Promise<{ slug: stri
 
 	if (!project) notFound();
 
-	const { metadata, content } = project;
-	const { title, image, author, publishedAt } = metadata;
+	const { title, image, author, publishedAt, body } = project;
 
-	const isScheduled = !publishedAt || new Date(publishedAt).getTime() > Date.now();
+	const isScheduled = !publishedAt || new Date(publishedAt).getTime() > new Date().getTime();
 
 	if (isScheduled) {
 		return (
@@ -61,7 +60,7 @@ export default async function Project({ params }: { params: Promise<{ slug: stri
 				</header>
 
 				<main className="prose dark:prose-invert mt-16">
-					<MDXContent source={content} />
+					<MDXContent source={body} />
 				</main>
 
 				{/* <footer className="mt-16">

@@ -15,12 +15,10 @@ export const createProjectService = (projectRepo: ProjectRepository) => ({
 				}
 
 				return {
-					content: {
-						...row,
-						tags: row.tags.map((tag) => tag.tag),
-						image: row.image ? `${env.BASE_API_URL}${row.image}` : null,
-					},
-					translation,
+					...row,
+					tags: row.tags.map((tag) => tag.tag),
+					image: row.image ? `${env.BASE_API_URL}${row.image}` : null,
+					...translation,
 				};
 			})
 			.filter((post) => post !== null);
@@ -40,12 +38,10 @@ export const createProjectService = (projectRepo: ProjectRepository) => ({
 		if (!translation) return null;
 
 		return projectContract.parseAsync({
-			content: {
-				...row,
-				tags: row.tags.map((tag) => tag.tag),
-				image: row.image ? `${env.BASE_API_URL}${row.image}` : null,
-			},
-			translation,
+			...row,
+			tags: row.tags.map((tag) => tag.tag),
+			image: row.image ? `${env.BASE_API_URL}${row.image}` : null,
+			...translation,
 		});
 	},
 });

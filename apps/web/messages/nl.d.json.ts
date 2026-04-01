@@ -14,7 +14,8 @@ declare const messages: {
 			"title": "Projecten",
 			"recent": "Recente Projecten",
 			"back": "Terug naar projecten",
-			"view-all": "Bekijk alle projecten"
+			"view-all": "Bekijk alle projecten",
+			"no-recent-projects": "Geen recente projecten om weer te geven"
 		},
 		"skills": {
 			"title": "Vaardigheden",

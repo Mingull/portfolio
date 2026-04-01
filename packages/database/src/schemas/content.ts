@@ -13,6 +13,7 @@ export const content = mysqlTable(
 		statusKey: varchar("status_key", { length: 50 })
 			.notNull()
 			.references(() => contentStatuses.key),
+		author: varchar("author", { length: 255 }).notNull(),
 		defaultLocale: varchar("default_locale", { length: 5 }).notNull(),
 		image: varchar("image", { length: 255 }),
 		readingTime: int("reading_time"),

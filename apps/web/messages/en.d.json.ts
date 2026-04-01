@@ -14,7 +14,8 @@ declare const messages: {
 			"title": "Projects",
 			"recent": "Recent Projects",
 			"back": "Back to projects",
-			"view-all": "View all projects"
+			"view-all": "View all projects",
+			"no-recent-projects": "No recent projects to display"
 		},
 		"skills": {
 			"title": "Skills",

@@ -1,46 +1,59 @@
-// import { env } from "@/lib/env";
-// import { attempt } from "@mingull/error";
-// import { badRequest, internalServerError, ok } from "@mingull/http";
-// import { json } from "@mingull/http/next";
-// import { NextRequest } from "next/server";
+import { di } from "@/lib/inject";
+import { projectListContract } from "@mingull/contracts/projects";
+import { attempt } from "@mingull/error";
+import { badRequest, internalServerError, noContent, ok } from "@mingull/http";
+import { json } from "@mingull/http/next";
+import { NextRequest } from "next/server";
+import { z, ZodError } from "zod";
 
-// export const GET = async (req: NextRequest) => {
-// 	const locale = req.nextUrl.searchParams.get("locale");
-// 	const limit = req.nextUrl.searchParams.get("limit");
-// 	if (!locale || (limit && isNaN(parseInt(limit)))) {
-// 		return json(
-// 			badRequest({
-// 				message: "Locale query parameter is required",
-// 				title: "Bad Request",
-// 				type: "BadRequest",
-// 				fields: {
-// 					locale: "This field is required",
-// 				},
-// 			}),
-// 		);
-// 	}
-// 	const { data, error } = await attempt<ProjectMetadata[], Error>(getProjects({ locale, limit: limit ? parseInt(limit) : undefined }));
+export const GET = async (req: NextRequest) => {
+	const locale = req.nextUrl.searchParams.get("locale");
+	const limit = req.nextUrl.searchParams.get("limit");
+	const cursor = req.nextUrl.searchParams.get("cursor") ?? undefined;
 
-// 	if (error) {
-// 		return json(
-// 			internalServerError({
-// 				message: "Failed to fetch projects",
-// 				title: "Internal Server Error",
-// 				type: "InternalServerError",
-// 				fields: {
-// 					error: error.message,
-// 				},
-// 			}),
-// 		);
-// 	}
+	const fieldErrors: Record<string, string> = {};
+	const messages: string[] = [];
 
-// 	return json(
-// 		ok({
-// 			message: "Projects fetched successfully",
-// 			data: data?.map((project) => ({
-// 				...project,
-// 				image: project.image ? `${env.BASE_API_URL}${project.image}` : null,
-// 			})),
-// 		}),
-// 	);
-// };
+	if (!locale) {
+		fieldErrors.locale = "This field is required";
+		messages.push("Locale query parameter is required");
+	}
+	if (limit && isNaN(parseInt(limit))) {
+		fieldErrors.limit = "Limit query parameter must be a valid number";
+		messages.push("Limit query parameter must be a valid number");
+	}
+	if (Object.keys(fieldErrors).length > 0)
+		return json(
+			badRequest({
+				message: messages.join("; "),
+				title: "Bad Request",
+				type: "BadRequest",
+				fields: fieldErrors,
+			}),
+		);
+
+	const { data, error } = await attempt<z.infer<typeof projectListContract>, ZodError>(
+		di.projectService.getProjects({ locale: locale!, cursor, limit: limit ? parseInt(limit) : undefined }),
+	);
+
+	if (error instanceof ZodError) {
+		return json(badRequest({ message: "Invalid project data", title: "Validation Error", type: "validation", fields: { error: z.treeifyError(error) } }));
+	}
+
+	if (error) {
+		return json(
+			internalServerError({
+				message: "Failed to fetch projects",
+				title: "Internal Server Error",
+				type: "InternalServerError",
+				fields: { error: (error as unknown as Error).message },
+			}),
+		);
+	}
+
+	if (!data) {
+		return json(noContent({ message: "No projects found" }));
+	}
+
+	return json(ok({ message: "Projects fetched successfully", data }));
+};

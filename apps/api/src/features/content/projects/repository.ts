@@ -56,13 +56,6 @@ export const createProjectRepository = (db: DBLike) => ({
 	},
 	findBySlug: async (locale: string, slug: string) => {
 		const post = await db.query.content.findFirst({
-			columns: {
-				id: true,
-				readingTime: true,
-				featured: true,
-				image: true,
-				publishedAt: true,
-			},
 			where: {
 				translations: {
 					locale: { eq: locale },
