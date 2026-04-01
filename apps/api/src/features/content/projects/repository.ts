@@ -64,7 +64,12 @@ export const createProjectRepository = (db: DBLike) => ({
 				typeKey: { eq: CONTENT_TYPES.PROJECT },
 			},
 			with: {
-				translations: { limit: 1 },
+				translations: {
+					where: {
+						locale: { eq: locale },
+					},
+					limit: 1,
+				},
 				type: true,
 				status: true,
 				tags: {

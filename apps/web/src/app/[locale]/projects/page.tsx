@@ -16,11 +16,6 @@ export default async function ProjectsPage() {
 				{
 					isEmpty ?
 						<p className="text-muted-foreground">No projects found.</p>
-						// <ul className="flex flex-col gap-8">
-						// 	<li className="border-border flex flex-col justify-between gap-x-4 gap-y-1 rounded border p-4 sm:flex-row">
-						// 		<p className="text-muted-foreground">An error occurred while fetching posts.</p>
-						// 	</li>
-						// </ul>
 					:	<Projects projects={projects} />
 				}
 			</div>
