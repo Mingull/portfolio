@@ -16,7 +16,7 @@ const robotoMonoFont = fs.readFileSync(robotoMonoPath);
 
 export default async function Image({ params }: { params: { locale: Locale } }) {
 	const { locale } = params;
-	const projects = await getProjects(locale);
+	const { projects } = await getProjects(locale);
 
 	return new ImageResponse(
 		<div

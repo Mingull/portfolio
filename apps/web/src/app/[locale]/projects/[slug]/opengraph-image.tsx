@@ -54,7 +54,7 @@ export default async function Image({ params }: { params: Promise<Readonly<{ loc
 				textAlign: "center",
 			}}
 		>
-			<h1 style={{ fontSize: 48, fontWeight: 800, margin: 0, fontFamily: "Poppins" }}>{project.metadata.title}</h1>
+			<h1 style={{ fontSize: 48, fontWeight: 800, margin: 0, fontFamily: "Poppins" }}>{project.title}</h1>
 			<p
 				style={{
 					fontSize: 30,
@@ -65,13 +65,13 @@ export default async function Image({ params }: { params: Promise<Readonly<{ loc
 					fontFamily: "Roboto Mono",
 				}}
 			>
-				{project.metadata.author}
-				{project.metadata.publishedAt ? `|${new Date(project.metadata.publishedAt).toLocaleDateString(locale)}` : ""}
+				{project.author}
+				{project.publishedAt ? `|${new Date(project.publishedAt).toLocaleDateString(locale)}` : ""}
 			</p>
 			<div style={{ display: "flex" }}>
-				{project.metadata.tags?.slice(0, 4).map((tag) => (
+				{project.tags?.slice(0, 4).map((tag) => (
 					<span
-						key={tag}
+						key={tag.slug}
 						style={{
 							fontSize: 16,
 							fontWeight: 500,
@@ -82,7 +82,7 @@ export default async function Image({ params }: { params: Promise<Readonly<{ loc
 							margin: "0 0.5rem",
 						}}
 					>
-						#{tag}
+						#{tag.name}
 					</span>
 				))}
 			</div>
