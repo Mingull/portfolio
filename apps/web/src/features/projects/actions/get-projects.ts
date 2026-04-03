@@ -3,7 +3,6 @@
 import { env } from "@/lib/env";
 import { phraseOf, statusOf, type ApiResult } from "@mingull/http";
 import { Locale } from "next-intl";
-import { z } from "zod";
 import { ProjectsResponse } from "../types";
 import { projectListContract } from "@mingull/contracts/projects";
 
