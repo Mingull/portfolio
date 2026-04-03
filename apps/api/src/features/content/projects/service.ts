@@ -6,8 +6,8 @@ import { decodeCursor, encodeCursor } from "../utils";
 export const createProjectService = (projectRepo: ProjectRepository) => ({
 	getProjects: async ({ locale, cursor, limit = 10, order = "desc" }: { locale: string; cursor?: string; limit?: number; order?: "asc" | "desc" }) => {
 		const cursorKey = decodeCursor(cursor);
-		const { posts, nextCursorKey } = await projectRepo.findMany({ locale, cursor: cursorKey, limit, order });
-		const parsedPosts = posts
+		const { projects, nextCursorKey } = await projectRepo.findMany({ locale, cursor: cursorKey, limit, order });
+		const parsedProjects = projects
 			.map((row) => {
 				const translation = row.translations[0];
 				if (!translation) {
@@ -26,7 +26,7 @@ export const createProjectService = (projectRepo: ProjectRepository) => ({
 		const nextCursor = nextCursorKey ? encodeCursor(nextCursorKey) : null;
 
 		return projectListContract.parseAsync({
-			projects: parsedPosts,
+			projects: parsedProjects,
 			nextCursor,
 		});
 	},

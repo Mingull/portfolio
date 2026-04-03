@@ -38,8 +38,8 @@ export const createProjectRepository = (db: DBLike) => ({
 		});
 
 		const hasMore = rows.length > limit;
-		const posts = hasMore ? rows.slice(0, limit) : rows;
-		const lastPost = posts[posts.length - 1];
+		const projects = hasMore ? rows.slice(0, limit) : rows;
+		const lastPost = projects[projects.length - 1];
 
 		const nextCursorKey =
 			hasMore && lastPost?.publishedAt ?
@@ -50,7 +50,7 @@ export const createProjectRepository = (db: DBLike) => ({
 			:	null;
 
 		return {
-			posts,
+			projects,
 			nextCursorKey,
 		};
 	},
