@@ -32,7 +32,7 @@ export default async function Project({ params }: { params: Promise<{ slug: stri
 				<BackLink />
 				<div className="mt-8 space-y-4">
 					<Typography.H1>
-						<Balancer>{publishedAt && isScheduled ? "This post is scheduled for publication." : "This post has not been published."}</Balancer>
+						<Balancer>{publishedAt && isScheduled ? "This project is scheduled for publication." : "This project has not been published."}</Balancer>
 					</Typography.H1>
 					<Typography.Lead>{publishedAt && isScheduled ? `${author} / ${formatDate(publishedAt)}` : "Please check back later."}</Typography.Lead>
 				</div>
@@ -72,10 +72,10 @@ export default async function Project({ params }: { params: Promise<{ slug: stri
 }
 function BackLink() {
 	return (
-		<Link href="/posts" passHref>
+		<Link href="/projects" passHref>
 			<Button variant="ghost" size="sm" className="mb-6">
 				<ArrowLeftIcon className="mr-2 size-4" />
-				Back to posts
+				Back to projects
 			</Button>
 		</Link>
 	);
