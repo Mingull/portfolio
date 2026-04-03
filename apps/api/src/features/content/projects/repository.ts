@@ -9,7 +9,10 @@ export const createProjectRepository = (db: DBLike) => ({
 				cursor ?
 					{
 						typeKey: { eq: CONTENT_TYPES.PROJECT },
-						publishedAt: { lt: cursor.publishedAt },
+						OR:
+							order === "asc" ?
+								[{ publishedAt: { gt: cursor.publishedAt } }, { publishedAt: { eq: cursor.publishedAt }, id: { gt: cursor.id } }]
+							:	[{ publishedAt: { lt: cursor.publishedAt } }, { publishedAt: { eq: cursor.publishedAt }, id: { lt: cursor.id } }],
 					}
 				:	{
 						typeKey: { eq: CONTENT_TYPES.PROJECT },
