@@ -78,7 +78,7 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                app:
+                include:
                     - name: api
                       filter: ./apps/api
                     - name: web
@@ -103,5 +103,5 @@ jobs:
             - name: Setup toolchain and install dependencies
               uses: ./.github/actions/setup-node-pnpm
 
-            - name: Build ${{ matrix.app.name }}
-              run: pnpm turbo run build --filter="${{ matrix.app.filter }}"
+            - name: Build ${{ matrix.name }}
+              run: pnpm turbo run build --filter="${{ matrix.filter }}"
