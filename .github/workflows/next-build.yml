@@ -9,8 +9,7 @@ on:
             - "apps/**"
             - "packages/**"
             - "pnpm-lock.yaml"
-            - "docker-compose.yml"
-            - "docker-compose.ci.yml"
+            - ".github/workflows/**"
 
 permissions:
     contents: read
@@ -35,30 +34,27 @@ jobs:
         timeout-minutes: 20
         env:
             DATABASE_URL: mysql://root:root@127.0.0.1:3306/portfolio
+        services:
+            mysql:
+                image: mysql:8.4.8
+                env:
+                    MYSQL_ROOT_PASSWORD: root
+                    MYSQL_DATABASE: portfolio
+                    MYSQL_ROOT_HOST: "%"
+                ports:
+                    - 3306:3306
+                options: >-
+                    --health-cmd="mysqladmin ping -h 127.0.0.1 -P 3306 --protocol=tcp -uroot -p$MYSQL_ROOT_PASSWORD --silent"
+                    --health-interval=10s
+                    --health-timeout=5s
+                    --health-retries=10
+                    --health-start-period=20s
         steps:
             - name: Checkout
               uses: actions/checkout@v6.0.2
 
             - name: Setup toolchain and install dependencies
               uses: ./.github/actions/setup-node-pnpm
-
-            - name: Start MySQL with Docker Compose
-              run: docker compose -f docker-compose.ci.yml up -d --wait mysql
-
-            - name: Wait for MySQL TCP readiness
-              shell: bash
-              run: |
-                  for i in {1..30}; do
-                    if docker compose -f docker-compose.ci.yml exec -T mysql sh -lc 'mysqladmin ping -h 127.0.0.1 -P 3306 --protocol=tcp -uroot -p"$MYSQL_ROOT_PASSWORD" --silent'; then
-                      echo "MySQL is ready over TCP"
-                      exit 0
-                    fi
-                    echo "Waiting for MySQL TCP readiness... ($i/30)"
-                    sleep 2
-                  done
-                  echo "MySQL did not become TCP-ready in time"
-                  docker compose -f docker-compose.ci.yml logs mysql
-                  exit 1
 
             - name: Run Drizzle migrations
               shell: bash
@@ -73,20 +69,23 @@ jobs:
                   echo "Drizzle migration failed after retries"
                   exit 1
 
-            - name: Show database logs on failure
+            - name: Print MySQL logs on failure
               if: failure()
-              run: docker compose -f docker-compose.ci.yml logs mysql
-
-            - name: Stop Docker Compose services
-              if: always()
-              run: docker compose -f docker-compose.ci.yml down
-
-    next-build:
+              run: docker logs ${{ job.services.mysql.id }} || true
+    build-apps:
         needs:
             - test
             - database-migrations
         runs-on: ubuntu-latest
         timeout-minutes: 30
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                    - name: api
+                      filter: ./apps/api
+                    - name: web
+                      filter: ./apps/web
         env:
             API_URL: https://example.com
             BASE_API_URL: https://api.example.com
@@ -107,44 +106,5 @@ jobs:
             - name: Setup toolchain and install dependencies
               uses: ./.github/actions/setup-node-pnpm
 
-            - name: Start MySQL with Docker Compose
-              run: docker compose -f docker-compose.ci.yml up -d --wait mysql
-
-            - name: Wait for MySQL TCP readiness
-              shell: bash
-              run: |
-                  for i in {1..30}; do
-                    if docker compose -f docker-compose.ci.yml exec -T mysql sh -lc 'mysqladmin ping -h 127.0.0.1 -P 3306 --protocol=tcp -uroot -p"$MYSQL_ROOT_PASSWORD" --silent'; then
-                      echo "MySQL is ready over TCP"
-                      exit 0
-                    fi
-                    echo "Waiting for MySQL TCP readiness... ($i/30)"
-                    sleep 2
-                  done
-                  echo "MySQL did not become TCP-ready in time"
-                  docker compose -f docker-compose.ci.yml logs mysql
-                  exit 1
-
-            - name: Run Drizzle migrations
-              shell: bash
-              run: |
-                  for i in {1..3}; do
-                    if pnpm --filter @mingull/database drizzle migrate; then
-                      exit 0
-                    fi
-                    echo "Drizzle migration failed, retrying... ($i/3)"
-                    sleep 5
-                  done
-                  echo "Drizzle migration failed after retries"
-                  exit 1
-
-            - name: Build all apps
-              run: pnpm turbo run build --filter="./apps/*"
-
-            - name: Show database logs on failure
-              if: failure()
-              run: docker compose -f docker-compose.ci.yml logs mysql
-
-            - name: Stop Docker Compose services
-              if: always()
-              run: docker compose -f docker-compose.ci.yml down
+            - name: Build ${{ matrix.name }}
+              run: pnpm turbo run build --filter="${{ matrix.filter }}"
