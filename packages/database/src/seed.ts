@@ -262,7 +262,7 @@ async function seedSkills(db: DBLike, skills: typeof schema.skills) {
 			version: "5.x",
 			icon: "typescript",
 			experienceValue: 9,
-			experienceYears: decimalToYears("6.0"),
+			experienceYears: new Date("2019-01-01T00:00:00Z"), // Starting point for experience calculation. The actual years of experience will be calculated based on the current date in the application logic.
 			createdAt: new Date("2020-06-01T00:00:00Z"),
 			updatedAt: new Date("2026-02-01T00:00:00Z"),
 		},
@@ -272,7 +272,7 @@ async function seedSkills(db: DBLike, skills: typeof schema.skills) {
 			version: "15.x",
 			icon: "nextjs",
 			experienceValue: 8,
-			experienceYears: decimalToYears("4.5"),
+			experienceYears: new Date("2020-03-01T00:00:00Z"),
 			createdAt: new Date("2021-02-01T00:00:00Z"),
 			updatedAt: new Date("2026-02-01T00:00:00Z"),
 		},
@@ -333,11 +333,4 @@ try {
 	console.error("Error occurred while seeding the database:", error);
 	// Indicate failure without forcing an immediate hard exit
 	process.exit(1);
-}
-
-function decimalToYears<const D extends `${number}.${number}`>(decimal: D): Date {
-	const [whole = 0, fraction = 0] = decimal.split(".").map(Number);
-	const years = whole + fraction / 10;
-	const now = new Date();
-	return new Date(now.getTime() - years * 365.25 * 24 * 60 * 60 * 1000);
 }
