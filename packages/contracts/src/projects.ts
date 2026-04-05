@@ -3,7 +3,9 @@ import {
 	insertContentSchema,
 	insertContentTranslationSchema,
 	selectContentSchema,
+	selectContentStatusesSchema,
 	selectContentTranslationSchema,
+	selectTagsSchema,
 	updateContentSchema,
 	updateContentTranslationSchema,
 } from "@mingull/database";
@@ -69,22 +71,39 @@ export const publicProjectContract = projectResponseContract.extend({
 // ----------------
 // Project List Item & List Contracts
 // ----------------
-export const projectListItemContract = z.object({
-	content: selectContentSchema.pick({
-		id: true,
-		image: true,
-		repoUrl: true,
-		liveUrl: true,
-		year: true,
-		featured: true,
-		publishedAt: true,
-	}),
-	translation: selectContentTranslationSchema.pick({
-		slug: true,
-		locale: true,
-		title: true,
-		summary: true,
-	}),
+export const projectContract = z.object({
+	...selectContentSchema
+		.omit({
+			typeKey: true,
+			statusKey: true,
+		})
+		.pick({
+			id: true,
+			image: true,
+			repoUrl: true,
+			liveUrl: true,
+			year: true,
+			featured: true,
+			publishedAt: true,
+			author: true,
+		})
+		.extend({
+			type: z.object({
+				key: z.string(),
+				label: z.string(),
+			}),
+			tags: selectTagsSchema.omit({ id: true }).array(),
+			status: selectContentStatusesSchema.pick({ key: true, label: true }),
+		}).shape,
+	...selectContentTranslationSchema.omit({ id: true, contentId: true }).shape,
+});
+
+export const projectListItemContract = projectContract.omit({
+	liveUrl: true,
+	repoUrl: true,
+	seoDescription: true,
+	seoTitle: true,
+	body: true,
 });
 
 export const projectListContract = z.object({

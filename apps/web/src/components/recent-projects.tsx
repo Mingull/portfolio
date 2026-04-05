@@ -1,4 +1,4 @@
-import { getProjects } from "@/data/projects/get-projects";
+import { getProjects } from "@/features/projects/actions/get-projects";
 import { Link } from "@/i18n/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 import { Projects } from "./projects";

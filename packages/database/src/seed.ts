@@ -90,6 +90,7 @@ async function seedContent(db: DBLike, content: typeof schema.content) {
 			id: CONTENT_IDS.postDrizzle,
 			typeKey: CONTENT_TYPES.POST,
 			statusKey: "PUBLISHED",
+			author: "Mingull",
 			defaultLocale: "en",
 			image: "/images/posts/drizzle-zod.jpg",
 			readingTime: 8,
@@ -100,6 +101,7 @@ async function seedContent(db: DBLike, content: typeof schema.content) {
 			id: CONTENT_IDS.postServerActions,
 			typeKey: CONTENT_TYPES.POST,
 			statusKey: "PUBLISHED",
+			author: "Mingull",
 			defaultLocale: "en",
 			image: "/images/posts/server-actions.jpg",
 			readingTime: 6,
@@ -110,8 +112,9 @@ async function seedContent(db: DBLike, content: typeof schema.content) {
 			id: CONTENT_IDS.projectPortfolio,
 			typeKey: CONTENT_TYPES.PROJECT,
 			statusKey: "PUBLISHED",
+			author: "Mingull",
 			defaultLocale: "en",
-			image: "/images/projects/mingull-portfolio.jpg",
+			image: "/images/projects/ecommerce-store.jpg",
 			featured: true,
 			repoUrl: "https://github.com/mingull/mingull-portfolio",
 			liveUrl: "https://mingull.dev",
@@ -174,7 +177,31 @@ async function seedContentTranslations(db: DBLike, contentTranslations: typeof s
 			slug: "mingull-portfolio-platform",
 			title: "Mingull Portfolio Platform",
 			summary: "A multilingual portfolio built with a shared contracts-first architecture.",
-			body: "This project combines Next.js, Drizzle, and a monorepo contract package to keep API and frontend types synchronized.",
+			body: `## Project Overview
+
+This project combines Next.js, Drizzle, and a monorepo contract package to keep API and frontend types synchronized.
+
+## Contracts-First Example
+
+\`\`\`typescript packages/contracts/posts.ts
+export const PostContract = z.object({
+	id: z.string().uuid(),
+	title: z.string(),
+	slug: z.string(),
+	content: z.string(),
+	publishedAt: z.date(),
+	tags: z.array(z.string()),
+});
+
+export type Post = z.infer<typeof PostContract>;
+\`\`\`
+
+This setup keeps API and frontend types aligned across the monorepo.
+
+why this is useful:
+- **Type Safety**: Ensures that the API and frontend are always in sync, reducing runtime errors.
+- **Developer Experience**: Provides autocompletion and type checking in both API and UI code.
+- **Scalability**: As the project grows, maintaining a single source of truth for data contracts prevents drift and inconsistencies.`,
 			seoTitle: "Mingull Portfolio Project",
 			seoDescription: "Case study of a multilingual portfolio architecture.",
 		},
@@ -182,10 +209,34 @@ async function seedContentTranslations(db: DBLike, contentTranslations: typeof s
 			id: crypto.randomUUID(),
 			contentId: CONTENT_IDS.projectPortfolio,
 			locale: "nl",
-			slug: "mingull-portfolio-platform-nl",
+			slug: "mingull-portfolio-platform",
 			title: "Mingull Portfolio Platform",
 			summary: "Een meertalig portfolio met een gedeelde contracts-first architectuur.",
-			body: "Dit project combineert Next.js, Drizzle en een monorepo met contracten om API- en frontend-types synchroon te houden.",
+			body: `## Projectoverzicht
+
+Dit project combineert Next.js, Drizzle en een monorepo met contracten om API- en frontend-types synchroon te houden.
+
+## Contracts-First Voorbeeld
+
+\`\`\`typescript packages/contracts/posts.ts
+export const PostContract = z.object({
+	id: z.string().uuid(),
+	title: z.string(),
+	slug: z.string(),
+	content: z.string(),
+	publishedAt: z.date(),
+	tags: z.array(z.string()),
+});
+
+export type Post = z.infer<typeof PostContract>;
+\`\`\`
+
+Deze aanpak houdt API- en frontend-types in de hele monorepo synchroon.
+
+waarom dit nuttig is:
+- **Typeveiligheid**: Zorgt ervoor dat de API en frontend altijd in sync zijn, wat runtime-fouten vermindert.
+- **Developer Experience**: Biedt autocompletion en type checking in zowel API- als UI-code.
+- **Schaalbaarheid**: Naarmate het project groeit, voorkomt het onderhouden van een enkele bron van waarheid voor datacontracten drift en inconsistenties.`,
 			seoTitle: "Mingull Portfolio Project",
 			seoDescription: "Case study van een meertalige portfolio architectuur.",
 		},
@@ -277,8 +328,9 @@ async function seedSkillTranslations(db: DBLike, skillTranslations: typeof schem
 try {
 	await main();
 	logStep("Database seeding completed.");
+	process.exit(0);
 } catch (error) {
 	console.error("Error occurred while seeding the database:", error);
 	// Indicate failure without forcing an immediate hard exit
-	process.exitCode = 1;
+	process.exit(1);
 }

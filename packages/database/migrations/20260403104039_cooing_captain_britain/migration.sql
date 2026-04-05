@@ -1,0 +1,1 @@
+ALTER TABLE `content` ADD `author` varchar(255) NOT NULL;

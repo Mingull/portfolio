@@ -4,6 +4,8 @@ import { RecentPosts } from "@/features/posts/components/recent-posts";
 import { PostsSkeleton } from "@/features/posts/components/skeleton";
 import { Suspense } from "react";
 import { SkillsSkeleton } from "@/features/skills/components/skeleton";
+import { ProjectsSkeleton } from "@/features/projects/components/skeleton";
+import RecentProjects from "@/features/projects/components/recent-projects";
 
 export default async function Home() {
 	return (
@@ -16,9 +18,9 @@ export default async function Home() {
 				<Suspense fallback={<SkillsSkeleton />}>
 					<Skills />
 				</Suspense>
-				{/* <Suspense fallback={<ProjectsSkeleton />}>
+				<Suspense fallback={<ProjectsSkeleton />}>
 					<RecentProjects />
-				</Suspense> */}
+				</Suspense>
 				<Suspense fallback={<PostsSkeleton />}>
 					<RecentPosts />
 				</Suspense>

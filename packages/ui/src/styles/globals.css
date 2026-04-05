@@ -88,6 +88,16 @@
 	--sidebar-accent-foreground: oklch(0.98 0.02 166);
 	--sidebar-border: oklch(0.92 0.004 286.32);
 	--sidebar-ring: oklch(0.705 0.015 286.067);
+
+	--sh-identifier: #354150;
+	--sh-keyword: #f47067;
+	--sh-string: #00a99a;
+	--sh-class: #8d85ff;
+	--sh-property: #4e8fdf;
+	--sh-entity: #6eafad;
+	--sh-jsxliterals: #bf7db6;
+	--sh-sign: #8996a3;
+	--sh-comment: #a19595;
 }
 
 .dark {
@@ -122,6 +132,16 @@
 	--sidebar-accent-foreground: oklch(0.26 0.05 173);
 	--sidebar-border: oklch(1 0 0 / 10%);
 	--sidebar-ring: oklch(0.552 0.016 285.938);
+
+	--sh-identifier: #d5dee8;
+	--sh-keyword: #ff8f83;
+	--sh-string: #43d9c8;
+	--sh-class: #b9b1ff;
+	--sh-property: #7db7ff;
+	--sh-entity: #83d1ce;
+	--sh-jsxliterals: #e2a3d9;
+	--sh-sign: #a9b6c3;
+	--sh-comment: #8f9dad;
 }
 
 @layer base {
@@ -133,5 +153,46 @@
 	}
 	.title {
 		@apply decoration-border/75 font-serif text-3xl font-bold underline decoration-2 underline-offset-8;
+	}
+}
+@layer utilities {
+	.prose pre {
+		@apply bg-muted overflow-x-auto px-5 py-2 text-base;
+	}
+
+	.prose pre code {
+		@apply block p-0 text-[0.9rem] leading-6;
+		counter-reset: sh-line-number;
+	}
+
+	.prose :not(pre) > code {
+		@apply bg-muted inline rounded-lg px-2 py-0.5 font-medium wrap-break-word;
+	}
+
+	.prose :not(pre) > code::before,
+	.prose :not(pre) > code::after {
+		content: "";
+	}
+
+	.prose pre code .sh__line {
+		display: inline-block;
+	}
+
+	.prose pre code .sh__line:empty::before {
+		content: " ";
+	}
+
+	.prose pre code:not(.language-bash) .sh__line {
+		@apply pl-6;
+		&::before {
+			content: counter(sh-line-number);
+			counter-increment: sh-line-number 1;
+			width: 24px;
+			display: inline-block;
+			margin-right: 18px;
+			margin-left: -42px;
+			text-align: right;
+			color: var(--sh-comment);
+		}
 	}
 }

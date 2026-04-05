@@ -1,7 +1,7 @@
 import { createPostRepository } from "@/features/content/posts/repository";
 import { createPostService } from "@/features/content/posts/service";
-import { createProjectRepository } from "@/features/projects/repository";
-import { createProjectService } from "@/features/projects/service";
+import { createProjectRepository } from "@/features/content/projects/repository";
+import { createProjectService } from "@/features/content/projects/service";
 import { createSkillRepository } from "@/features/skills/repository";
 import { createSkillService } from "@/features/skills/service";
 import { db } from "@mingull/database/client";

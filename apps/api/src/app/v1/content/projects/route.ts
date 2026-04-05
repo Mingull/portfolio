@@ -1,26 +1,44 @@
-import { env } from "@/lib/env";
-import { getProjects, ProjectMetadata } from "@/lib/projects";
+import { di } from "@/lib/inject";
+import { projectListContract } from "@mingull/contracts/projects";
 import { attempt } from "@mingull/error";
-import { badRequest, internalServerError, ok } from "@mingull/http";
+import { badRequest, internalServerError, noContent, ok } from "@mingull/http";
 import { json } from "@mingull/http/next";
 import { NextRequest } from "next/server";
+import { z, ZodError } from "zod";
 
 export const GET = async (req: NextRequest) => {
 	const locale = req.nextUrl.searchParams.get("locale");
 	const limit = req.nextUrl.searchParams.get("limit");
-	if (!locale || (limit && isNaN(parseInt(limit)))) {
+	const cursor = req.nextUrl.searchParams.get("cursor") ?? undefined;
+
+	const fieldErrors: Record<string, string> = {};
+	const messages: string[] = [];
+
+	if (!locale) {
+		fieldErrors.locale = "This field is required";
+		messages.push("Locale query parameter is required");
+	}
+	if (limit && isNaN(parseInt(limit))) {
+		fieldErrors.limit = "Limit query parameter must be a valid number";
+		messages.push("Limit query parameter must be a valid number");
+	}
+	if (Object.keys(fieldErrors).length > 0)
 		return json(
 			badRequest({
-				message: "Locale query parameter is required",
+				message: messages.join("; "),
 				title: "Bad Request",
 				type: "BadRequest",
-				fields: {
-					locale: "This field is required",
-				},
+				fields: fieldErrors,
 			}),
 		);
+
+	const { data, error } = await attempt<z.infer<typeof projectListContract>, ZodError>(
+		di.projectService.getProjects({ locale: locale!, cursor, limit: limit ? parseInt(limit) : undefined }),
+	);
+
+	if (error instanceof ZodError) {
+		return json(badRequest({ message: "Invalid project data", title: "Validation Error", type: "validation", fields: { error: z.treeifyError(error) } }));
 	}
-	const { data, error } = await attempt<ProjectMetadata[], Error>(getProjects({ locale, limit: limit ? parseInt(limit) : undefined }));
 
 	if (error) {
 		return json(
@@ -28,20 +46,14 @@ export const GET = async (req: NextRequest) => {
 				message: "Failed to fetch projects",
 				title: "Internal Server Error",
 				type: "InternalServerError",
-				fields: {
-					error: error.message,
-				},
+				fields: { error: (error as unknown as Error).message },
 			}),
 		);
 	}
 
-	return json(
-		ok({
-			message: "Projects fetched successfully",
-			data: data?.map((project) => ({
-				...project,
-				image: project.image ? `${env.BASE_API_URL}${project.image}` : null,
-			})),
-		}),
-	);
+	if (!data) {
+		return json(noContent({ message: "No projects found" }));
+	}
+
+	return json(ok({ message: "Projects fetched successfully", data }));
 };

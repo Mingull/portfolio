@@ -6,7 +6,7 @@
 
 import MDXContent from "@/components/mdx-content";
 import { Link } from "@/i18n/navigation";
-import { getProjectBySlug } from "@/data/projects/get-project-by-slug";
+import { getProjectBySlug } from "@/features/projects/actions/get-project-by-slug";
 import { formatDate } from "@/lib/utils.server";
 import { Button } from "@mingull/ui/c/button";
 import { Typography } from "@mingull/ui/c/typography";
@@ -22,28 +22,19 @@ export default async function Project({ params }: { params: Promise<{ slug: stri
 
 	if (!project) notFound();
 
-	const { metadata, content } = project;
-	const { title, image, author, publishedAt } = metadata;
+	const { title, image, author, publishedAt, body } = project;
 
-	const isScheduled = !publishedAt || new Date(publishedAt).getTime() > Date.now();
+	const isScheduled = !publishedAt || new Date(publishedAt).getTime() > new Date().getTime();
 
 	if (isScheduled) {
 		return (
-			<section className="container max-w-3xl px-4 pb-16 pt-24 md:px-6 md:pb-24 md:pt-32">
+			<section className="container max-w-3xl px-4 pt-24 pb-16 md:px-6 md:pt-32 md:pb-24">
 				<BackLink />
 				<div className="mt-8 space-y-4">
 					<Typography.H1>
-						<Balancer>
-							{publishedAt && isScheduled ?
-								"This post is scheduled for publication."
-							:	"This post has not been published."}
-						</Balancer>
+						<Balancer>{publishedAt && isScheduled ? "This project is scheduled for publication." : "This project has not been published."}</Balancer>
 					</Typography.H1>
-					<Typography.Lead>
-						{publishedAt && isScheduled ?
-							`${author} / ${formatDate(publishedAt)}`
-						:	"Please check back later."}
-					</Typography.Lead>
+					<Typography.Lead>{publishedAt && isScheduled ? `${author} / ${formatDate(publishedAt)}` : "Please check back later."}</Typography.Lead>
 				</div>
 			</section>
 		);
@@ -51,10 +42,7 @@ export default async function Project({ params }: { params: Promise<{ slug: stri
 	return (
 		<section className="py-24">
 			<div className="container max-w-3xl xl:max-w-4xl">
-				<Link
-					href="/projects"
-					className="text-muted-foreground hover:text-foreground mb-8 inline-flex items-center gap-2 text-sm font-light transition-colors"
-				>
+				<Link href="/projects" className="text-muted-foreground hover:text-foreground mb-8 inline-flex items-center gap-2 text-sm font-light transition-colors">
 					<ArrowLeftIcon className="size-5" />
 					<span>Back to projects</span>
 				</Link>
@@ -72,7 +60,7 @@ export default async function Project({ params }: { params: Promise<{ slug: stri
 				</header>
 
 				<main className="prose dark:prose-invert mt-16">
-					<MDXContent source={content} />
+					<MDXContent source={body} />
 				</main>
 
 				{/* <footer className="mt-16">
@@ -84,10 +72,10 @@ export default async function Project({ params }: { params: Promise<{ slug: stri
 }
 function BackLink() {
 	return (
-		<Link href="/posts" passHref>
+		<Link href="/projects" passHref>
 			<Button variant="ghost" size="sm" className="mb-6">
 				<ArrowLeftIcon className="mr-2 size-4" />
-				Back to posts
+				Back to projects
 			</Button>
 		</Link>
 	);
