@@ -1,7 +1,6 @@
 {
   "extends": "@mingull/typescript-config/react-library.json",
   "compilerOptions": {
-    "baseUrl": ".",
     "paths": {
       "@mingull/ui/*": [
         "./src/*"
