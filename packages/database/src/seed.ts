@@ -262,7 +262,7 @@ async function seedSkills(db: DBLike, skills: typeof schema.skills) {
 			version: "5.x",
 			icon: "typescript",
 			experienceValue: 9,
-			experienceYears: "6.0",
+			experienceYears: new Date("2019-01-01T00:00:00Z"), // Starting point for experience calculation. The actual years of experience will be calculated based on the current date in the application logic.
 			createdAt: new Date("2020-06-01T00:00:00Z"),
 			updatedAt: new Date("2026-02-01T00:00:00Z"),
 		},
@@ -272,7 +272,7 @@ async function seedSkills(db: DBLike, skills: typeof schema.skills) {
 			version: "15.x",
 			icon: "nextjs",
 			experienceValue: 8,
-			experienceYears: "4.5",
+			experienceYears: new Date("2020-03-01T00:00:00Z"),
 			createdAt: new Date("2021-02-01T00:00:00Z"),
 			updatedAt: new Date("2026-02-01T00:00:00Z"),
 		},
