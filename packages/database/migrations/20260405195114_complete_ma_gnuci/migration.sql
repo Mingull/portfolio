@@ -1,0 +1,1 @@
+ALTER TABLE `skills` MODIFY COLUMN `experience_years` datetime DEFAULT (now()) NOT NULL;
