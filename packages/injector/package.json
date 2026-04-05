@@ -4,7 +4,8 @@
 	"type": "module",
 	"private": true,
 	"scripts": {
-		"lint": "eslint ."
+		"lint": "eslint .",
+		"check-types": "tsc --noEmit"
 	},
 	"devDependencies": {
 		"@mingull/eslint-config": "workspace:*",
