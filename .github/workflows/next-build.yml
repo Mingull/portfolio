@@ -9,6 +9,7 @@ on:
             - "apps/**"
             - "packages/**"
             - "pnpm-lock.yaml"
+            - ".github/workflows/**"
 
 permissions:
     contents: read
