@@ -69,6 +69,9 @@ jobs:
                   echo "Drizzle migration failed after retries"
                   exit 1
 
+            - name: Print MySQL logs on failure
+              if: failure()
+              run: docker logs ${{ job.services.mysql.id }} || true
     build-apps:
         needs:
             - test
