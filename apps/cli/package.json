@@ -16,13 +16,13 @@
 		"ww": "./dist/index.mjs"
 	},
 	"dependencies": {
+		"@mingull/cli-core": "workspace:*",
 		"ink": "^6.8.0",
 		"react": "^19.2.4",
 		"tsx": "^4.21.0",
 		"zod": "^4.3.6"
 	},
 	"devDependencies": {
-		"@mingull/cli-core": "workspace:*",
 		"@mingull/eslint-config": "workspace:*",
 		"@mingull/typescript-config": "workspace:*",
 		"@types/node": "^25.5.2",
