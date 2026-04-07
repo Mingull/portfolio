@@ -1,5 +1,5 @@
 {
-  "extends": "@mingull/typescript-config/react-library.json",
+  "extends": "@mingull/typescript-config/node-library.json",
   "compilerOptions": {
     "module": "ESNext",
     "moduleResolution": "Bundler",
@@ -7,17 +7,8 @@
     "allowImportingTsExtensions": true,
     "sourceMap": false,
     "declarationMap": false,
-    "paths": {
-      "@/*": [
-        "./src/*"
-      ]
-    }
+    "paths": { "@/*": ["./src/*"] }
   },
-  "include": [
-    "."
-  ],
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+  "include": ["."],
+  "exclude": ["node_modules", "dist"]
 }
