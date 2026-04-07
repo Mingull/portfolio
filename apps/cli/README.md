@@ -146,7 +146,7 @@ wave-wand lumos # Same as above, more playful
 - **Language:** TypeScript
 - **CLI Framework:** commander
 - **TUI Framework:** ink (React for CLI)
-- **Prompts:** TBD (likely `enquirer` or `inquirer`)
+- **Prompts:** `@clack/prompts` (via `@mingull/cli-core`)
 - **Runtime:** tsx
 
 ---
