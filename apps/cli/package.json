@@ -1,0 +1,33 @@
+{
+	"name": "wand-cli",
+	"version": "0.0.0",
+	"type": "module",
+	"private": true,
+	"scripts": {
+		"build": "tsdown",
+		"dev": "tsdown --watch",
+		"start": "node ./dist/index.mjs",
+		"start:help": "node ./dist/index.mjs --help",
+		"link:global": "pnpm link --global"
+	},
+	"bin": {
+		"wand": "./dist/index.mjs",
+		"wave-wand": "./dist/index.mjs",
+		"ww": "./dist/index.mjs"
+	},
+	"dependencies": {
+		"ink": "^6.8.0",
+		"react": "^19.2.4",
+		"tsx": "^4.21.0",
+		"zod": "^4.3.6"
+	},
+	"devDependencies": {
+		"@mingull/cli-core": "workspace:*",
+		"@mingull/eslint-config": "workspace:*",
+		"@mingull/typescript-config": "workspace:*",
+		"@types/node": "^25.5.2",
+		"@types/react": "^19.2.14",
+		"eslint": "^10.2.0",
+		"tsdown": "^0.21.7"
+	}
+}
