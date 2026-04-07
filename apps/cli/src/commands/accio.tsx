@@ -25,7 +25,10 @@ const accio = defineCommand({
 		);
 	},
 	run: async ({ args, options }) => {
-		const selected = await selectBranches(branches);
+		if (args.target === "branches") {
+			const branches = [args.target];
+			const selected = await selectBranches(branches);
+		}
 
 		if (options.stale) {
 			console.log("Filtering stale branches...");
