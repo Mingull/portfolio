@@ -56,10 +56,49 @@ export type CliCommand<TArgs extends ArgsShape | undefined = ArgsShape | undefin
 export type AnyCliCommand = CliCommand<ArgsShape | undefined, OptionsShape | undefined>;
 
 export type CliDefinition<TCommands extends readonly AnyCliCommand[]> = {
+	/**
+	 * The name of the CLI program, used to invoke it from the command line.
+	 */
 	name: string;
+	/**
+	 * An optional description of the CLI program, displayed in help messages.
+	 */
 	description?: string;
-	version?: string;
+	/**
+	 * An optional version string or an object containing version information for the CLI program.
+	 *
+	 * If a string is provided, it will be used as the version value.
+	 *
+	 * If an object is provided, it can include a version value, a flag to specify how the version is displayed in help messages, and an optional description for the version flag.
+	 */
+	version?:
+		| {
+				value: string;
+				flag?: string;
+				description?: string;
+		  }
+		| string;
+	/**
+	 * An optional configuration for the help flag, which can be a string to specify the help flag or an object containing the flag and its description.
+	 *
+	 * If provided, this will enable a help option in the CLI that users can invoke to see usage information.
+	 */
+	help?: {
+		flag?: string;
+		description?: string;
+	};
+	/**
+	 * An optional array of aliases for the CLI program, allowing it to be invoked using alternative names from the command line.
+	 */
 	aliases?: string[];
+	/**
+	 * An array of command definitions that make up the CLI program, each containing its own name, description, arguments, options, and execution logic.
+	 */
 	commands: TCommands;
+	/**
+	 * An optional array of strings representing the command-line arguments to be parsed and executed by the CLI.
+	 *
+	 * If not provided, the CLI will default to using process.argv.
+	 */
 	argv?: string[];
 };

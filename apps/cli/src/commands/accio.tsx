@@ -1,7 +1,8 @@
 import { defineCommand } from "@mingull/cli-core/commander";
+import { log, intro, outro } from "@mingull/cli-core/prompts";
 import { treeifyError, z } from "zod";
 import { Box, render, Text } from "ink";
-import { selectBranches } from "@/Branch";
+import { Branch, confirmDeletion, selectBranchesForDeletion } from "@/Branch";
 
 const accio = defineCommand({
 	name: "accio",
@@ -26,8 +27,18 @@ const accio = defineCommand({
 	},
 	run: async ({ args, options }) => {
 		if (args.target === "branches") {
-			const branches = [args.target];
-			const selected = await selectBranches(branches);
+			const branches: Branch[] = [{ name: "branch-1" }, { name: "branch-2", isMerged: true }, { name: "branch-3", isGone: true }];
+			intro("Branch Deletion Wizard");
+			const selected = await selectBranchesForDeletion(branches);
+			log.info(`Selected branches for deletion: ${selected.join(", ")}`);
+
+			const confirmed = await confirmDeletion(selected.length);
+			if (!confirmed) {
+				outro("Branch deletion cancelled");
+				return;
+			}
+			log.success(`Deleted branches: ${selected.join(", ")}`);
+			outro("Branch deletion complete");
 		}
 
 		if (options.stale) {

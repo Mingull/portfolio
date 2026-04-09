@@ -18,6 +18,7 @@
 	"dependencies": {
 		"@mingull/cli-core": "workspace:*",
 		"ink": "^6.8.0",
+		"picocolors": "^1.1.1",
 		"react": "^19.2.4",
 		"tsx": "^4.21.0",
 		"zod": "^4.3.6"

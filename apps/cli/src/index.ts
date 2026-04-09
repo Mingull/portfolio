@@ -8,7 +8,8 @@ import reparo from "./commands/reparo";
 defineCli({
 	name: "wand",
 	description: "A magical developer CLI",
-	version: "0.0.0",
+	version: { value: "0.0.0", flag: "-v, --version", description: "Show Wand version" },
+	help: { flag: "-h, --help", description: "Show help information about Wand" },
 	aliases: ["wave-wand", "ww"],
 	commands: [accio, lumos, reparo],
 }).run();

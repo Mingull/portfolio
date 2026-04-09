@@ -1,6 +1,6 @@
 import { Command } from "commander";
 import { ZodError, type z } from "zod";
-import type { AnyCliCommand, CliCommand, CliDefinition, CliContext } from "./types";
+import type { AnyCliCommand, CliCommand, CliDefinition } from "./types";
 
 /**
  * Converts a camelCase option key to a kebab-case flag.
@@ -97,13 +97,21 @@ const buildProgram = <TCommands extends readonly AnyCliCommand[]>(definition: Cl
 	if (definition.description) {
 		program.description(definition.description);
 	}
-
-	if (definition.version) {
-		program.version(definition.version);
-	}
-
+	
 	for (const alias of definition.aliases ?? []) {
 		program.alias(alias);
+	}
+
+	if (definition.version) {
+		if (typeof definition.version === "string") {
+			program.version(definition.version);
+		} else {
+			program.version(definition.version.value, definition.version.flag, definition.version.description);
+		}
+	}
+
+	if (definition.help) {
+		program.helpOption(definition.help.flag, definition.help.description);
 	}
 
 	program.showHelpAfterError();
@@ -152,7 +160,7 @@ const buildProgram = <TCommands extends readonly AnyCliCommand[]>(definition: Cl
 				await command.run({
 					args: argsResult.value,
 					options: optionsResult.value,
-				} as CliContext<typeof command.args, typeof command.options>);
+				});
 			} catch (error) {
 				if (error instanceof ZodError) {
 					handleValidationError(command, error);

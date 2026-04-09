@@ -1,5 +1,11 @@
 import * as clack from "@clack/prompts";
 
+/**
+ * Handles cancellation of a prompt by checking if the provided value is a cancellation symbol.
+ * If it is, it displays a cancellation message and exits the process. Otherwise, it returns the value as is.
+ * @param value The value to check for cancellation. If this value is a cancellation symbol, the function will handle it accordingly.
+ * @returns The original value if it is not a cancellation symbol, or exits the process if it is a cancellation symbol.
+ */
 function handleCancel<T>(value: T): T {
 	if (clack.isCancel(value)) {
 		clack.cancel("Operation cancelled");
@@ -13,9 +19,8 @@ function handleCancel<T>(value: T): T {
  * @param options The options for the select prompt, including choices and other configurations.
  * @returns The value selected by the user.
  */
-export async function select<T>(options: Parameters<typeof clack.select>[0]) {
-	const result = await clack.select(options);
-	return handleCancel(result) as T;
+export async function select<T>(options: Parameters<typeof clack.select<T>>[0]) {
+	return handleCancel(await clack.select<T>(options)) as T;
 }
 
 /**
@@ -23,9 +28,8 @@ export async function select<T>(options: Parameters<typeof clack.select>[0]) {
  * @param options The options for the multiselect prompt, including choices and other configurations.
  * @returns The values selected by the user.
  */
-export async function multiselect<T>(options: Parameters<typeof clack.multiselect>[0]) {
-	const result = await clack.multiselect(options);
-	return handleCancel(result) as T[];
+export async function multiselect<T>(options: Parameters<typeof clack.multiselect<T>>[0]) {
+	return handleCancel(await clack.multiselect<T>(options)) as T[];
 }
 
 /**
@@ -34,8 +38,7 @@ export async function multiselect<T>(options: Parameters<typeof clack.multiselec
  * @returns A boolean indicating whether the user confirmed or not.
  */
 export async function confirm(options: Parameters<typeof clack.confirm>[0]) {
-	const result = await clack.confirm(options);
-	return handleCancel(result);
+	return handleCancel(await clack.confirm(options));
 }
 
 /**
@@ -44,8 +47,7 @@ export async function confirm(options: Parameters<typeof clack.confirm>[0]) {
  * @returns The input provided by the user.
  */
 export async function text(options: Parameters<typeof clack.text>[0]) {
-	const result = await clack.text(options);
-	return handleCancel(result);
+	return handleCancel(await clack.text(options));
 }
 /**
  * Displays a spinner with the given message while executing the provided asynchronous function, and handles success or failure appropriately.
@@ -66,3 +68,15 @@ export async function withSpinner<T>(message: string, fn: () => Promise<T>) {
 		throw e;
 	}
 }
+/**
+ * Displays an introductory message or title for the CLI application, using Clack's intro function.
+ */
+export const intro = clack.intro;
+/**
+ * Displays a concluding message for the CLI application, using Clack's outro function.
+ */
+export const outro = clack.outro;
+/**
+ * Provides various logging functions (message, info, success, step, warn, warning, error) that utilize Clack's logging capabilities to display messages with different styles and symbols in the CLI application.
+ */
+export const log = clack.log;
