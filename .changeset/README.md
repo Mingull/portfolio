@@ -10,6 +10,4 @@ This repository uses Changesets for package versioning and changelogs.
 
 ## Current release intent
 
-The primary target for publishing is `@mingull/cli-core`.
-
-Only packages included in changeset files are versioned and published.
+There is no current release intent. Changesets will be used for future releases when needed. And only for user-facing changes. Internal changes that do not affect users will not require a changeset entry.
