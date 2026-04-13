@@ -97,7 +97,7 @@ const buildProgram = <TCommands extends readonly AnyCliCommand[]>(definition: Cl
 	if (definition.description) {
 		program.description(definition.description);
 	}
-	
+
 	for (const alias of definition.aliases ?? []) {
 		program.alias(alias);
 	}
@@ -185,9 +185,14 @@ export function defineCli<TCommands extends readonly AnyCliCommand[]>(definition
 
 	return {
 		program,
-		run(argv: string[] = definition.argv ?? process.argv) {
-			program.parse(argv);
-			return program;
+		/**
+		 * Runs the CLI program by parsing the provided arguments or the default process arguments, executing the corresponding command logic based on the CLI definition.
+		 * @param argv An optional array of strings representing the command-line arguments to be parsed and executed by the CLI. If not provided, it defaults to `process.argv`.
+		 * @returns A Promise that resolves to the Commander program instance after parsing and executing the CLI commands.
+		 * @throws An error if any issues occur during command execution, which will be caught and handled by the CLI framework to provide feedback to the user.
+		 */
+		async run(argv: string[] = definition.argv ?? process.argv) {
+			return await program.parseAsync(argv);
 		},
 	};
 }

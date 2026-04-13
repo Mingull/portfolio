@@ -5,7 +5,7 @@ import accio from "./commands/accio";
 import lumos from "./commands/lumos";
 import reparo from "./commands/reparo";
 
-defineCli({
+await defineCli({
 	name: "wand",
 	description: "A magical developer CLI",
 	version: { value: "0.0.0", flag: "-v, --version", description: "Show Wand version" },
