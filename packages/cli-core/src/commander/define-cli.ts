@@ -137,8 +137,7 @@ const buildProgram = <TCommands extends readonly AnyCliCommand[]>(definition: Cl
 				continue;
 			}
 
-			const valueToken = isOptionalSchema(schema) ? `[${key}]` : `<${key}>`;
-			cmd.option(`--${flagName} ${valueToken}`);
+			cmd.option(`--${flagName} <${key}>`);
 		}
 
 		cmd.action(async (...values) => {
