@@ -28,6 +28,9 @@
 		"portfolio-api#build": {
 			"dependsOn": ["^build"]
 		},
+		"wand-cli#build": {
+			"dependsOn": ["^build"]
+		},
 		"lint": {
 			"dependsOn": ["^lint"]
 		},
