@@ -3,14 +3,25 @@ import { z } from "zod";
 export type Infer<T> =
 	T extends z.ZodType ? z.infer<T>
 	: T extends Record<string, z.ZodType> ? { [K in keyof T]: z.infer<T[K]> }
-	: never;
+	: T extends Record<string, Option | { type: z.ZodType }> ?
+		{
+			[K in keyof T]: T[K] extends Option<infer TSchema> ? z.infer<TSchema>
+			: T[K] extends { type: infer TType extends z.ZodType } ? z.infer<TType>
+			: never;
+		}
+	:	never;
 
-type EmptyObject = Record<string, never>;
-
-export type InferOrEmpty<T> = [T] extends [undefined] ? EmptyObject : Infer<T>;
+export type InferOrEmpty<T> = [T] extends [undefined] ? Record<string, unknown> : Infer<NonNullable<T>>;
 
 export type ArgsShape = Record<string, z.ZodType>;
-export type OptionsShape = Record<string, z.ZodType>;
+export type OptionsShape = Record<string, Option | z.ZodType>;
+
+export type Option<T extends z.ZodType = z.ZodType> = {
+	flags: string | string[];
+	type: T;
+	description?: string;
+	defaultValue?: z.infer<T>;
+};
 
 export type CliContext<TArgs extends ArgsShape | undefined, TOptions extends OptionsShape | undefined> = {
 	args: InferOrEmpty<TArgs>;
@@ -53,9 +64,7 @@ export type CliCommand<TArgs extends ArgsShape | undefined = ArgsShape | undefin
 	run(ctx: CliContext<TArgs, TOptions>): Promise<void> | void;
 };
 
-export type AnyCliCommand = CliCommand<ArgsShape | undefined, OptionsShape | undefined>;
-
-export type CliDefinition<TCommands extends readonly AnyCliCommand[]> = {
+export type CliDefinition<TCommands extends readonly CliCommand<ArgsShape | undefined, OptionsShape | undefined>[]> = {
 	/**
 	 * The name of the CLI program, used to invoke it from the command line.
 	 */
@@ -74,7 +83,7 @@ export type CliDefinition<TCommands extends readonly AnyCliCommand[]> = {
 	version?:
 		| {
 				value: string;
-				flag?: string;
+				flags?: string | string[];
 				description?: string;
 		  }
 		| string;
@@ -84,7 +93,7 @@ export type CliDefinition<TCommands extends readonly AnyCliCommand[]> = {
 	 * If provided, this will enable a help option in the CLI that users can invoke to see usage information.
 	 */
 	help?: {
-		flag?: string;
+		flags?: string | string[];
 		description?: string;
 	};
 	/**
