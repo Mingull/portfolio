@@ -5,7 +5,7 @@ import { Box, render, Text } from "ink";
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 import pc from "picocolors";
-import { treeifyError, z } from "zod";
+import { z } from "zod";
 
 const execFileAsync = promisify(execFile);
 
@@ -62,7 +62,7 @@ const evanesco = defineCommand({
 	name: "evanesco",
 	description: "Vanish resources",
 	onValidationError: (error) => {
-		const { errors } = treeifyError(error);
+		const { errors } = z.treeifyError(error);
 		render(
 			<Box borderStyle="round" borderColor="red" alignItems="center">
 				{errors.map((err, index) => (
