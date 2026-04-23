@@ -1,10 +1,11 @@
-import { defineCommand, defineOptions } from "@mingull/cli-core/commander";
-import { intro, log, withSpinner, note } from "@mingull/cli-core/prompts";
+import { confirmDeletion, selectBranchesForDeletion } from "@/branch";
+import { defineCommand } from "@mingull/cli-core/commander";
+import { intro, log, outro, withSpinner } from "@mingull/cli-core/prompts";
+import { Box, render, Text } from "ink";
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 import pc from "picocolors";
 import { z } from "zod";
-import { Box, render, Text } from "ink";
 
 const execFileAsync = promisify(execFile);
 
@@ -57,46 +58,23 @@ function formatStatus(branch: BranchInfo): string {
 	return tags.length > 0 ? tags.join(" ") : pc.dim("-");
 }
 
-async function fetchRemoteBranches() {
-	await execFileAsync("git", ["fetch", "--prune"]);
-}
-
-const accio = defineCommand({
-	name: "accio",
-	description: "Summon local branches",
-	options: defineOptions({
-		fetch: {
-			flags: ["-r", "--remote"],
-			description: "Fetch remote branches before listing local branches",
-			type: z.boolean().optional(),
-			defaultValue: false,
-		},
-	}),
+const evanesco = defineCommand({
+	name: "evanesco",
+	description: "Vanish resources",
 	onValidationError: (error) => {
+		const { errors } = z.treeifyError(error);
 		render(
-			<Box flexDirection="column" padding={1} borderStyle="round" borderColor="red">
-				{z.treeifyError(error).errors.map((err, index) => (
+			<Box borderStyle="round" borderColor="red" alignItems="center">
+				{errors.map((err, index) => (
 					<Text key={index} color="red">
-						#{index + 1}: {err}
+						{err}
 					</Text>
 				))}
-			</Box>
+			</Box>,
 		);
 	},
-	run: async ({ options }) => {
-		intro("Branch Summoning Ritual");
-
-		if (options.fetch) {
-			try {
-				await withSpinner(fetchRemoteBranches, {
-					message: "Summoning updates from remotes...",
-					done: "Remote updates summoned!",
-					failed: "Could not summon remote updates. Falling back to local branch data.",
-				});
-			} catch {
-				log.warn("Using local branch data because remote fetch failed");
-			}
-		}
+	run: async () => {
+		intro("Branch Vanishing Wizard");
 
 		const branches = await withSpinner(getLocalBranches, {
 			message: "Summoning branches from the git repository...",
@@ -108,18 +86,18 @@ const accio = defineCommand({
 			log.warn("No local branches found");
 			return;
 		}
+		const selected = await selectBranchesForDeletion(branches);
+		log.info(`Selected branches to vanish: ${selected.join(", ")}`);
 
-		const widestBranchName = Math.max(...branches.map((branch) => branch.name.length), "branch".length);
-		const rows = branches.map((branch) => {
-			const marker = branch.isCurrent ? pc.cyan("*") : " ";
-			const paddedName = branch.name.padEnd(widestBranchName);
-			const name = branch.isCurrent ? pc.cyan(paddedName) : paddedName;
+		const confirmed = await confirmDeletion(selected.length);
+		if (!confirmed) {
+			outro("Vanishing cancelled");
+			return;
+		}
 
-			return `${marker} ${name} ${formatStatus(branch)}`;
-		});
-
-		note(`${rows.join("\n")}`, "Local Branches", { format: (line) => line });
+		log.success(`Vanished branches: ${selected.join(", ")}`);
+		outro("Branch vanishing complete");
 	},
 });
 
-export default accio;
+export default evanesco;

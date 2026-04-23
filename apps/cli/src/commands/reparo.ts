@@ -1,4 +1,4 @@
-import { defineCommand } from "@mingull/cli-core/commander";
+import { defineCommand, defineOptions } from "@mingull/cli-core/commander";
 import { z } from "zod";
 
 const reparo = defineCommand({
@@ -7,16 +7,28 @@ const reparo = defineCommand({
 	args: {
 		target: z.enum(["branches", "services"]),
 	},
-	options: {
+	options: defineOptions({
 		force: z.boolean().optional(),
-	},
+		name: {
+			flags: "-n, --name",
+			type: z.string().optional(),
+		},
+	}),
 	run: async ({ args, options }) => {
 		if (args.target === "branches") {
 			console.log("Fixing branches...");
 		}
+		
+		if (args.target === "services") {
+			console.log("Fixing services...");
+		}
 
 		if (options.force) {
 			console.log("Forcing fixes...");
+		}
+
+		if (options.name) {
+			console.log(`Fixing with name: ${options.name}`);
 		}
 	},
 });
