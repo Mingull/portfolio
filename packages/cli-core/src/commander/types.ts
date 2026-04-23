@@ -11,7 +11,7 @@ export type Infer<T> =
 		}
 	:	never;
 
-export type InferOrEmpty<T> = [T] extends [undefined] ? Record<string, unknown> : Infer<NonNullable<T>>;
+export type InferOrEmpty<T> = [T] extends [undefined] ? Record<string, never> : Infer<NonNullable<T>>;
 
 export type ArgsShape = Record<string, z.ZodType>;
 export type OptionsShape = Record<string, Option | z.ZodType>;
