@@ -2,14 +2,15 @@
 
 import { defineCli } from "@mingull/cli-core/commander";
 import accio from "./commands/accio";
+import evanesco from "./commands/evanesco";
 import lumos from "./commands/lumos";
 import reparo from "./commands/reparo";
 
 await defineCli({
 	name: "wand",
 	description: "A magical developer CLI",
-	version: { value: "0.0.0", flag: "-v, --version", description: "Show Wand version" },
-	help: { flag: "-h, --help", description: "Show help information about Wand" },
+	version: { value: "0.0.0", flags: "-v, --version", description: "Show Wand version" },
+	help: { flags: "-h, --help", description: "Show help information about Wand" },
 	aliases: ["wave-wand", "ww"],
-	commands: [accio, lumos, reparo],
+	commands: [accio, evanesco, lumos, reparo],
 }).run();

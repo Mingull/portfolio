@@ -3,18 +3,10 @@
 	"compilerOptions": {
 		"baseUrl": ".",
 		"paths": {
-			"@/*": [
-				"./src/*"
-			],
-			"@mingull/ui/*": [
-				"../../packages/ui/src/*"
-			]
+			"@/*": ["./src/*"],
+			"@mingull/ui/*": ["../../packages/ui/src/*"]
 		},
-		"plugins": [
-			{
-				"name": "next"
-			}
-		],
+		"plugins": [{ "name": "next" }],
 		"allowArbitraryExtensions": true
 	},
 	"include": [

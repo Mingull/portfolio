@@ -1,6 +1,6 @@
 import { Command } from "commander";
-import { ZodError, type z } from "zod";
-import type { AnyCliCommand, CliCommand, CliDefinition } from "./types";
+import { z, ZodError } from "zod";
+import type { ArgsShape, CliCommand, CliContext, CliDefinition, Option, OptionsShape } from "./types";
 
 /**
  * Converts a camelCase option key to a kebab-case flag.
@@ -69,11 +69,11 @@ const parseOptions = (command: CliCommand, options: Record<string, unknown>) => 
 		return { ok: true as const, value: {} };
 	}
 
-	const optionEntries = Object.entries(command.options) as [string, z.ZodTypeAny][];
+	const optionEntries = Object.entries(command.options) as [string, Option | z.ZodType][];
 	const parsedOptions: Record<string, unknown> = {};
 
-	for (const [key, schema] of optionEntries) {
-		const result = schema.safeParse(options[key]);
+	for (const [key, option] of optionEntries) {
+		const result = option instanceof z.ZodType ? option.safeParse(options[key]) : option.type.safeParse(options[key]);
 
 		if (!result.success) {
 			return { ok: false as const, error: result.error };
@@ -91,7 +91,7 @@ const parseOptions = (command: CliCommand, options: Record<string, unknown>) => 
  * @returns A configured Commander program ready to be parsed and executed.
  * @throws An error if any command's arguments or options fail validation during execution, with messages indicating the specific issues.
  */
-const buildProgram = <TCommands extends readonly AnyCliCommand[]>(definition: CliDefinition<TCommands>) => {
+const buildProgram = <TCommands extends readonly CliCommand<ArgsShape | undefined, OptionsShape | undefined>[]>(definition: CliDefinition<TCommands>) => {
 	const program = new Command(definition.name);
 
 	if (definition.description) {
@@ -106,12 +106,14 @@ const buildProgram = <TCommands extends readonly AnyCliCommand[]>(definition: Cl
 		if (typeof definition.version === "string") {
 			program.version(definition.version);
 		} else {
-			program.version(definition.version.value, definition.version.flag, definition.version.description);
+			const flags = Array.isArray(definition.version.flags) ? definition.version.flags.join(", ") : definition.version.flags;
+			program.version(definition.version.value, flags, definition.version.description);
 		}
 	}
 
 	if (definition.help) {
-		program.helpOption(definition.help.flag, definition.help.description);
+		const flags = Array.isArray(definition.help.flags) ? definition.help.flags.join(", ") : definition.help.flags;
+		program.helpOption(flags, definition.help.description);
 	}
 
 	program.showHelpAfterError();
@@ -123,21 +125,34 @@ const buildProgram = <TCommands extends readonly AnyCliCommand[]>(definition: Cl
 			cmd.description(command.description);
 		}
 
-		for (const [key, schema] of Object.entries(command.args ?? {}) as [string, z.ZodTypeAny][]) {
+		for (const [key, schema] of Object.entries(command.args ?? {}) as [string, z.ZodType][]) {
 			const argToken = isOptionalSchema(schema) ? `[${key}]` : `<${key}>`;
 			cmd.argument(argToken);
 		}
 
-		for (const [key, schema] of Object.entries(command.options ?? {}) as [string, z.ZodTypeAny][]) {
-			const flagName = optionKeyToFlag(key);
-			const isBoolean = schema.safeParse(true).success && schema.safeParse(false).success;
+		for (const [key, option] of Object.entries(command.options ?? {}) as [string, Option | z.ZodType][]) {
+			if (option instanceof z.ZodType) {
+				const flagName = optionKeyToFlag(key);
+				const isBoolean = option.safeParse(true).success && option.safeParse(false).success;
 
-			if (isBoolean) {
-				cmd.option(`--${flagName}`);
-				continue;
+				if (isBoolean) {
+					cmd.option(`--${flagName}`);
+					continue;
+				}
+
+				cmd.option(`--${flagName} <${key}>`);
+			} else {
+				const flagName = Array.isArray(option.flags) ? option.flags.join(", ") : option.flags;
+				const isBoolean = option.type.safeParse(true).success && option.type.safeParse(false).success;
+				const defaultValue = option.type.safeParse(option.defaultValue).success ? toCommanderDefaultValue(option.defaultValue) : undefined;
+
+				if (isBoolean) {
+					cmd.option(flagName, option.description, defaultValue);
+					continue;
+				}
+
+				cmd.option(`${flagName} <${key}>`, option.description, defaultValue);
 			}
-
-			cmd.option(`--${flagName} <${key}>`);
 		}
 
 		cmd.action(async (...values) => {
@@ -159,7 +174,7 @@ const buildProgram = <TCommands extends readonly AnyCliCommand[]>(definition: Cl
 				await command.run({
 					args: argsResult.value,
 					options: optionsResult.value,
-				});
+				} as CliContext<typeof command.args, typeof command.options>);
 			} catch (error) {
 				if (error instanceof ZodError) {
 					handleValidationError(command, error);
@@ -179,7 +194,7 @@ const buildProgram = <TCommands extends readonly AnyCliCommand[]>(definition: Cl
  * @param definition The CLI definition containing the program name, description, version, aliases, and commands.
  * @returns An object containing the Commander program and a run function.
  */
-export function defineCli<TCommands extends readonly AnyCliCommand[]>(definition: CliDefinition<TCommands>) {
+export function defineCli<TCommands extends readonly CliCommand<ArgsShape | undefined, OptionsShape | undefined>[]>(definition: CliDefinition<TCommands>) {
 	const program = buildProgram(definition);
 
 	return {
@@ -201,6 +216,15 @@ export function defineCli<TCommands extends readonly AnyCliCommand[]>(definition
  * @param definition The CLI definition containing the program name, description, version, aliases, and commands.
  * @returns A configured Commander program ready to be parsed and executed.
  */
-export function runCli<TCommands extends readonly AnyCliCommand[]>(definition: CliDefinition<TCommands>) {
+export function runCli<TCommands extends readonly CliCommand<ArgsShape | undefined, OptionsShape | undefined>[]>(definition: CliDefinition<TCommands>) {
 	return defineCli(definition).run();
+}
+
+function toCommanderDefaultValue(value: unknown): string | boolean | string[] | undefined {
+	// If the value is a string or boolean, return it directly
+	if (typeof value === "string" || typeof value === "boolean") return value;
+	// If the value is an array of strings, return it directly
+	if (Array.isArray(value) && value.every((v) => typeof v === "string")) return value;
+	// For any other type of value, return undefined to indicate that it cannot be used as a default value in Commander.
+	return undefined;
 }

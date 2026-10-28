@@ -50,24 +50,45 @@ export async function text(options: Parameters<typeof clack.text>[0]) {
 	return handleCancel(await clack.text(options));
 }
 /**
+ * Displays a password prompt with the given options and returns the user's input, handling cancellation appropriately.
+ * @param options The options for the password prompt, including message and other configurations.
+ * @returns The input provided by the user, typically a password or sensitive information.
+ */
+export async function password(options: Parameters<typeof clack.password>[0]) {
+	return handleCancel(await clack.password(options));
+}
+
+/**
+ * Displays a note or message to the user using Clack's note function, and handles cancellation appropriately.
+ * @param message The message to display in the note, along with any other configurations for the note.
+ * @param title The title to display in the note, along with any other configurations for the note.
+ * @param opts Options to configure the note like formatting.
+ * @returns The result of the note function, if applicable. If the note function does not return a value, this will return undefined. If the operation is cancelled, it will display a cancellation message and exit the process.
+ */
+export function note(...options: Parameters<typeof clack.note>) {
+	return handleCancel(clack.note(...options));
+}
+
+/**
  * Displays a spinner with the given message while executing the provided asynchronous function, and handles success or failure appropriately.
  * @param message The message to display alongside the spinner while the function is executing.
  * @param fn The asynchronous function to execute while the spinner is active. The spinner will start before the function is called and will stop after the function resolves or rejects.
  * @returns The result of the asynchronous function if it resolves successfully. If the function throws an error, the spinner will stop and the error will be re-thrown.
  */
-export async function withSpinner<T>(message: string, fn: () => Promise<T>) {
+export async function withSpinner<T>(fn: () => Promise<T>, { message, done, failed }: { message?: string; done?: string; failed?: string } = {}) {
 	const s = clack.spinner();
 	s.start(message);
 
 	try {
 		const result = await fn();
-		s.stop("Done");
+		s.stop(done);
 		return result;
 	} catch (e) {
-		s.stop("Failed");
+		s.stop(failed);
 		throw e;
 	}
 }
+
 /**
  * Displays an introductory message or title for the CLI application, using Clack's intro function.
  */

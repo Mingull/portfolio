@@ -8,7 +8,10 @@ const lumos = defineCommand({
 		target: z.enum(["branches", "services"]),
 	},
 	options: {
-		bright: z.boolean().optional(),
+		bright: {
+			flags: "-b, --bright",
+			type: z.boolean().optional(),
+		},
 	},
 	run: async ({ args, options }) => {
 		if (args.target === "branches") {
